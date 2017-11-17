@@ -51,6 +51,8 @@ if __name__ == '__main__':
     plt.title('mag')
     for i in range(3):
         plt.plot(v_data[:,i+8],label=str(i))
+
+    plt.plot(np.linalg.norm(v_data[:,8:11],axis=1),label="norm")
     plt.legend()
 
 

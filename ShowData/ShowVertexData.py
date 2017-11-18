@@ -23,14 +23,12 @@
          佛祖保佑       永无BUG 
 '''
 
-
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 
-
 if __name__ == '__main__':
-    v_data = np.loadtxt('/home/steve/Data/II/20/vertex_all_data.csv',delimiter=',')
+    v_data = np.loadtxt('/home/steve/Data/II/20/vertex_all_data.csv', delimiter=',')
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
@@ -42,18 +40,30 @@ if __name__ == '__main__':
     plt.grid()
     plt.title('acc')
     for i in range(3):
-        plt.plot(v_data[:,i+2],label=str(i))
-    plt.plot(np.linalg.norm(v_data[:,2:5],axis=1),label="norm")
+        plt.plot(v_data[:, i + 2], label=str(i))
+    plt.plot(np.linalg.norm(v_data[:, 2:5], axis=1), label="norm")
     plt.legend()
 
     plt.figure()
     plt.grid()
     plt.title('mag')
     for i in range(3):
-        plt.plot(v_data[:,i+8],label=str(i))
+        plt.plot(v_data[:, i + 8], label=str(i))
 
-    plt.plot(np.linalg.norm(v_data[:,8:11],axis=1),label="norm")
+    plt.plot(np.linalg.norm(v_data[:, 8:11], axis=1), label="norm")
     plt.legend()
+
+    plt.figure()
+    plt.grid()
+
+    dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
+
+    for i in range(5,v_data.shape[0]-10):
+        for j in range(i,v_data.shape[0]-10):
+            dis_matrix[i,j] = (np.linalg.norm(v_data[i-5:i+5,8:10]-v_data[j-5:j+5,8:10]))
+            dis_matrix[j,i] = dis_matrix[i,j]*1.0
+
+    plt.imshow(dis_matrix)
 
 
     plt.show()

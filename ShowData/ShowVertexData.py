@@ -28,7 +28,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    v_data = np.loadtxt('/home/steve/Data/II/16/vertex_all_data.csv', delimiter=',')
+    v_data = np.loadtxt('/home/steve/Data/II/17/vertex_all_data.csv', delimiter=',')
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw

@@ -64,6 +64,7 @@ if __name__ == '__main__':
             dis_matrix[j,i] = dis_matrix[i,j]*1.0
 
     plt.imshow(dis_matrix)
+    plt.colorbar()
 
 
     plt.show()

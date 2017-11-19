@@ -55,6 +55,7 @@ if __name__ == '__main__':
 
     plt.figure()
     plt.grid()
+    plt.title('src_distance of mag')
 
     dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
 
@@ -64,6 +65,21 @@ if __name__ == '__main__':
             dis_matrix[j,i] = dis_matrix[i,j]*1.0
 
     plt.imshow(dis_matrix)
+    plt.colorbar()
+
+
+    plt.figure()
+    plt.grid()
+    plt.title('norm dis')
+
+    norm_dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
+
+    for i in range(5, v_data.shape[0]-10):
+        for j in range(i,v_data.shape[0]-10):
+            norm_dis_matrix[i,j] = np.linalg.norm(np.linalg.norm(v_data[i-5:i+5,8:10],axis=1)-
+                                                  np.linalg.norm(v_data[j-5:j+5,8:10],axis=1))
+
+    plt.imshow(norm_dis_matrix)
     plt.colorbar()
 
 

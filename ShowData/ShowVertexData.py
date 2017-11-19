@@ -59,6 +59,7 @@ if __name__ == '__main__':
 
     dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
 
+
     for i in range(5,v_data.shape[0]-10):
         for j in range(i,v_data.shape[0]-10):
             dis_matrix[i,j] = (np.linalg.norm(v_data[i-5:i+5,8:10]-v_data[j-5:j+5,8:10]))
@@ -74,10 +75,11 @@ if __name__ == '__main__':
 
     norm_dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
 
-    for i in range(5, v_data.shape[0]-10):
-        for j in range(i,v_data.shape[0]-10):
-            norm_dis_matrix[i,j] = np.linalg.norm(np.linalg.norm(v_data[i-5:i+5,8:10],axis=1)-
-                                                  np.linalg.norm(v_data[j-5:j+5,8:10],axis=1))
+    step_len = 10
+    for i in range(step_len, v_data.shape[0]-step_len):
+        for j in range(i,v_data.shape[0]-step_len):
+            norm_dis_matrix[i,j] = np.linalg.norm(np.linalg.norm(v_data[i-step_len:i+step_len,8:10],axis=1)-
+                                                  np.linalg.norm(v_data[j-step_len:j+step_len,8:10],axis=1))
 
     plt.imshow(norm_dis_matrix)
     plt.colorbar()

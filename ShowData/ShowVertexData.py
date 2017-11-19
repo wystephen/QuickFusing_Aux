@@ -28,7 +28,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    v_data = np.loadtxt('/home/steve/Data/II/20/vertex_all_data.csv', delimiter=',')
+    v_data = np.loadtxt('/home/steve/Data/II/17/vertex_all_data.csv', delimiter=',')
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
@@ -57,32 +57,29 @@ if __name__ == '__main__':
     plt.grid()
     plt.title('src_distance of mag')
 
-    dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
+    dis_matrix = np.zeros([v_data.shape[0], v_data.shape[0]])
 
-
-    for i in range(5,v_data.shape[0]-10):
-        for j in range(i,v_data.shape[0]-10):
-            dis_matrix[i,j] = (np.linalg.norm(v_data[i-5:i+5,8:10]-v_data[j-5:j+5,8:10]))
-            dis_matrix[j,i] = dis_matrix[i,j]*1.0
+    for i in range(5, v_data.shape[0] - 10):
+        for j in range(i, v_data.shape[0] - 10):
+            dis_matrix[i, j] = (np.linalg.norm(v_data[i - 5:i + 5, 8:10] - v_data[j - 5:j + 5, 8:10]))
+            dis_matrix[j, i] = dis_matrix[i, j] * 1.0
 
     plt.imshow(dis_matrix)
     plt.colorbar()
-
 
     plt.figure()
     plt.grid()
     plt.title('norm dis')
 
-    norm_dis_matrix = np.zeros([v_data.shape[0],v_data.shape[0]])
+    norm_dis_matrix = np.zeros([v_data.shape[0], v_data.shape[0]])
 
     step_len = 10
-    for i in range(step_len, v_data.shape[0]-step_len):
-        for j in range(i,v_data.shape[0]-step_len):
-            norm_dis_matrix[i,j] = np.linalg.norm(np.linalg.norm(v_data[i-step_len:i+step_len,8:10],axis=1)-
-                                                  np.linalg.norm(v_data[j-step_len:j+step_len,8:10],axis=1))
+    for i in range(step_len, v_data.shape[0] - step_len):
+        for j in range(i, v_data.shape[0] - step_len):
+            norm_dis_matrix[i, j] = np.linalg.norm(np.linalg.norm(v_data[i - step_len:i + step_len, 8:10], axis=1) -
+                                                   np.linalg.norm(v_data[j - step_len:j + step_len, 8:10], axis=1))
 
     plt.imshow(norm_dis_matrix)
     plt.colorbar()
-
 
     plt.show()

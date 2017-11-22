@@ -91,16 +91,23 @@ class MagDetector:
         plt.title('dis fft')
 
         self.tmp_fft_mat = np.zeros([self.mag_fft_feature.shape[0],
-                                self.mag_fft_feature.shape[0]])+10000
+                                     self.mag_fft_feature.shape[0]]) + 10000000000
 
         for i in range(self.mag_fft_feature.shape[0]):
             for j in range(i, self.mag_fft_feature.shape[0]):
+
+                if np.linalg.norm(self.mag_fft_feature[i, :] - np.zeros([
+                    1, len(test_shape_fft)], dtype=np.complex
+                )) < 10.0:
+                    continue
+
                 self.tmp_fft_mat[i, j] = np.linalg.norm(
                     self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :]
                 )
 
-                if (self.tmp_fft_mat[i, j] > 4000):
-                    self.tmp_fft_mat[i, j] = 5000
+                # if (self.tmp_fft_mat[i, j] > 4000):
+                #     self.tmp_fft_mat[i, j] = 5000
+                self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
 
         plt.imshow(self.tmp_fft_mat)
         plt.colorbar()

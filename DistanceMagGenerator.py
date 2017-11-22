@@ -56,7 +56,7 @@ if __name__ == '__main__':
                             v_data[:,12:15],
                             v_data[:,11])
 
-    mDetector.Step2Length(20.0)
+    mDetector.Step2Length(30.0)
 
 
 

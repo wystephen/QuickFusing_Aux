@@ -29,7 +29,8 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-import MagPreprocess.MagPreprocess.MagDetector as MagDetector
+from MagPreprocess import MagPreprocess
+
 
 if __name__ == '__main__':
     v_data = np.loadtxt('/home/steve/Data/II/30/vertex_all_data.csv', delimiter=',')
@@ -50,9 +51,12 @@ if __name__ == '__main__':
 
     ax.plot(v_data[:,12],v_data[:,13],v_data[:,14],'r-*')
 
-    mDetector = MagDetector(v_data[:,8:11],
+
+    mDetector = MagPreprocess.MagDetector(v_data[:,8:11],
                             v_data[:,12:15],
                             v_data[:,11])
+
+    mDetector.Step2Length(10.0)
 
 
 

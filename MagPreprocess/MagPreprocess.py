@@ -66,9 +66,51 @@ class MagDetector:
         self.f = interpolate.interp1d(self.length_array
                                       [:,0],self.mag_norm,kind='cubic')
 
+
+        tx = np.linspace(0.0,self.length_array[-1],num=self.length_array.shape[0]*10)
+
+        # self.mag_fft_list = list(self.length_array.shape[0])
+        test_shape_fft = fft(np.linspace(0,length,int(length/0.5)))
+        self.mag_fft_feature = np.zeros([self.length_array.shape[0],
+                                         len(test_shape_fft)],
+                                        dtype=np.complex)
+
+        for i in range(0,self.length_array.shape[0]):
+
+            if self.length_array[i]<length/2.0 or \
+                self.length_array[i]>self.length_array[-1]-length/2.0:
+                continue
+            else:
+                the_x = np.linspace(self.length_array[i]-length/2.0,
+                                    self.length_array[i]+length/2.0,
+                                    int(length/0.5))
+                yyt = fft(self.f(the_x))
+                self.mag_fft_feature[i,:] = yyt
+                print(i,yyt,yyt.real,yyt.imag)
+
+
+
+        plt.figure()
+        plt.title('dis fft')
+
+        tmp_fft_mat = np.zeros([self.mag_fft_feature.shape[0],
+                                self.mag_fft_feature.shape[0]])
+
+        for i in range(self.mag_fft_feature.shape[0]):
+            for j in range(i,self.mag_fft_feature.shape[0]):
+                tmp_fft_mat[i,j] = np.linalg.norm(
+                    self.mag_fft_feature[i,:]-self.mag_fft_feature[j,:]
+                )
+
+        plt.imshow(tmp_fft_mat)
+        plt.colorbar()
+
+
+
+
         plt.figure()
         plt.title('inter')
-        tx = np.linspace(0.0,self.length_array[-1],num=self.length_array.shape[0]*10)
+
 
 
 

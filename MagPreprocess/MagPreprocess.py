@@ -87,7 +87,8 @@ class MagDetector:
                 yyt = fft(self.f(the_x))
                 self.mag_fft_feature[i,:] = yyt
                 print(i,yyt,yyt.real,yyt.imag)
-        map( lambda x:x if x>5000 else 5000, test_shape_fft)
+
+        np.frompyfunc(lambda x: x if x<5000 else 5000,yyt,yyt)
 
 
 

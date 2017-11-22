@@ -29,6 +29,9 @@ import numpy as np
 
 import matplotlib.pylab as plt
 
+from scipy  import  interpolate
+from scipy.fftpack import fft,ifft
+
 class MagDetector:
     def __init__(self,
                  mag_data,
@@ -60,13 +63,25 @@ class MagDetector:
                                    np.linalg.norm(self.pose_data[i, :]
                                                   - self.pose_data[i - 1, :])
 
-        self.f = sp.interp(self.length_array,self.mag_norm,kind='cubic')
+        self.f = interpolate.interp1d(self.length_array
+                                      [:,0],self.mag_norm,kind='cubic')
 
         plt.figure()
         plt.title('inter')
-        x = np.linspace(0.0,self.length_array[-1],num=self.length_array.shape[0]*10)
+        tx = np.linspace(0.0,self.length_array[-1],num=self.length_array.shape[0]*10)
 
-        plt.plot(x,self.f(x),'r+',label='interp')
+
+
+
+
+
+
+
+
+
+
+
+        plt.plot(tx,self.f(tx),'r+',label='interp')
         plt.plot(self.length_array,self.mag_norm,'b*',label='source mag norm')
         plt.legend()
         plt.grid()

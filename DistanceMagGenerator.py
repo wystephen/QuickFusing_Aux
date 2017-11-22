@@ -33,7 +33,7 @@ from MagPreprocess import MagPreprocess
 
 
 if __name__ == '__main__':
-    v_data = np.loadtxt('/home/steve/Data/II/30/vertex_all_data.csv', delimiter=',')
+    v_data = np.loadtxt('/home/steve/Data/II/32/vertex_all_data.csv', delimiter=',')
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
@@ -41,10 +41,7 @@ if __name__ == '__main__':
             1 + 11 + 6 + 4 = 22
         '''
 
-    plt.figure()
-    plt.grid()
-    plt.title('trace')
-    plt.plot(v_data[:,12],v_data[:,13],'r-*')
+
 
     fig = plt.figure()
     ax = fig.add_subplot(111,projection='3d')
@@ -57,6 +54,38 @@ if __name__ == '__main__':
                             v_data[:,11])
 
     mDetector.Step2Length(30.0)
+
+    the_threshold = 1000
+
+    for i in range(mDetector.tmp_fft_mat.shape[0]):
+        for j in range(i, mDetector.tmp_fft_mat.shape[0]):
+            if mDetector.tmp_fft_mat[i,j] < the_threshold:
+                ax.plot(
+                    [v_data[i,12],v_data[j,12]],
+                    [v_data[i,13],v_data[j,13]],
+                    [v_data[i,14],v_data[j,14]],
+                    'b-',
+                    linewidth=0.1 #p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
+                )
+
+
+    plt.figure()
+    plt.grid()
+    plt.title('trace')
+    plt.plot(v_data[:,12],v_data[:,13],'r-*')
+
+    for i in range(mDetector.tmp_fft_mat.shape[0]):
+        for j in range(i, mDetector.tmp_fft_mat.shape[0]):
+            if mDetector.tmp_fft_mat[i,j] < the_threshold:
+                plt.plot(
+                    [v_data[i,12],v_data[j,12]],
+                    [v_data[i,13],v_data[j,13]],
+                    'b--',
+                    linewidth=0.1
+                )
+
+
+
 
 
 

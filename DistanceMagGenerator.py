@@ -31,7 +31,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from MagPreprocess import MagPreprocess
 
 if __name__ == '__main__':
-    v_data = np.loadtxt('/home/steve/Data/II/16/vertex_all_data.csv', delimiter=',')
+    v_data = np.loadtxt('/home/steve/Data/II/32/vertex_all_data.csv', delimiter=',')
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
@@ -48,9 +48,9 @@ if __name__ == '__main__':
                                           v_data[:, 12:15],
                                           v_data[:, 11])
 
-    mDetector.Step2Length(10.0)
+    mDetector.Step2Length(20.0)
 
-    the_threshold = 1500
+    the_threshold = 1000
 
     for i in range(0, mDetector.tmp_fft_mat.shape[0]):
         for j in range(i, mDetector.tmp_fft_mat.shape[0]):

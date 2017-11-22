@@ -27,6 +27,9 @@
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+import MagPreprocess.MagPreprocess.MagDetector as MagDetector
 
 if __name__ == '__main__':
     v_data = np.loadtxt('/home/steve/Data/II/30/vertex_all_data.csv', delimiter=',')
@@ -41,3 +44,18 @@ if __name__ == '__main__':
     plt.grid()
     plt.title('trace')
     plt.plot(v_data[:,12],v_data[:,13],'r-*')
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111,projection='3d')
+
+    ax.plot(v_data[:,12],v_data[:,13],v_data[:,14],'r-*')
+
+    mDetector = MagDetector(v_data[:,8:11],
+                            v_data[:,12:15],
+                            v_data[:,11])
+
+
+
+
+
+    plt.show()

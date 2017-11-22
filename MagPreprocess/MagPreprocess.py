@@ -26,11 +26,11 @@
 import scipy as sp
 import numpy as np
 
-
 import matplotlib.pylab as plt
 
-from scipy  import  interpolate
-from scipy.fftpack import fft,ifft
+from scipy import interpolate
+from scipy.fftpack import fft, ifft
+
 
 class MagDetector:
     def __init__(self,
@@ -64,33 +64,28 @@ class MagDetector:
                                                   - self.pose_data[i - 1, :])
 
         self.f = interpolate.interp1d(self.length_array
-                                      [:,0],self.mag_norm,kind='cubic')
+                                      [:, 0], self.mag_norm, kind='cubic')
 
-
-        tx = np.linspace(0.0,self.length_array[-1],num=self.length_array.shape[0]*10)
+        tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
         # self.mag_fft_list = list(self.length_array.shape[0])
-        test_shape_fft = fft(np.linspace(0,length,int(length/0.5)))
+        test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_fft_feature = np.zeros([self.length_array.shape[0],
                                          len(test_shape_fft)],
                                         dtype=np.complex)
 
-        for i in range(0,self.length_array.shape[0]):
+        for i in range(0, self.length_array.shape[0]):
 
-            if self.length_array[i]<length/2.0 or \
-                self.length_array[i]>self.length_array[-1]-length/2.0:
+            if self.length_array[i] < length / 2.0 or \
+                            self.length_array[i] > self.length_array[-1] - length / 2.0:
                 continue
             else:
-                the_x = np.linspace(self.length_array[i]-length/2.0,
-                                    self.length_array[i]+length/2.0,
-                                    int(length/0.5))
+                the_x = np.linspace(self.length_array[i] - length / 2.0,
+                                    self.length_array[i] + length / 2.0,
+                                    int(length / 0.5))
                 yyt = fft(self.f(the_x))
-                self.mag_fft_feature[i,:] = yyt
-                print(i,yyt,yyt.real,yyt.imag)
-
-        np.frompyfunc(lambda x: x if x<5000 else 5000,yyt,yyt)
-
-
+                self.mag_fft_feature[i, :] = yyt
+                print(i, yyt, yyt.real, yyt.imag)
 
         plt.figure()
         plt.title('dis fft')
@@ -99,34 +94,20 @@ class MagDetector:
                                 self.mag_fft_feature.shape[0]])
 
         for i in range(self.mag_fft_feature.shape[0]):
-            for j in range(i,self.mag_fft_feature.shape[0]):
-                tmp_fft_mat[i,j] = np.linalg.norm(
-                    self.mag_fft_feature[i,:]-self.mag_fft_feature[j,:]
+            for j in range(i, self.mag_fft_feature.shape[0]):
+                tmp_fft_mat[i, j] = np.linalg.norm(
+                    self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :]
                 )
+                if (tmp_fft_mat[i, j] > 5000):
+                    tmp_fft_mat[i, j] = 5000
 
         plt.imshow(tmp_fft_mat)
         plt.colorbar()
 
-
-
-
         plt.figure()
         plt.title('inter')
 
-
-
-
-
-
-
-
-
-
-
-
-
-        plt.plot(tx,self.f(tx),'r+',label='interp')
-        plt.plot(self.length_array,self.mag_norm,'b*',label='source mag norm')
+        plt.plot(tx, self.f(tx), 'r+', label='interp')
+        plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
         plt.legend()
         plt.grid()
-

@@ -117,6 +117,19 @@ class MagDetector:
         plt.imshow(self.tmp_fft_mat)
         plt.colorbar()
 
+
+        plt.figure()
+        plt.title('gradient')
+        tmp_grandient = self.tmp_fft_mat[:,1:]-self.tmp_fft_mat[:,:-1]
+        ttmp_grandient = tmp_grandient[:,1:]-tmp_grandient[:,:-1]
+        # for i in range(ttmp_grandient.shape[0]):
+        #     for j in range(ttmp_grandient.shape[1]):
+        #         if ttmp_grandient[i,j] < 5000:
+        #             ttmp_grandient[i,j] = 0
+
+        plt.imshow((ttmp_grandient))
+        plt.colorbar()
+
         plt.figure()
         plt.title('inter')
 

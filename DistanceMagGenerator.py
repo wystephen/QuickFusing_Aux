@@ -59,7 +59,7 @@ if __name__ == '__main__':
         for j in range(i, mDetector.tmp_fft_mat.shape[0]):
             if mDetector.tmp_fft_mat[i, j] < the_threshold and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
-                            mDetector.tmp_fft_mat[i, j] >2.0 and \
+                            mDetector.tmp_fft_mat[i, j] > 2.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
                 ax.plot(
                     [v_data[i, 12], v_data[j, 12]],

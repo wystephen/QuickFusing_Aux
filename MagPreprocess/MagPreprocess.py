@@ -136,3 +136,9 @@ class MagDetector:
         plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
         plt.legend()
         plt.grid()
+
+
+
+    def MultiLayerFFt(self,layer_array):
+        print(layer_array)
+

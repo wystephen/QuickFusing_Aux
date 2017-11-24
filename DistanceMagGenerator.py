@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     mDetector.Step2Length(20.0)
 
-    the_threshold = 1500
+    the_threshold = 3500
 
     for i in range(0, mDetector.tmp_fft_mat.shape[0]):
         for j in range(i, mDetector.tmp_fft_mat.shape[0]):
@@ -61,6 +61,12 @@ if __name__ == '__main__':
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
                             mDetector.tmp_fft_mat[i, j] > 2.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
+                #
+
+                diff = np.linalg.norm(mDetector.f())
+
+
+
                 ax.plot(
                     [v_data[i, 12], v_data[j, 12]],
                     [v_data[i, 13], v_data[j, 13]],
@@ -69,20 +75,6 @@ if __name__ == '__main__':
                     linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
                 )
 
-    # plt.figureozzen()
-    # plt.grid()
-    # plt.title('trace')
-    # plt.plot(v_data[:, 12], v_data[:, 13], 'r-*')
-    #
-    # for i in range(mDetector.tmp_fft_mat.shape[0]):
-    #     for j in range(i, mDetector.tmp_fft_mat.shape[0]):
-    #         if mDetector.tmp_fft_mat[i, j] < the_threshold and \
-    #                         abs(mDetector.length_array[i] - mDetector.length_array[j]) > 30.0:
-    #             plt.plot(
-    #                 [v_data[i, 12], v_data[j, 12]],
-    #                 [v_data[i, 13], v_data[j, 13]],
-    #                 'b--',
-    #                 linewidth=0.1
-    #             )
+
 
     plt.show()

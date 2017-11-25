@@ -147,6 +147,13 @@ class MagDetector:
 
     def GetDirectDis(self,length):
         print(length)
+        self.mag_src_dis = np.zeros([self.length_array.shape[0],
+                                     int(length/0.5)])
+
+
+        for
+
+
 
 
 

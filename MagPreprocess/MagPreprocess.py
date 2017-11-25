@@ -48,7 +48,7 @@ class MagDetector:
         self.pose_data = pose_data
         self.pressure_data = pressure
 
-    def Step2Length(self, length):
+    def Step2Length(self):
         '''
 
         :param length:
@@ -65,6 +65,8 @@ class MagDetector:
 
         self.f = interpolate.interp1d(self.length_array
                                       [:, 0], self.mag_norm, kind='cubic')
+
+    def GetFFTDis(self,length):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
@@ -141,4 +143,11 @@ class MagDetector:
 
     def MultiLayerFFt(self,layer_array):
         print(layer_array)
+
+
+    def GetDirectDis(self,length):
+        print(length)
+
+
+
 

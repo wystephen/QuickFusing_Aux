@@ -51,7 +51,9 @@ if __name__ == '__main__':
                                           v_data[:, 12:15],
                                           v_data[:, 11])
 
-    mDetector.Step2Length(20.0)
+    mDetector.Step2Length()
+    mDetector.GetFFTDis(20.0)
+
 
     the_threshold = 3500
 
@@ -62,8 +64,6 @@ if __name__ == '__main__':
                             mDetector.tmp_fft_mat[i, j] > 2.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
                 #
-
-                diff = np.linalg.norm(mDetector.f())
 
 
 

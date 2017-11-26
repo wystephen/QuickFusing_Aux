@@ -151,7 +151,9 @@ class MagDetector:
                                      int(length/0.5)])
 
 
-        for
+
+
+        for i in range(self.)
 
 
 

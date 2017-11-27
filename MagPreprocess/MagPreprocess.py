@@ -66,6 +66,16 @@ class MagDetector:
         self.f = interpolate.interp1d(self.length_array
                                       [:, 0], self.mag_norm, kind='nearest')
 
+        plt.figure()
+        plt.title('inter')
+        tx = np.linspace(0, self.length_array[-1],
+                         self.length_array.shape[0] * 10.0)
+
+        plt.plot(tx, self.f(tx), 'r+', label='interp')
+        plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
+        plt.legend()
+        plt.grid()
+
     def GetFFTDis(self, length, ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
@@ -131,14 +141,6 @@ class MagDetector:
 
             plt.imshow((ttmp_grandient))
             plt.colorbar()
-
-            plt.figure()
-            plt.title('inter')
-
-            plt.plot(tx, self.f(tx), 'r+', label='interp')
-            plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
-            plt.legend()
-            plt.grid()
 
     def MultiLayerFFt(self, layer_array, ifshow=True):
         print(layer_array)
@@ -211,12 +213,8 @@ class MagDetector:
             plt.imshow(self.tmp_src_mat)
             plt.colorbar()
 
-    def GetZValue(self,ifshow=True):
-
-
-
+    def GetZValue(self, ifshow=True):
 
         if ifshow:
             plt.figure()
             # for
-

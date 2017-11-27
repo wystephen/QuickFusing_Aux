@@ -53,6 +53,7 @@ if __name__ == '__main__':
 
     mDetector.Step2Length()
     mDetector.GetFFTDis(20.0)
+    mDetector.GetDirectDis(20.0)
 
 
     the_threshold = 3500

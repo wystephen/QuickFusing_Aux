@@ -66,7 +66,7 @@ class MagDetector:
         self.f = interpolate.interp1d(self.length_array
                                       [:, 0], self.mag_norm, kind='cubic')
 
-    def GetFFTDis(self,length):
+    def GetFFTDis(self,length,ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
@@ -89,8 +89,7 @@ class MagDetector:
                 self.mag_fft_feature[i, :] = yyt
                 # print(i, yyt, yyt.real, yyt.imag)
 
-        plt.figure()
-        plt.title('dis fft')
+
 
         self.tmp_fft_mat = np.zeros([self.mag_fft_feature.shape[0],
                                      self.mag_fft_feature.shape[0]])
@@ -116,28 +115,33 @@ class MagDetector:
                 #     self.tmp_fft_mat[i, j] = 5000
                 self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
 
-        plt.imshow(self.tmp_fft_mat)
-        plt.colorbar()
 
-        plt.figure()
-        plt.title('gradient')
-        tmp_grandient = self.tmp_fft_mat[:, 1:] - self.tmp_fft_mat[:, :-1]
-        ttmp_grandient = tmp_grandient[:, 1:] - tmp_grandient[:, :-1]
-        # for i in range(ttmp_grandient.shape[0]):
-        #     for j in range(ttmp_grandient.shape[1]):
-        #         if ttmp_grandient[i,j] < 5000:
-        #             ttmp_grandient[i,j] = 0
+        if ifshow:
+            plt.figure()
+            plt.title('dis fft')
 
-        plt.imshow((ttmp_grandient))
-        plt.colorbar()
+            plt.imshow(self.tmp_fft_mat)
+            plt.colorbar()
 
-        plt.figure()
-        plt.title('inter')
+            plt.figure()
+            plt.title('gradient')
+            tmp_grandient = self.tmp_fft_mat[:, 1:] - self.tmp_fft_mat[:, :-1]
+            ttmp_grandient = tmp_grandient[:, 1:] - tmp_grandient[:, :-1]
+            # for i in range(ttmp_grandient.shape[0]):
+            #     for j in range(ttmp_grandient.shape[1]):
+            #         if ttmp_grandient[i,j] < 5000:
+            #             ttmp_grandient[i,j] = 0
 
-        plt.plot(tx, self.f(tx), 'r+', label='interp')
-        plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
-        plt.legend()
-        plt.grid()
+            plt.imshow((ttmp_grandient))
+            plt.colorbar()
+
+            plt.figure()
+            plt.title('inter')
+
+            plt.plot(tx, self.f(tx), 'r+', label='interp')
+            plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
+            plt.legend()
+            plt.grid()
 
 
 
@@ -173,6 +177,7 @@ class MagDetector:
 
         for i in range(self.mag_src_signal.shape[0]):
             for j in range(i,self.mag_src_signal.shape[0]):
+
 
 
 

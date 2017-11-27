@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     mDetector.Step2Length()
     # mDetector.GetFFTDis(20.0)
-    mDetector.MultiLayerFFt([40.0, 20.0, 10.0, 5.0])
+    mDetector.MultiLayerFFt([50, 40.0,30.0, 20.0, 10.0, 5.0])
     # mDetector.GetDirectDis(20.0)
 
     the_threshold = 3500
@@ -71,8 +71,8 @@ if __name__ == '__main__':
             #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
             #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \
             #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
-            if mDetector.tmp_mul_mat[i, j] < 2500 and \
-                            np.mean(mDetector.tmp_mul_mat[i, j - 20:j + 10]) > 800 and \
+            if mDetector.tmp_mul_mat[i, j] < 15500 and \
+                            np.mean(np.abs(mDetector.tmp_mul_mat[i, j - 20:j + 20]-mDetector.tmp_mul_mat[i,j])) > 5000 and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 10.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10 and \
                             mDetector.length_array[i] > 50.0 and mDetector.length_array[j] > 50.0 and \

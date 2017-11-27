@@ -64,7 +64,7 @@ class MagDetector:
                                                   - self.pose_data[i - 1, :])
 
         self.f = interpolate.interp1d(self.length_array
-                                      [:, 0], self.mag_norm, kind='quadratic')
+                                      [:, 0], self.mag_norm, kind='nearest')
 
     def GetFFTDis(self, length, ifshow=True):
 
@@ -210,3 +210,13 @@ class MagDetector:
             plt.title('dis src')
             plt.imshow(self.tmp_src_mat)
             plt.colorbar()
+
+    def GetZValue(self,ifshow=True):
+
+
+
+
+        if ifshow:
+            plt.figure()
+            # for
+

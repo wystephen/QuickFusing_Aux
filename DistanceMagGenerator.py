@@ -52,9 +52,9 @@ if __name__ == '__main__':
                                           v_data[:, 11])
 
     mDetector.Step2Length()
-    mDetector.GetFFTDis(20.0)
-    mDetector.MultiLayerFFt([30.0, 20.0, 10.0, 5.0])
-    mDetector.GetDirectDis(20.0)
+    # mDetector.GetFFTDis(20.0)
+    mDetector.MultiLayerFFt([40.0, 20.0, 10.0, 5.0])
+    # mDetector.GetDirectDis(20.0)
 
     the_threshold = 3500
 

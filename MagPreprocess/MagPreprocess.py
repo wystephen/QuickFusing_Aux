@@ -150,10 +150,10 @@ class MagDetector:
             else:
                 self.tmp_mul_mat += self.tmp_fft_mat
 
-        for i in range(self.tmp_mul_mat.shape[0]):
-            for j in range(self.tmp_mul_mat.shape[1]):
-                if self.tmp_mul_mat[i, j] > 5000:
-                    self.tmp_mul_mat[i, j] = 5000.0
+        # for i in range(self.tmp_mul_mat.shape[0]):
+        #     for j in range(self.tmp_mul_mat.shape[1]):
+        #         if self.tmp_mul_mat[i, j] > 5000:
+        #             self.tmp_mul_mat[i, j] = 5000.0
 
         if ifshow:
             plt.figure()

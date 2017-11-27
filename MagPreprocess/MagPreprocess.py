@@ -66,7 +66,7 @@ class MagDetector:
         self.f = interpolate.interp1d(self.length_array
                                       [:, 0], self.mag_norm, kind='cubic')
 
-    def GetFFTDis(self,length,ifshow=True):
+    def GetFFTDis(self, length, ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
@@ -88,8 +88,6 @@ class MagDetector:
                 yyt = fft(self.f(the_x))
                 self.mag_fft_feature[i, :] = yyt
                 # print(i, yyt, yyt.real, yyt.imag)
-
-
 
         self.tmp_fft_mat = np.zeros([self.mag_fft_feature.shape[0],
                                      self.mag_fft_feature.shape[0]])
@@ -114,7 +112,6 @@ class MagDetector:
                 # if (self.tmp_fft_mat[i, j] > 4000):
                 #     self.tmp_fft_mat[i, j] = 5000
                 self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
-
 
         if ifshow:
             plt.figure()
@@ -143,18 +140,20 @@ class MagDetector:
             plt.legend()
             plt.grid()
 
-
-
-    def MultiLayerFFt(self,layer_array,ifshow = True):
+    def MultiLayerFFt(self, layer_array, ifshow=True):
         print(layer_array)
 
-        for index in len(layer_array):
-            self.GetFFTDis(layer_array[index],False)
+        for index in range(len(layer_array)):
+            self.GetFFTDis(layer_array[index], False)
             if index == 0:
                 self.tmp_mul_mat = self.tmp_fft_mat
             else:
                 self.tmp_mul_mat += self.tmp_fft_mat
 
+        for i in range(self.tmp_mul_mat.shape[0]):
+            for j in range(self.tmp_mul_mat.shape[1]):
+                if self.tmp_mul_mat[i, j] > 5000:
+                    self.tmp_mul_mat[i, j] = 5000.0
 
         if ifshow:
             plt.figure()
@@ -162,31 +161,24 @@ class MagDetector:
             plt.imshow(self.tmp_mul_mat)
             plt.colorbar()
 
-
-
-
-
-    def GetDirectDis(self,length,ifshow = True):
+    def GetDirectDis(self, length, ifshow=True):
         # print(length)
 
         intevel_length = 0.1
 
-
         self.mag_src_signal = np.zeros([self.length_array.shape[0],
-                                     np.linspace(0,length,int(length/intevel_length)).shape[0]])
-
+                                        np.linspace(0, length, int(length / intevel_length)).shape[0]])
 
         # mag src singal ~
         for i in range(self.mag_src_signal.shape[0]):
-            if self.length_array[i] < length/2.0 or \
-                self.length_array[i] > self.length_array[-1]-length/2.0:
+            if self.length_array[i] < length / 2.0 or \
+                            self.length_array[i] > self.length_array[-1] - length / 2.0:
                 continue
             else:
-                the_x = np.linspace(self.length_array[i]-length/2.0,
-                                    self.length_array[i]+length/2.0,
-                                    int(length/intevel_length))
-                self.mag_src_signal[i,:] = self.f(the_x)
-
+                the_x = np.linspace(self.length_array[i] - length / 2.0,
+                                    self.length_array[i] + length / 2.0,
+                                    int(length / intevel_length))
+                self.mag_src_signal[i, :] = self.f(the_x)
 
         self.tmp_src_mat = np.zeros([
             self.mag_src_signal.shape[0],
@@ -194,7 +186,7 @@ class MagDetector:
         ])
 
         for i in range(self.mag_src_signal.shape[0]):
-            for j in range(i,self.mag_src_signal.shape[0]):
+            for j in range(i, self.mag_src_signal.shape[0]):
                 if self.length_array[i] < length / 2.0 or \
                                 self.length_array[i] > self.length_array[-1] - length / 2.0:
                     continue
@@ -203,30 +195,18 @@ class MagDetector:
                                         self.length_array[i] + length / 2.0,
                                         int(length / 0.1))
                     # self.mag_src_signal = self.f(the_x)
-                    the_inv_x = np.linspace(self.length_array[i]+length/2.0,
-                                            self.length_array[i]-length/2.0,
-                                            int(length/0.1))
+                    the_inv_x = np.linspace(self.length_array[i] + length / 2.0,
+                                            self.length_array[i] - length / 2.0,
+                                            int(length / 0.1))
 
-                    self.tmp_src_mat[i,j] = np.min(
-                        [np.linalg.norm(self.mag_src_signal[j]-self.f(the_x)),
-                         np.linalg.norm(self.mag_src_signal[j]-self.f(the_inv_x))]
+                    self.tmp_src_mat[i, j] = np.min(
+                        [np.linalg.norm(self.mag_src_signal[j] - self.f(the_x)),
+                         np.linalg.norm(self.mag_src_signal[j] - self.f(the_inv_x))]
                     )
-                    self.tmp_src_mat[j,i] = self.tmp_src_mat[i,j]
-
+                    self.tmp_src_mat[j, i] = self.tmp_src_mat[i, j]
 
         if ifshow:
             plt.figure()
             plt.title('dis src')
             plt.imshow(self.tmp_src_mat)
             plt.colorbar()
-
-
-
-
-
-
-
-
-
-
-

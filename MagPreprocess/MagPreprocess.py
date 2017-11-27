@@ -64,7 +64,7 @@ class MagDetector:
                                                   - self.pose_data[i - 1, :])
 
         self.f = interpolate.interp1d(self.length_array
-                                      [:, 0], self.mag_norm, kind='cubic')
+                                      [:, 0], self.mag_norm, kind='quadratic')
 
     def GetFFTDis(self, length, ifshow=True):
 

@@ -33,7 +33,7 @@ from MagPreprocess import MagPreprocess
 import timeit
 
 if __name__ == '__main__':
-    dir_name = '/home/steve/Data/II/32/'
+    dir_name = '/home/steve/Data/II/30/'
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
 
     '''
@@ -71,9 +71,9 @@ if __name__ == '__main__':
             #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
             #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \
             #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
-            if mDetector.tmp_mul_mat[i, j] < 4500 and \
+            if mDetector.tmp_mul_mat[i, j] < 2500 and \
                             np.mean(mDetector.tmp_mul_mat[i, j - 20:j + 10]) > 800 and \
-                            abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
+                            abs(mDetector.length_array[i] - mDetector.length_array[j]) > 10.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10 and \
                             mDetector.length_array[i] > 50.0 and mDetector.length_array[j] > 50.0 and \
                                     mDetector.length_array[-1] - mDetector.length_array[i] > 50.0 and \

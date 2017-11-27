@@ -53,6 +53,7 @@ if __name__ == '__main__':
 
     mDetector.Step2Length()
     mDetector.GetFFTDis(20.0)
+    mDetector.MultiLayerFFt([30.0, 20.0, 10.0, 5.0])
     mDetector.GetDirectDis(20.0)
 
     the_threshold = 3500
@@ -64,7 +65,9 @@ if __name__ == '__main__':
             #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \
             #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
             #
-            if mDetector.tmp_src_mat[i, j] < 300.0 and \
+            if mDetector.tmp_src_mat[i, j] < 450.0 and \
+                            np.linalg.norm(mDetector.tmp_src_mat[i, j] - mDetector.tmp_src_mat[i,
+                                                                         j - 10:j + 10]) > 1000 and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
                             mDetector.tmp_fft_mat[i, j] > 2.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10:

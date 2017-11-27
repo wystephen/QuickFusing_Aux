@@ -64,7 +64,7 @@ class MagDetector:
                                                   - self.pose_data[i - 1, :])
 
         self.f = interpolate.interp1d(self.length_array
-                                      [:, 0], self.mag_norm, kind='nearest')
+                                      [:, 0], self.mag_norm, kind='linear')
 
         plt.figure()
         plt.title('inter')
@@ -116,7 +116,7 @@ class MagDetector:
                     continue
 
                 self.tmp_fft_mat[i, j] = np.linalg.norm(
-                    self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :]
+                    (self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :])
                 )
 
                 # if (self.tmp_fft_mat[i, j] > 4000):

@@ -149,10 +149,10 @@ class MagDetector:
         print(layer_array)
 
 
-    def GetDirectDis(self,length):
+    def GetDirectDis(self,length,ifshow = True):
         print(length)
         self.mag_src_signal = np.zeros([self.length_array.shape[0],
-                                     np.linspace(0,length,int(length/0.5))])
+                                     np.linspace(0,length,int(length/0.5)).shape[0]])
 
 
 
@@ -167,7 +167,7 @@ class MagDetector:
                 the_x = np.linspace(self.length_array[i]-length/2.0,
                                     self.length_array[i]+length/2.0,
                                     int(length/0.5))
-                self.mag_src_signal = self.f(the_x)
+                self.mag_src_signal[i,:] = self.f(the_x)
 
 
         self.tmp_src_mat = np.zeros([
@@ -177,6 +177,31 @@ class MagDetector:
 
         for i in range(self.mag_src_signal.shape[0]):
             for j in range(i,self.mag_src_signal.shape[0]):
+                if self.length_array[i] < length / 2.0 or \
+                                self.length_array[i] > self.length_array[-1] - length / 2.0:
+                    continue
+                else:
+                    the_x = np.linspace(self.length_array[i] - length / 2.0,
+                                        self.length_array[i] + length / 2.0,
+                                        int(length / 0.5))
+                    # self.mag_src_signal = self.f(the_x)
+                    the_inv_x = np.linspace(self.length_array[i]+length/2.0,
+                                            self.length_array[i]-length/2.0,
+                                            int(length/0.5))
+
+                    self.tmp_src_mat[i,j] = np.min(
+                        [(self.mag_src_signal[j]-self.f(the_x)).norm(),
+                         (self.mag_src_signal[j]-self.f(the_inv_x)).norm()]
+                    )
+
+
+        if ifshow:
+            plt.figure()
+            plt.title('dis src')
+            plt.imshow(self.tmp_src_mat)
+            plt.colorbar()
+
+
 
 
 

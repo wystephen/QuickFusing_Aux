@@ -33,7 +33,7 @@ from MagPreprocess import MagPreprocess
 import timeit
 
 if __name__ == '__main__':
-    dir_name = '/home/steve/Data/II/28/'
+    dir_name = '/home/steve/Data/II/20/'
 
     ### key 16 17 20 ||| 28 29 30
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')

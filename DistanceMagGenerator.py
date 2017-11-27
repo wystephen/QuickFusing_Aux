@@ -55,19 +55,19 @@ if __name__ == '__main__':
     mDetector.GetFFTDis(20.0)
     mDetector.GetDirectDis(20.0)
 
-
     the_threshold = 3500
 
     for i in range(0, mDetector.tmp_fft_mat.shape[0]):
         for j in range(i, mDetector.tmp_fft_mat.shape[0]):
-            if mDetector.tmp_fft_mat[i, j] < the_threshold and \
+            # if mDetector.tmp_fft_mat[i, j] < the_threshold and \
+            #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
+            #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \
+            #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
+            #
+            if mDetector.tmp_src_mat[i, j] < 300.0 and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
                             mDetector.tmp_fft_mat[i, j] > 2.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
-                #
-
-
-
                 ax.plot(
                     [v_data[i, 12], v_data[j, 12]],
                     [v_data[i, 13], v_data[j, 13]],
@@ -75,7 +75,5 @@ if __name__ == '__main__':
                     'b--',
                     linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
                 )
-
-
 
     plt.show()

@@ -190,9 +190,10 @@ class MagDetector:
                                             int(length/0.5))
 
                     self.tmp_src_mat[i,j] = np.min(
-                        [(self.mag_src_signal[j]-self.f(the_x)).norm(),
-                         (self.mag_src_signal[j]-self.f(the_inv_x)).norm()]
+                        [np.linalg.norm(self.mag_src_signal[j]-self.f(the_x)),
+                         np.linalg.norm(self.mag_src_signal[j]-self.f(the_inv_x))]
                     )
+                    self.tmp_src_mat[j,i] = self.tmp_src_mat[i,j]
 
 
         if ifshow:

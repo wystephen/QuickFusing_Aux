@@ -71,10 +71,13 @@ if __name__ == '__main__':
             #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
             #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \
             #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
-            if mDetector.tmp_mul_mat[i, j] < 2000 and \
+            if mDetector.tmp_mul_mat[i, j] < 4500 and \
+                            np.mean(mDetector.tmp_mul_mat[i, j - 20:j + 10]) > 800 and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
-                            mDetector.tmp_fft_mat[i, j] > 2.0 and \
-                            abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
+                            abs(v_data[i, 11] - v_data[j, 11]) < 1e10 and \
+                            mDetector.length_array[i] > 50.0 and mDetector.length_array[j] > 50.0 and \
+                                    mDetector.length_array[-1] - mDetector.length_array[i] > 50.0 and \
+                                    mDetector.length_array[-1] - mDetector.length_array[j] > 50.0:
                 ax.plot(
                     [v_data[i, 12], v_data[j, 12]],
                     [v_data[i, 13], v_data[j, 13]],

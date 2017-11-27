@@ -145,8 +145,25 @@ class MagDetector:
 
 
 
-    def MultiLayerFFt(self,layer_array):
+    def MultiLayerFFt(self,layer_array,ifshow = True):
         print(layer_array)
+
+        for index in len(layer_array):
+            self.GetFFTDis(layer_array[index],False)
+            if index == 0:
+                self.tmp_mul_mat = self.tmp_fft_mat
+            else:
+                self.tmp_mul_mat += self.tmp_fft_mat
+
+
+        if ifshow:
+            plt.figure()
+            plt.title('mul fft dis')
+            plt.imshow(self.tmp_mul_mat)
+            plt.colorbar()
+
+
+
 
 
     def GetDirectDis(self,length,ifshow = True):

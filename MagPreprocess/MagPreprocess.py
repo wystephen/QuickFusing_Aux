@@ -147,13 +147,34 @@ class MagDetector:
 
     def GetDirectDis(self,length):
         print(length)
-        self.mag_src_dis = np.zeros([self.length_array.shape[0],
-                                     int(length/0.5)])
+        self.mag_src_signal = np.zeros([self.length_array.shape[0],
+                                     np.linspace(0,length,int(length/0.5))])
 
 
 
 
-        for i in range(self.)
+
+
+        for i in range(self.mag_src_signal.shape[0]):
+            if self.length_array[i] < length/2.0 or \
+                self.length_array[i] > self.length_array[-1]-length/2.0:
+                continue
+            else:
+                the_x = np.linspace(self.length_array[i]-length/2.0,
+                                    self.length_array[i]+length/2.0,
+                                    int(length/0.5))
+                self.mag_src_signal = self.f(the_x)
+
+
+        self.tmp_src_mat = np.zeros([
+            self.mag_src_signal.shape[0],
+            self.mag_src_signal.shape[0]
+        ])
+
+        for i in range(self.mag_src_signal.shape[0]):
+            for j in range(i,self.mag_src_signal.shape[0]):
+
+
 
 
 

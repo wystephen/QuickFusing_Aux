@@ -31,6 +31,8 @@ import matplotlib.pylab as plt
 from scipy import interpolate
 from scipy.fftpack import fft, ifft
 
+from transforms3d.euler import euler2mat, mat2euler
+
 
 class MagDetector:
     def __init__(self,
@@ -218,6 +220,12 @@ class MagDetector:
 
     def GetZValue(self, ifshow=True):
 
+        angle_all = np.zeros([self.acc_data.shape[0],2])
+
+        for i in range()
+
+
+
         if ifshow:
             plt.figure()
-            # for
+            for

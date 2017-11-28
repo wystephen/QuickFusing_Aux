@@ -34,6 +34,9 @@ from scipy.fftpack import fft, ifft
 from transforms3d.euler import euler2mat, mat2euler
 
 
+from numba import jit,njit
+
+
 class MagDetector:
     def __init__(self,
                  mag_data,
@@ -81,6 +84,7 @@ class MagDetector:
         plt.legend()
         plt.grid()
 
+    %%cython
     def GetFFTDis(self, length, ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)

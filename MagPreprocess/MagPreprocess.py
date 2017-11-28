@@ -35,6 +35,7 @@ from scipy.fftpack import fft, ifft
 class MagDetector:
     def __init__(self,
                  mag_data,
+                 acc_data,
                  pose_data,
                  pressure):
         '''
@@ -47,6 +48,7 @@ class MagDetector:
         self.mag_data = mag_data
         self.pose_data = pose_data
         self.pressure_data = pressure
+        self.acc_data = acc_data
 
     def Step2Length(self):
         '''

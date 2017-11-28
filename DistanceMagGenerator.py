@@ -50,7 +50,8 @@ if __name__ == '__main__':
     ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], 'r-*')
 
     mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],
-                                          v_data[:, 12:15],
+                                          v_data[:,2:5],
+                                          v_data[:, 12:17],
                                           v_data[:, 11])
 
     mDetector.Step2Length()

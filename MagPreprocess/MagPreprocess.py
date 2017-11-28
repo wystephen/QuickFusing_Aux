@@ -143,6 +143,8 @@ class MagDetector:
             plt.imshow((ttmp_grandient))
             plt.colorbar()
 
+        return self.tmp_fft_mat
+
     def MultiLayerNormFFt(self, layer_array, ifshow=True):
         print(layer_array)
 
@@ -298,13 +300,13 @@ class MagDetector:
 
         if ifshow:
             plt.figure()
-            plt.title('dis fft')
+            plt.title('dis z fft')
 
             plt.imshow(self.tmp_fft_mat)
             plt.colorbar()
 
             plt.figure()
-            plt.title('gradient')
+            plt.title('gradient z')
             tmp_grandient = self.tmp_fft_mat[:, 1:] - self.tmp_fft_mat[:, :-1]
             ttmp_grandient = tmp_grandient[:, 1:] - tmp_grandient[:, :-1]
 

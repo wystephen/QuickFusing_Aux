@@ -47,7 +47,7 @@ class MagDetector:
         :param pose_data: x,y,z,vx,vy,vz,qx,qy,qz,qw
         :param pressure:
         '''
-       # self.data = data
+        # self.data = data
         self.mag_data = mag_data
         self.pose_data = pose_data
         self.pressure_data = pressure
@@ -220,35 +220,28 @@ class MagDetector:
 
     def GetZValue(self, ifshow=True):
 
-        angle_all = np.zeros([self.acc_data.shape[0],2])
+        angle_all = np.zeros([self.acc_data.shape[0], 2])
         tmp_acc_data = np.zeros_like(self.acc_data)
 
         for i in range(self.acc_data.shape[0]):
-            angle_all[i,0] = np.arctan2(-self.acc_data[i,1]**2.0,-self.acc_data[i,2]**2.0)
-            angle_all[i,1] = np.arctan2(self.acc_data[i,0],
-                                        np.sqrt(self.acc_data[i,1]**2.0+self.acc_data[i,2]**2.0))
+            angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)
+            angle_all[i, 1] = np.arctan2(self.acc_data[i, 0],
+                                         np.sqrt(self.acc_data[i, 1] ** 2.0 + self.acc_data[i, 2] ** 2.0))
 
-            t_R = euler2mat(angle_all[i,0],angle_all[i,1],0.0,'sxyz')
-            tmp_acc_data[i,:] = (t_R*self.acc_data[i,:].transpose()).transpose()
-
-
-
-
-
-
+            t_R = euler2mat(angle_all[i, 0], angle_all[i, 1], 0.0, 'sxyz')
+            tmp_acc_data[i, :] = (t_R.dot(self.acc_data[i, :].transpose())).transpose()
 
         if ifshow:
             plt.figure()
             plt.title('angle')
             for i in range(angle_all.shape[1]):
-                plt.plot(angle_all[:,i],'-*',label=str(i))
-            plt.gird()
+                plt.plot(angle_all[:, i], '-*', label=str(i))
+            plt.grid()
             plt.legend()
-
 
             plt.figure()
             plt.title('acc')
             for i in range(tmp_acc_data.shape[1]):
-                plt.plot(tmp_acc_data[:,i],'-+',label=str(i))
+                plt.plot(tmp_acc_data[:, i], '-+', label=str(i))
             plt.grid()
             plt.legend()

@@ -236,17 +236,31 @@ class MagDetector:
             plt.legend()
 
             plt.figure()
-            plt.title('acc')
+            plt.title('convert acc')
             for i in range(tmp_acc_data.shape[1]):
                 plt.plot(tmp_acc_data[:, i], '-+', label=str(i))
             plt.grid()
             plt.legend()
 
+            plt.figure()
+            plt.title('acc')
+            for i in range(tmp_acc_data.shape[1]):
+                plt.plot(self.acc_data[:, i], '-+', label=str(i))
+            plt.grid()
+            plt.legend()
 
             plt.figure()
             plt.title('converted mag')
             for i in range(self.convert_mag_data.shape[1]):
                 plt.plot(self.convert_mag_data[:,i],'-+',label=str(i))
 
+            plt.grid()
+            plt.legend()
+
+
+            plt.figure()
+            plt.title('src mag')
+            for i in range(self.mag_data.shape[1]):
+                plt.plot(self.mag_data[:,i],'-+',label=str(i))
             plt.grid()
             plt.legend()

@@ -58,11 +58,11 @@ if __name__ == '__main__':
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetDirectDis(20.0)
-    mDetector.GetZValue(False)
+    mDetector.GetZValue(True)
     # mDetector.GetZFFtDis(20.0)
     mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
 
-    the_threshold = 20
+    the_threshold = 30
     max_dis = 30.0
 
     for i in range(0, mDetector.tmp_fft_mat.shape[0]):

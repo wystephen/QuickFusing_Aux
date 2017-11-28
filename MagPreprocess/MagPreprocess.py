@@ -236,6 +236,7 @@ class MagDetector:
         angle_all = np.zeros([self.acc_data.shape[0], 2])
         tmp_acc_data = np.zeros_like(self.acc_data)
         self.convert_mag_data = np.zeros_like(self.mag_data)
+        self.angle = np.zeros([self.mag_data.shape[0],1])
 
         for i in range(self.acc_data.shape[0]):
             angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)
@@ -246,31 +247,42 @@ class MagDetector:
             tmp_acc_data[i, :] = (t_R.dot(self.acc_data[i, :].transpose())).transpose()
             self.convert_mag_data[i, :] = (t_R.dot(self.mag_data[i, :].transpose())).transpose()
 
+            self.angle[i,0] = np.arcsin(self.convert_mag_data[i,0]/np.linalg.norm(self.convert_mag_data[i,:2]))/np.pi
+
         self.zf = interpolate.interp1d(
             self.length_array[:, 0], self.convert_mag_data[:, 2]/self.convert_mag_data[:,2].mean(), kind='linear')
 
+
+
         if ifshow:
-            plt.figure()
-            plt.title('angle')
-            for i in range(angle_all.shape[1]):
-                plt.plot(angle_all[:, i], '-*', label=str(i))
-            plt.grid()
-            plt.legend()
 
             plt.figure()
-            plt.title('convert acc')
-            for i in range(tmp_acc_data.shape[1]):
-                plt.plot(tmp_acc_data[:, i], '-+', label=str(i))
+            plt.title('x-o-y angle mag')
+            plt.plot(self.angle[:,0],'-+')
             plt.grid()
-            plt.legend()
 
-            plt.figure()
-            plt.title('acc')
-            for i in range(tmp_acc_data.shape[1]):
-                plt.plot(self.acc_data[:, i], '-+', label=str(i))
-            plt.grid()
-            plt.legend()
 
+            # plt.figure()
+            # plt.title('angle')
+            # for i in range(angle_all.shape[1]):
+            #     plt.plot(angle_all[:, i], '-*', label=str(i))
+            # plt.grid()
+            # plt.legend()
+            #
+            # plt.figure()
+            # plt.title('convert acc')
+            # for i in range(tmp_acc_data.shape[1]):
+            #     plt.plot(tmp_acc_data[:, i], '-+', label=str(i))
+            # plt.grid()
+            # plt.legend()
+            #
+            # plt.figure()
+            # plt.title('acc')
+            # for i in range(tmp_acc_data.shape[1]):
+            #     plt.plot(self.acc_data[:, i], '-+', label=str(i))
+            # plt.grid()
+            # plt.legend()
+            #
             plt.figure()
             plt.title('converted mag')
             for i in range(self.convert_mag_data.shape[1]):
@@ -278,13 +290,13 @@ class MagDetector:
 
             plt.grid()
             plt.legend()
-
-            plt.figure()
-            plt.title('src mag')
-            for i in range(self.mag_data.shape[1]):
-                plt.plot(self.mag_data[:, i], '-+', label=str(i))
-            plt.grid()
-            plt.legend()
+            #
+            # plt.figure()
+            # plt.title('src mag')
+            # for i in range(self.mag_data.shape[1]):
+            #     plt.plot(self.mag_data[:, i], '-+', label=str(i))
+            # plt.grid()
+            # plt.legend()
 
     def GetZFFtDis(self, length, ifshow=True):
 

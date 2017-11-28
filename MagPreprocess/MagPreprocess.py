@@ -34,8 +34,6 @@ from scipy.fftpack import fft, ifft
 from transforms3d.euler import euler2mat, mat2euler
 
 
-
-
 class MagDetector:
     def __init__(self,
                  mag_data,
@@ -90,20 +88,18 @@ class MagDetector:
         :param ifshow: invalid {not used}
         :return:distance matrix
         '''
-        dis_mat = np.zeros([feature_mat.shape[0],feature_mat.shape[0]])
+        dis_mat = np.zeros([feature_mat.shape[0], feature_mat.shape[0]])
 
         for i in range(self.mag_fft_feature.shape[0]):
-            for j in range(i,self.mag_fft_feature.shape[0]):
-                dis_mat[i,j] = np.linalg.norm(
-                    self.mag_fft_feature[i,:]-self.mag_fft_feature[j,:]
+            for j in range(i, self.mag_fft_feature.shape[0]):
+                dis_mat[i, j] = np.linalg.norm(
+                    self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :]
                 )
-                dis_mat[j,i] = dis_mat[i,j]
+                dis_mat[j, i] = dis_mat[i, j]
 
         return dis_mat
 
-
     def GetNormFFTDis(self, length, ifshow=True):
-
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
@@ -126,7 +122,6 @@ class MagDetector:
                 self.mag_fft_feature[i, :] = yyt
 
         self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
-
 
         if ifshow:
             plt.figure()
@@ -155,27 +150,24 @@ class MagDetector:
             else:
                 self.tmp_mul_mat += t_mat
 
-
         if ifshow:
             plt.figure()
             plt.title('mul fft dis')
             plt.imshow(self.tmp_mul_mat)
             plt.colorbar()
 
-    def MultiLayerNZFFt(self,layer_array,ifshow=True):
-        print('MultiLayerNZFFT',layer_array)
+    def MultiLayerNZFFt(self, layer_array, ifshow=True):
+        print('MultiLayerNZFFT', layer_array)
 
         for index in range(len(layer_array)):
-            t_mat = self.GetNormFFTDis(layer_array[index],False)
-            if index==0:
+            t_mat = self.GetNormFFTDis(layer_array[index], False)
+            if index == 0:
                 self.tmp_mnz_mat = t_mat
             else:
                 self.tmp_mnz_mat += t_mat
 
-
         for index in range(len(layer_array)):
-            self.tmp_mnz_mat += self.GetZFFtDis(layer_array[index],False)
-
+            self.tmp_mnz_mat += self.GetZFFtDis(layer_array[index], False)
 
         if ifshow:
             plt.figure()
@@ -252,10 +244,10 @@ class MagDetector:
 
             t_R = euler2mat(angle_all[i, 0], angle_all[i, 1], 0.0, 'sxyz')
             tmp_acc_data[i, :] = (t_R.dot(self.acc_data[i, :].transpose())).transpose()
-            self.convert_mag_data[i,:] = (t_R.dot(self.mag_data[i,:].transpose())).transpose()
+            self.convert_mag_data[i, :] = (t_R.dot(self.mag_data[i, :].transpose())).transpose()
 
-        self.zf  = interpolate.interp1d(
-            self.length_array[:,0],self.convert_mag_data[:,2],kind='linear')
+        self.zf = interpolate.interp1d(
+            self.length_array[:, 0], self.convert_mag_data[:, 2], kind='linear')
 
         if ifshow:
             plt.figure()
@@ -282,30 +274,27 @@ class MagDetector:
             plt.figure()
             plt.title('converted mag')
             for i in range(self.convert_mag_data.shape[1]):
-                plt.plot(self.convert_mag_data[:,i],'-+',label=str(i))
+                plt.plot(self.convert_mag_data[:, i], '-+', label=str(i))
 
             plt.grid()
             plt.legend()
-
 
             plt.figure()
             plt.title('src mag')
             for i in range(self.mag_data.shape[1]):
-                plt.plot(self.mag_data[:,i],'-+',label=str(i))
+                plt.plot(self.mag_data[:, i], '-+', label=str(i))
             plt.grid()
             plt.legend()
 
-
-    def GetZFFtDis(self,length,ifshow=True):
-
+    def GetZFFtDis(self, length, ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_z_fft_feature = np.zeros([self.length_array.shape[0],
-                                         len(test_shape_fft)],
-                                        dtype=np.complex)
+                                           len(test_shape_fft)],
+                                          dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
 
@@ -337,5 +326,3 @@ class MagDetector:
             plt.colorbar()
 
         return self.tmp_fft_mat
-
-

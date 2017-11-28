@@ -83,6 +83,18 @@ class MagDetector:
         plt.legend()
         plt.grid()
 
+    def GetDis(self,feature_mat,ifshow=True):
+        dis_mat = np.zeros([feature_mat.shape[0],feature_mat.shape[0]])
+
+        for i in range(self.mag_fft_feature.shape[0]):
+            for j in range(i,self.mag_fft_feature.shape[0]):
+                dis_mat[i,j] = np.linalg.norm(
+                    self.mag_fft_feature[i,:]-self.mag_fft_feature[j,:]
+                )
+
+        return dis_mat
+
+
     def GetFFTDis(self, length, ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
@@ -106,29 +118,31 @@ class MagDetector:
                 self.mag_fft_feature[i, :] = yyt
                 # print(i, yyt, yyt.real, yyt.imag)
 
-        self.tmp_fft_mat = np.zeros([self.mag_fft_feature.shape[0],
-                                     self.mag_fft_feature.shape[0]])
+        self.tmp_fft_mat = self.GetDis(self.mag_fft_feature)
 
-        for i in range(self.mag_fft_feature.shape[0]):
-            for j in range(i, self.mag_fft_feature.shape[0]):
+        # self.tmp_fft_mat =  np.zeros([self.mag_fft_feature.shape[0],
+        #                              self.mag_fft_feature.shape[0]])
 
-                # if np.linalg.norm(self.mag_fft_feature[i, :] - np.zeros([
-                #     1, len(test_shape_fft)], dtype=np.complex
-                # )) < 10.0:
-                #     continue
-                #
-                # if np.linalg.norm(self.mag_fft_feature[j, :] - np.zeros([
-                #     1, len(test_shape_fft)], dtype=np.complex
-                # )) < 10.0:
-                #     continue
-
-                self.tmp_fft_mat[i, j] = np.linalg.norm(
-                    (self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :])
-                )
-
-                # if (self.tmp_fft_mat[i, j] > 4000):
-                #     self.tmp_fft_mat[i, j] = 5000
-                self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
+        # for i in range(self.mag_fft_feature.shape[0]):
+        #     for j in range(i, self.mag_fft_feature.shape[0]):
+        #
+        #         # if np.linalg.norm(self.mag_fft_feature[i, :] - np.zeros([
+        #         #     1, len(test_shape_fft)], dtype=np.complex
+        #         # )) < 10.0:
+        #         #     continue
+        #         #
+        #         # if np.linalg.norm(self.mag_fft_feature[j, :] - np.zeros([
+        #         #     1, len(test_shape_fft)], dtype=np.complex
+        #         # )) < 10.0:
+        #         #     continue
+        #
+        #         self.tmp_fft_mat[i, j] = np.linalg.norm(
+        #             (self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :])
+        #         )
+        #
+        #         # if (self.tmp_fft_mat[i, j] > 4000):
+        #         #     self.tmp_fft_mat[i, j] = 5000
+        #         self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
 
         if ifshow:
             plt.figure()
@@ -264,3 +278,5 @@ class MagDetector:
                 plt.plot(self.mag_data[:,i],'-+',label=str(i))
             plt.grid()
             plt.legend()
+
+

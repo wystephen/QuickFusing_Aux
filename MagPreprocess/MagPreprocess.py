@@ -83,7 +83,13 @@ class MagDetector:
         plt.legend()
         plt.grid()
 
-    def GetDis(self,feature_mat,ifshow=True):
+    def ComputeDistanceFeatureSpace(self, feature_mat, ifshow=True):
+        '''
+        compute distance in feature space according to feature matrix
+        :param feature_mat:  feature matrix
+        :param ifshow: invalid {not used}
+        :return:distance matrix
+        '''
         dis_mat = np.zeros([feature_mat.shape[0],feature_mat.shape[0]])
 
         for i in range(self.mag_fft_feature.shape[0]):
@@ -91,11 +97,13 @@ class MagDetector:
                 dis_mat[i,j] = np.linalg.norm(
                     self.mag_fft_feature[i,:]-self.mag_fft_feature[j,:]
                 )
+                dis_mat[j,i] = dis_mat[i,j]
 
         return dis_mat
 
 
-    def GetFFTDis(self, length, ifshow=True):
+    def GetNormFFTDis(self, length, ifshow=True):
+
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
@@ -116,33 +124,9 @@ class MagDetector:
                                     int(length / 0.5))
                 yyt = fft(self.f(the_x))
                 self.mag_fft_feature[i, :] = yyt
-                # print(i, yyt, yyt.real, yyt.imag)
 
-        self.tmp_fft_mat = self.GetDis(self.mag_fft_feature)
+        self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
 
-        # self.tmp_fft_mat =  np.zeros([self.mag_fft_feature.shape[0],
-        #                              self.mag_fft_feature.shape[0]])
-
-        # for i in range(self.mag_fft_feature.shape[0]):
-        #     for j in range(i, self.mag_fft_feature.shape[0]):
-        #
-        #         # if np.linalg.norm(self.mag_fft_feature[i, :] - np.zeros([
-        #         #     1, len(test_shape_fft)], dtype=np.complex
-        #         # )) < 10.0:
-        #         #     continue
-        #         #
-        #         # if np.linalg.norm(self.mag_fft_feature[j, :] - np.zeros([
-        #         #     1, len(test_shape_fft)], dtype=np.complex
-        #         # )) < 10.0:
-        #         #     continue
-        #
-        #         self.tmp_fft_mat[i, j] = np.linalg.norm(
-        #             (self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :])
-        #         )
-        #
-        #         # if (self.tmp_fft_mat[i, j] > 4000):
-        #         #     self.tmp_fft_mat[i, j] = 5000
-        #         self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
 
         if ifshow:
             plt.figure()
@@ -159,15 +143,15 @@ class MagDetector:
             plt.imshow((ttmp_grandient))
             plt.colorbar()
 
-    def MultiLayerFFt(self, layer_array, ifshow=True):
+    def MultiLayerNormFFt(self, layer_array, ifshow=True):
         print(layer_array)
 
         for index in range(len(layer_array)):
-            self.GetFFTDis(layer_array[index], False)
+            t_mat = self.GetNormFFTDis(layer_array[index], False)
             if index == 0:
-                self.tmp_mul_mat = self.tmp_fft_mat
+                self.tmp_mul_mat = t_mat
             else:
-                self.tmp_mul_mat += self.tmp_fft_mat
+                self.tmp_mul_mat += t_mat
 
 
         if ifshow:
@@ -177,6 +161,12 @@ class MagDetector:
             plt.colorbar()
 
     def GetDirectDis(self, length, ifshow=True):
+        '''
+
+        :param length:
+        :param ifshow:
+        :return:
+        '''
         # print(length)
 
         intevel_length = 0.1
@@ -241,6 +231,9 @@ class MagDetector:
             tmp_acc_data[i, :] = (t_R.dot(self.acc_data[i, :].transpose())).transpose()
             self.convert_mag_data[i,:] = (t_R.dot(self.mag_data[i,:].transpose())).transpose()
 
+        self.zf  = interpolate.interp1d(
+            self.length_array[:,0],self.convert_mag_data[:,2],kind='linear')
+
         if ifshow:
             plt.figure()
             plt.title('angle')
@@ -278,5 +271,46 @@ class MagDetector:
                 plt.plot(self.mag_data[:,i],'-+',label=str(i))
             plt.grid()
             plt.legend()
+
+
+    def GetZFFtDis(self,length,ifshow=True):
+        tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
+
+        # self.mag_fft_list = list(self.length_array.shape[0])
+        test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
+        self.mag_z_fft_feature = np.zeros([self.length_array.shape[0],
+                                         len(test_shape_fft)],
+                                        dtype=np.complex)
+
+        for i in range(0, self.length_array.shape[0]):
+
+            if self.length_array[i] < length / 2.0 or \
+                            self.length_array[i] > self.length_array[-1] - length / 2.0:
+                continue
+            else:
+                the_x = np.linspace(self.length_array[i] - length / 2.0,
+                                    self.length_array[i] + length / 2.0,
+                                    int(length / 0.5))
+                yyt = fft(self.zf(the_x))
+                self.mag_fft_feature[i, :] = yyt
+
+        self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
+
+        if ifshow:
+            plt.figure()
+            plt.title('dis fft')
+
+            plt.imshow(self.tmp_fft_mat)
+            plt.colorbar()
+
+            plt.figure()
+            plt.title('gradient')
+            tmp_grandient = self.tmp_fft_mat[:, 1:] - self.tmp_fft_mat[:, :-1]
+            ttmp_grandient = tmp_grandient[:, 1:] - tmp_grandient[:, :-1]
+
+            plt.imshow((ttmp_grandient))
+            plt.colorbar()
+
+        return self.tmp_fft_mat
 
 

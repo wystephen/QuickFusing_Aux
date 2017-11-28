@@ -39,8 +39,7 @@ if __name__ == '__main__':
     plt.figure()
     plt.grid()
     plt.title('trace')
-    plt.plot(v_data[:,12],v_data[:,13],'r-*')
-
+    plt.plot(v_data[:, 12], v_data[:, 13], 'r-*')
 
     plt.figure()
     plt.grid()
@@ -88,15 +87,14 @@ if __name__ == '__main__':
     plt.imshow(norm_dis_matrix)
     plt.colorbar()
 
-
     plt.figure()
     plt.title('pressure')
-    plt.plot(v_data[:,11],'r-')
+    plt.plot(v_data[:, 11], 'r-')
     plt.grid()
 
     plt.figure()
     plt.title('step length')
-    plt.plot(np.linalg.norm(v_data[1:,12:15]-v_data[:-1,12:15],axis=1))
+    plt.plot(np.linalg.norm(v_data[1:, 12:15] - v_data[:-1, 12:15], axis=1))
     plt.grid()
 
     plt.show()

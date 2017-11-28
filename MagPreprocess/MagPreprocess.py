@@ -34,8 +34,6 @@ from scipy.fftpack import fft, ifft
 from transforms3d.euler import euler2mat, mat2euler
 
 
-# from numba import jit,njit
-import numba
 
 
 class MagDetector:
@@ -85,7 +83,6 @@ class MagDetector:
         plt.legend()
         plt.grid()
 
-    @numba.jit()
     def GetFFTDis(self, length, ifshow=True):
 
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
@@ -115,15 +112,15 @@ class MagDetector:
         for i in range(self.mag_fft_feature.shape[0]):
             for j in range(i, self.mag_fft_feature.shape[0]):
 
-                if np.linalg.norm(self.mag_fft_feature[i, :] - np.zeros([
-                    1, len(test_shape_fft)], dtype=np.complex
-                )) < 10.0:
-                    continue
-
-                if np.linalg.norm(self.mag_fft_feature[j, :] - np.zeros([
-                    1, len(test_shape_fft)], dtype=np.complex
-                )) < 10.0:
-                    continue
+                # if np.linalg.norm(self.mag_fft_feature[i, :] - np.zeros([
+                #     1, len(test_shape_fft)], dtype=np.complex
+                # )) < 10.0:
+                #     continue
+                #
+                # if np.linalg.norm(self.mag_fft_feature[j, :] - np.zeros([
+                #     1, len(test_shape_fft)], dtype=np.complex
+                # )) < 10.0:
+                #     continue
 
                 self.tmp_fft_mat[i, j] = np.linalg.norm(
                     (self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :])
@@ -144,10 +141,6 @@ class MagDetector:
             plt.title('gradient')
             tmp_grandient = self.tmp_fft_mat[:, 1:] - self.tmp_fft_mat[:, :-1]
             ttmp_grandient = tmp_grandient[:, 1:] - tmp_grandient[:, :-1]
-            # for i in range(ttmp_grandient.shape[0]):
-            #     for j in range(ttmp_grandient.shape[1]):
-            #         if ttmp_grandient[i,j] < 5000:
-            #             ttmp_grandient[i,j] = 0
 
             plt.imshow((ttmp_grandient))
             plt.colorbar()
@@ -162,10 +155,6 @@ class MagDetector:
             else:
                 self.tmp_mul_mat += self.tmp_fft_mat
 
-        # for i in range(self.tmp_mul_mat.shape[0]):
-        #     for j in range(self.tmp_mul_mat.shape[1]):
-        #         if self.tmp_mul_mat[i, j] > 5000:
-        #             self.tmp_mul_mat[i, j] = 5000.0
 
         if ifshow:
             plt.figure()
@@ -227,6 +216,7 @@ class MagDetector:
 
         angle_all = np.zeros([self.acc_data.shape[0], 2])
         tmp_acc_data = np.zeros_like(self.acc_data)
+        self.convert_mag_data = np.zeros_like(self.mag_data)
 
         for i in range(self.acc_data.shape[0]):
             angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)
@@ -235,6 +225,7 @@ class MagDetector:
 
             t_R = euler2mat(angle_all[i, 0], angle_all[i, 1], 0.0, 'sxyz')
             tmp_acc_data[i, :] = (t_R.dot(self.acc_data[i, :].transpose())).transpose()
+            self.convert_mag_data[i,:] = (t_R.dot(self.mag_data[i,:].transpose())).transpose()
 
         if ifshow:
             plt.figure()
@@ -248,5 +239,14 @@ class MagDetector:
             plt.title('acc')
             for i in range(tmp_acc_data.shape[1]):
                 plt.plot(tmp_acc_data[:, i], '-+', label=str(i))
+            plt.grid()
+            plt.legend()
+
+
+            plt.figure()
+            plt.title('converted mag')
+            for i in range(self.convert_mag_data.shape[1]):
+                plt.plot(self.convert_mag_data[:,i],'-+',label=str(i))
+
             plt.grid()
             plt.legend()

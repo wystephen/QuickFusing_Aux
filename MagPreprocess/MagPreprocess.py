@@ -69,7 +69,7 @@ class MagDetector:
                                                   - self.pose_data[i - 1, :])
 
         self.f = interpolate.interp1d(self.length_array
-                                      [:, 0], self.mag_norm, kind='linear')
+                                      [:, 0], self.mag_norm/self.mag_norm.mean(), kind='linear')
 
         plt.figure()
         plt.title('inter')
@@ -247,7 +247,7 @@ class MagDetector:
             self.convert_mag_data[i, :] = (t_R.dot(self.mag_data[i, :].transpose())).transpose()
 
         self.zf = interpolate.interp1d(
-            self.length_array[:, 0], self.convert_mag_data[:, 2], kind='linear')
+            self.length_array[:, 0], self.convert_mag_data[:, 2]/self.convert_mag_data[:,2].mean(), kind='linear')
 
         if ifshow:
             plt.figure()

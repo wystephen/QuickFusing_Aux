@@ -162,6 +162,27 @@ class MagDetector:
             plt.imshow(self.tmp_mul_mat)
             plt.colorbar()
 
+    def MultiLayerNZFFt(self,layer_array,ifshow=True):
+        print('MultiLayerNZFFT',layer_array)
+
+        for index in range(len(layer_array)):
+            t_mat = self.GetNormFFTDis(layer_array[index],False)
+            if index==0:
+                self.tmp_mnz_mat = t_mat
+            else:
+                self.tmp_mnz_mat += t_mat
+
+
+        for index in range(len(layer_array)):
+            self.tmp_mnz_mat += self.GetZFFtDis(layer_array[index],False)
+
+
+        if ifshow:
+            plt.figure()
+            plt.title('mnz fft dis')
+            plt.imshow(self.tmp_mnz_mat)
+            plt.colorbar()
+
     def GetDirectDis(self, length, ifshow=True):
         '''
 
@@ -276,6 +297,8 @@ class MagDetector:
 
 
     def GetZFFtDis(self,length,ifshow=True):
+
+
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
         # self.mag_fft_list = list(self.length_array.shape[0])
@@ -294,9 +317,9 @@ class MagDetector:
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = fft(self.zf(the_x))
-                self.mag_fft_feature[i, :] = yyt
+                self.mag_z_fft_feature[i, :] = yyt
 
-        self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
+        self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_z_fft_feature)
 
         if ifshow:
             plt.figure()

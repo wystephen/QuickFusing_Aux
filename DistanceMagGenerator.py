@@ -50,8 +50,8 @@ if __name__ == '__main__':
     ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], 'r-*')
 
     mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],
-                                          v_data[:,2:5],
-                                          v_data[:, 12:17],
+                                          v_data[:, 2:5],
+                                          v_data[:, 12:],
                                           v_data[:, 11])
 
     mDetector.Step2Length()
@@ -76,10 +76,11 @@ if __name__ == '__main__':
             #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \
             #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e10:
             if mDetector.tmp_mul_mat[i, j] < the_threshold and \
-                            np.mean(np.abs(mDetector.tmp_mul_mat[i, j - 20:j + 20]-mDetector.tmp_mul_mat[i,j])) > 5000 and \
+                            np.mean(np.abs(mDetector.tmp_mul_mat[i, j - 20:j + 20] - mDetector.tmp_mul_mat[
+                                i, j])) > 5000 and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > 30.0 and \
                             abs(v_data[i, 11] - v_data[j, 11]) < 1e10 and \
-                            mDetector.length_array[i] > max_dis and mDetector.length_array[j] >  max_dis and \
+                            mDetector.length_array[i] > max_dis and mDetector.length_array[j] > max_dis and \
                                     mDetector.length_array[-1] - mDetector.length_array[i] > max_dis and \
                                     mDetector.length_array[-1] - mDetector.length_array[j] > max_dis:
                 ax.plot(

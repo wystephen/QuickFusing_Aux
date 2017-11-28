@@ -41,10 +41,11 @@ class MagDetector:
         '''
 
         :param mag_data:
-        :param pose_data:
+        :param acc_data:
+        :param pose_data: x,y,z,vx,vy,vz,qx,qy,qz,qw
         :param pressure:
         '''
-        # self.data = data
+       # self.data = data
         self.mag_data = mag_data
         self.pose_data = pose_data
         self.pressure_data = pressure

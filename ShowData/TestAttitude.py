@@ -66,8 +66,11 @@ if __name__ == '__main__':
     qeuler /= (np.pi / 180.0)
     pangle /= (np.pi /180.0)
 
+
+    plot_row = 2
+    plot_col = 3
     plt.figure()
-    plt.subplot(2,2,1)
+    plt.subplot(plot_row,plot_col,1)
     plt.title('qeuler')
     for i in range(qeuler.shape[1]):
         plt.plot(qeuler[:,i],'-+',label=str(i))
@@ -75,7 +78,7 @@ if __name__ == '__main__':
 
 
     # plt.figure()
-    plt.subplot(2,2,2)
+    plt.subplot(plot_row,plot_col,2)
     plt.title('pangle')
     for i in range(pangle.shape[1]):
         plt.plot(pangle[:,i],'-+',label=str(i))
@@ -83,7 +86,7 @@ if __name__ == '__main__':
 
 
     # plt.figure()
-    plt.subplot(2,2,3)
+    plt.subplot(plot_row,plot_col,3)
     plt.title('diff')
     for i in range(pangle.shape[1]):
         plt.plot(qeuler[:,i]-pangle[:,i],'-+',label=str(i))
@@ -92,7 +95,7 @@ if __name__ == '__main__':
 
 
     # plt.figure()
-    plt.subplot(2,2,4)
+    plt.subplot(plot_row,plot_col,4)
     plt.title('trace 2d')
     plt.plot(v_data[:,12],v_data[:,13],'r--+')
     plt.grid()

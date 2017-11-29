@@ -61,6 +61,7 @@ if __name__ == '__main__':
     mDetector.GetZValue(True)
     # mDetector.GetZFFtDis(20.0)
     mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
+    mDetector.GetRelativeAttDis(20.0)
 
     the_threshold = 30
     max_dis = 30.0

@@ -253,7 +253,7 @@ class MagDetector:
         self.zf = interpolate.interp1d(
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')
 
-        self.attitude = interpolate.interp1d(
+        self.af = interpolate.interp1d(
             self.length_array[:, 0], self.angle[:, 0], kind='nearest'
         )
 
@@ -341,4 +341,42 @@ class MagDetector:
 
         return self.tmp_fft_mat
 
-    def GetRelativeAttDis(self, length):
+    def GetRelativeAttDis(self, length,ifshow=True):
+        tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
+
+        # self.mag_fft_list = list(self.length_array.shape[0])
+        test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
+        self.mag_att_fft_feature = np.zeros([self.length_array.shape[0],
+                                           len(test_shape_fft)],
+                                          dtype=np.complex)
+
+        for i in range(0, self.length_array.shape[0]):
+
+            if self.length_array[i] < length / 2.0 or \
+                            self.length_array[i] > self.length_array[-1] - length / 2.0:
+                continue
+            else:
+                the_x = np.linspace(self.length_array[i] - length / 2.0,
+                                    self.length_array[i] + length / 2.0,
+                                    int(length / 0.5))
+                yyt = fft(self.af(the_x))
+                self.mag_att_fft_feature[i, :] = yyt
+
+        self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_att_fft_feature)
+
+        if ifshow:
+            plt.figure()
+            plt.title('dis z fft')
+
+            plt.imshow(self.tmp_fft_mat)
+            plt.colorbar()
+
+            plt.figure()
+            plt.title('gradient z')
+            tmp_grandient = self.tmp_fft_mat[:, 1:] - self.tmp_fft_mat[:, :-1]
+            ttmp_grandient = tmp_grandient[:, 1:] - tmp_grandient[:, :-1]
+
+            plt.imshow((ttmp_grandient))
+            plt.colorbar()
+
+        return self.tmp_fft_mat

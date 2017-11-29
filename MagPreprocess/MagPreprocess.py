@@ -54,7 +54,7 @@ class MagDetector:
         self.pressure_data = pressure
         self.acc_data = acc_data
 
-    def Step2Length(self):
+    def Step2Length(self,ifshow=True):
         '''
 
         :param length:
@@ -72,15 +72,16 @@ class MagDetector:
         self.f = interpolate.interp1d(self.length_array
                                       [:, 0], self.mag_norm / self.mag_norm.mean(), kind='linear')
 
-        plt.figure()
-        plt.title('inter')
-        tx = np.linspace(0, self.length_array[-1],
-                         self.length_array.shape[0] * 10.0)
+        if ifshow:
+            plt.figure()
+            plt.title('inter')
+            tx = np.linspace(0, self.length_array[-1],
+                             self.length_array.shape[0] * 10.0)
 
-        plt.plot(tx, self.f(tx), 'r+', label='interp')
-        plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
-        plt.legend()
-        plt.grid()
+            plt.plot(tx, self.f(tx), 'r+', label='interp')
+            plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
+            plt.legend()
+            plt.grid()
 
     def ComputeDistanceFeatureSpace(self, feature_mat, ifshow=True):
         '''
@@ -419,7 +420,8 @@ class MagDetector:
 
         return self.tmp_fft_mat
 
-    # def ConvertMagAttitude(self):
+    def ConvertMagAttitude(self):
+        print('empty ...')
 
 
 

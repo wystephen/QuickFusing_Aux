@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetDirectDis(20.0)
-    mDetector.GetZValue(True)
+    mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     #
     # fig = plt.figure()
@@ -71,6 +71,10 @@ if __name__ == '__main__':
     for i in range(v_data.shape[0]-1):
         t = v_data[i+1,12:15]-v_data[i,12:15]
         pangle[i,2] = np.arctan2(t[1],t[0])
+
+
+    mangle = mDetector.angle
+    relative_mangle = mangle[:,0]-pangle[:,2]+qeuler[:,2]
 
 
 
@@ -110,4 +114,14 @@ if __name__ == '__main__':
     plt.title('trace 2d')
     plt.plot(v_data[:,12],v_data[:,13],'r--+')
     plt.grid()
+
+    plt.subplot(plot_row,plot_col,5)
+    plt.title('angle ')
+    plt.plot(mangle[:,0],label='mag angle')
+    plt.plot(relative_mangle,label='relative mag angle')
+    plt.grid()
+    plt.legend()
+
+
+
     plt.show()

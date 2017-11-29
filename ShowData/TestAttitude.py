@@ -1,0 +1,81 @@
+# -*- coding:utf-8 -*-
+# Created by steve @ 17-11-29 下午3:21
+'''
+                   _ooOoo_ 
+                  o8888888o 
+                  88" . "88 
+                  (| -_- |) 
+                  O\  =  /O 
+               ____/`---'\____ 
+             .'  \\|     |//  `. 
+            /  \\|||  :  |||//  \ 
+           /  _||||| -:- |||||-  \ 
+           |   | \\\  -  /// |   | 
+           | \_|  ''\---/''  |   | 
+           \  .-\__  `-`  ___/-. / 
+         ___`. .'  /--.--\  `. . __ 
+      ."" '<  `.___\_<|>_/___.'  >'"". 
+     | | :  `- \`.;`\ _ /`;.`/ - ` : | | 
+     \  \ `-.   \_ __\ /__ _/   .-` /  / 
+======`-.____`-.___\_____/___.-`____.-'====== 
+                   `=---=' 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+         佛祖保佑       永无BUG 
+'''
+
+
+import numpy as np
+import scipy as sp
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+from MagPreprocess import MagPreprocess
+
+import timeit
+
+from transforms3d.euler import quat2euler
+
+if __name__ == '__main__':
+    dir_name = '/home/steve/Data/II/30/'
+
+    ### key 16 17 20 ||| 28  30  (31)
+    v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
+
+    '''
+            id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
+            0  |   1   2  3 4  5   6  7 8  9  10 11      | 12 13 14 15 16 17| 18 19 20 21
+            1 + 11 + 6 + 4 = 22
+        '''
+    #
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    #
+    # ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], 'r-*')
+
+    qeuler = np.zeros([v_data.shape[0],3])
+    for i in range(v_data.shape[0]):
+        qeuler[i,:] = quat2euler([v_data[i,21],v_data[i,18],v_data[i,19],v_data[i,20]])
+
+    pangle = np.zeros([v_data.shape[0],3])
+    for i in range(v_data.shape[0]-1):
+        t = v_data[i+1,12:15]-v_data[i,12:15]
+        pangle[i,2] = np.arctan2(t[1],t[0])
+
+
+
+
+    plt.figure()
+    plt.title('qeuler')
+    for i in range(qeuler.shape[1]):
+        plt.plot(qeuler[:,i],'-+',label=str(i))
+    plt.legend();plt.grid()
+
+
+    plt.figure()
+    plt.title('pangle')
+    for i in range(pangle.shape[1]):
+        plt.plot(pangle[:,i],'-+',label=str(i))
+    plt.legend();plt.grid()
+
+
+    plt.show()

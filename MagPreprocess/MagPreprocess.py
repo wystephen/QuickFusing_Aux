@@ -31,7 +31,8 @@ import matplotlib.pylab as plt
 from scipy import interpolate
 from scipy.fftpack import fft, ifft
 
-from transforms3d.euler import euler2mat, mat2euler
+from transforms3d.euler import euler2mat, mat2euler, quat2axangle,quat2mat,quat2euler
+
 
 
 class MagDetector:
@@ -173,6 +174,33 @@ class MagDetector:
             plt.figure()
             plt.title('mnz fft dis')
             plt.imshow(self.tmp_mnz_mat)
+            plt.colorbar()
+
+    def MultiLayerANZFFt(self, layer_array, ifshow=True):
+        print('MultiLayerANZFFT', layer_array)
+
+        for index in range(len(layer_array)):
+            t_mat = self.GetNormFFTDis(layer_array[index], False)
+            t_mat = t_mat / t_mat.mean()
+            if index == 0:
+                self.tmp_mnza_mat = t_mat
+            else:
+                self.tmp_mnza_mat += t_mat
+
+        for index in range(len(layer_array)):
+            t_mat = self.GetZFFtDis(layer_array[index], False)
+            t_mat = t_mat / t_mat.mean()
+            self.tmp_mnza_mat += t_mat
+
+        for index in range(len(layer_array)):
+            t_mat = self.GetRelativeAttDis(layer_array[index],False)
+            t_mat = t_mat / t_mat.mean()
+            self.tmp_mnza_mat += t_mat
+
+        if ifshow:
+            plt.figure()
+            plt.title('mnz and att fft dis')
+            plt.imshow(self.tmp_mnza_mat)
             plt.colorbar()
 
     def GetDirectDis(self, length, ifshow=True):
@@ -347,8 +375,7 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_att_feature = np.zeros([self.length_array.shape[0],
-                                         len(test_shape_fft)],
-                                        dtype=np.complex)
+                                         len(test_shape_fft)])
 
         for i in range(0, self.length_array.shape[0]):
 
@@ -360,7 +387,8 @@ class MagDetector:
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = (self.af(the_x))
-                self.mag_att_feature[i, :] = yyt-self.af(self.length_array[i])
+                self.mag_att_feature[i, :] = np.arcsin(np.abs(np.sin(yyt-self.af(self.length_array[i]))))/yyt.std()
+
 
         # self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_att_fft_feature)
         self.tmp_fft_mat = np.zeros([self.mag_att_feature.shape[0],
@@ -390,3 +418,8 @@ class MagDetector:
             plt.colorbar()
 
         return self.tmp_fft_mat
+
+    # def ConvertMagAttitude(self):
+
+
+

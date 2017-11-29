@@ -33,7 +33,7 @@ from MagPreprocess import MagPreprocess
 import timeit
 
 if __name__ == '__main__':
-    dir_name = '/home/steve/Data/II/31/'
+    dir_name = '/home/steve/Data/II/30/'
 
     ### key 16 17 20 ||| 28  30  (31)
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
@@ -59,9 +59,11 @@ if __name__ == '__main__':
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetDirectDis(20.0)
     mDetector.GetZValue(True)
+    mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)
-    mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
-    mDetector.GetRelativeAttDis(50.0)
+    # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
+    # mDetector.GetRelativeAttDis(50.0)
+    mDetector.MultiLayerANZFFt([30.0,25.0,20.0,15.0,10.0,5.0])
 
     the_threshold = 30
     max_dis = 30.0
@@ -88,9 +90,12 @@ if __name__ == '__main__':
             #                         mDetector.length_array[-1] - mDetector.length_array[i] > max_dis and \
             #                         mDetector.length_array[-1] - mDetector.length_array[j] > max_dis:
 
-            if mDetector.tmp_mnz_mat[i, j] < the_threshold and \
-                            abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
-                            abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
+            # if mDetector.tmp_mnz_mat[i, j] < the_threshold and \
+            #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
+            #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
+            if mDetector.tmp_mnza_mat[i, j] < 10.0 and \
+                abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
+                abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
                 ax.plot(
                     [v_data[i, 12], v_data[j, 12]],
                     [v_data[i, 13], v_data[j, 13]],
@@ -98,9 +103,13 @@ if __name__ == '__main__':
                     'b--',
                     linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
                 )
+    # plt.figure()
+    # plt.title('mag att feature')
+    # plt.imshow(mDetector.mag_att_feature.transpose())
+    # plt.colorbar()
 
     plt.figure()
     plt.title('hist of dis')
-    plt.hist(mDetector.tmp_mnz_mat.reshape([-1]), bins=60)
+    plt.hist(mDetector.tmp_mnza_mat.reshape([-1]), bins=60)
 
     plt.show()

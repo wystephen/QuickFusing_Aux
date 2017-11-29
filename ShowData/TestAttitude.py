@@ -73,8 +73,12 @@ if __name__ == '__main__':
         pangle[i,2] = np.arctan2(t[1],t[0])
 
 
-    mangle = mDetector.angle
+    mangle = mDetector.direct_mag_angle
     relative_mangle = mangle[:,0]-pangle[:,2]+qeuler[:,2]
+
+    # relative_mangle = np.arcsin(np.abs(np.sin(relative_mangle)))/np.pi * 180.0
+    relative_mangle /=(np.pi/180.0)
+    mangle /=(np.pi/180.0)
 
 
 

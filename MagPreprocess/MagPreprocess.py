@@ -266,6 +266,7 @@ class MagDetector:
         tmp_acc_data = np.zeros_like(self.acc_data)
         self.convert_mag_data = np.zeros_like(self.mag_data)
         self.angle = np.zeros([self.mag_data.shape[0], 1])
+        self.direct_mag_angle = np.zeros([self.mag_data.shape[0],1])
 
         for i in range(self.acc_data.shape[0]):
             angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)
@@ -278,6 +279,7 @@ class MagDetector:
 
             self.angle[i, 0] = np.arcsin(
                 self.convert_mag_data[i, 0] / np.linalg.norm(self.convert_mag_data[i, :2])) / np.pi
+            self.direct_mag_angle[i,0] = np.arctan2(self.convert_mag_data[i,1],self.convert_mag_data[i,0])
 
         self.zf = interpolate.interp1d(
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')

@@ -253,6 +253,10 @@ class MagDetector:
         self.zf = interpolate.interp1d(
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')
 
+        self.attitude = interpolate.interp1d(
+            self.length_array[:, 0], self.angle[:, 0], kind='nearest'
+        )
+
         if ifshow:
 
             plt.figure()
@@ -336,3 +340,5 @@ class MagDetector:
             plt.colorbar()
 
         return self.tmp_fft_mat
+
+    def GetRelativeAttDis(self, length):

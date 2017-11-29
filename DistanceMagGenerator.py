@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
             if mDetector.tmp_mnz_mat[i, j] < the_threshold and \
                             abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
-                            abs(v_data[i, 11] - v_data[j, 11]) < 1e11 :
+                            abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
                 ax.plot(
                     [v_data[i, 12], v_data[j, 12]],
                     [v_data[i, 13], v_data[j, 13]],

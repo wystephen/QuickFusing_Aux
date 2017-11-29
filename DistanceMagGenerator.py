@@ -31,8 +31,11 @@ from mpl_toolkits.mplot3d import Axes3D
 from MagPreprocess import MagPreprocess
 
 import timeit
+import time
 
 if __name__ == '__main__':
+
+    start_time = time.time()
     dir_name = '/home/steve/Data/II/30/'
 
     ### key 16 17 20 ||| 28  30  (31)
@@ -107,6 +110,7 @@ if __name__ == '__main__':
     # plt.title('mag att feature')
     # plt.imshow(mDetector.mag_att_feature.transpose())
     # plt.colorbar()
+    print('totally time :', time.time()-start_time)
 
     plt.figure()
     plt.title('hist of dis')

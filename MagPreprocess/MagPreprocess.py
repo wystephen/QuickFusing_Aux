@@ -254,7 +254,7 @@ class MagDetector:
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')
 
         self.af = interpolate.interp1d(
-            self.length_array[:, 0], self.angle[:, 0], kind='linear'
+            self.length_array[:, 0], self.angle[:, 0], kind='nearest'
         )
 
         if ifshow:

@@ -51,7 +51,7 @@ if __name__ == '__main__':
                                           v_data[:, 12:],
                                           v_data[:, 11])
 
-    mDetector.Step2Length()
+    mDetector.Step2Length(False)
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetDirectDis(20.0)

@@ -90,10 +90,10 @@ class MagDetector:
         '''
         dis_mat = np.zeros([feature_mat.shape[0], feature_mat.shape[0]])
 
-        for i in range(self.mag_fft_feature.shape[0]):
-            for j in range(i, self.mag_fft_feature.shape[0]):
+        for i in range(feature_mat.shape[0]):
+            for j in range(i, feature_mat.shape[0]):
                 dis_mat[i, j] = np.linalg.norm(
-                    self.mag_fft_feature[i, :] - self.mag_fft_feature[j, :]
+                    feature_mat[i, :] - feature_mat[j, :]
                 )
                 dis_mat[j, i] = dis_mat[i, j]
 
@@ -254,7 +254,7 @@ class MagDetector:
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')
 
         self.af = interpolate.interp1d(
-            self.length_array[:, 0], self.angle[:, 0], kind='nearest'
+            self.length_array[:, 0], self.angle[:, 0], kind='linear'
         )
 
         if ifshow:
@@ -346,9 +346,9 @@ class MagDetector:
 
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
-        self.mag_att_fft_feature = np.zeros([self.length_array.shape[0],
-                                           len(test_shape_fft)],
-                                          dtype=np.complex)
+        self.mag_att_feature = np.zeros([self.length_array.shape[0],
+                                         len(test_shape_fft)],
+                                        dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
 
@@ -359,14 +359,24 @@ class MagDetector:
                 the_x = np.linspace(self.length_array[i] - length / 2.0,
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
-                yyt = fft(self.af(the_x))
-                self.mag_att_fft_feature[i, :] = yyt
+                yyt = (self.af(the_x))
+                self.mag_att_feature[i, :] = yyt-self.af(self.length_array[i])
 
-        self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_att_fft_feature)
+        # self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_att_fft_feature)
+        self.tmp_fft_mat = np.zeros([self.mag_att_feature.shape[0],
+                                     self.mag_att_feature.shape[0]])
+        for i in range(self.tmp_fft_mat.shape[0]):
+            for j in range(i,self.tmp_fft_mat.shape[1]):
+                self.tmp_fft_mat[i,j] = np.linalg.norm(
+                    np.arcsin(np.abs(np.sin(
+                        (self.mag_att_feature[i, :] - self.mag_att_feature[j, :])
+                    )))
+                )
+                self.tmp_fft_mat[j,i] = self.tmp_fft_mat[i,j]
 
         if ifshow:
             plt.figure()
-            plt.title('dis z fft')
+            plt.title('dis att fft')
 
             plt.imshow(self.tmp_fft_mat)
             plt.colorbar()

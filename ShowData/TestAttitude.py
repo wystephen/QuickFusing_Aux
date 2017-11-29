@@ -78,4 +78,15 @@ if __name__ == '__main__':
     plt.legend();plt.grid()
 
 
+    plt.figure()
+    plt.title('pangle')
+    for i in range(pangle.shape[1]):
+        plt.plot(qeuler[:,i]-pangle[:,i],'-+',label=str(i))
+    plt.legend();plt.grid()
+
+
+
+    plt.figure()
+    plt.title('trace 2d')
+    plt.plot(v_data[:,12],v_data[:,13],'r--+')
     plt.show()

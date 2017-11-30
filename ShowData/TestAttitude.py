@@ -38,9 +38,10 @@ from transforms3d.euler import quat2euler
 from scipy.spatial.distance import *
 
 if __name__ == '__main__':
-    dir_name = '/home/steve/Data/II/30/'
+    dir_name = '/home/steve/Data/II/35/'
 
     ### key 16 17 20 ||| 28  30  (31)
+    ##  33 34 35
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
 
     '''
@@ -80,6 +81,8 @@ if __name__ == '__main__':
 
 
     angle_dis = squareform(pdist(mangle,lambda u,v:np.arcsin(np.abs(np.sin(u-v)))/np.pi*180.0))
+
+    angle_dis_dis = squareform(pdist(angle_dis))
 
     # relative_mangle = np.arcsin(np.abs(np.sin(relative_mangle)))/np.pi * 180.0
     relative_mangle /=(np.pi/180.0)
@@ -134,6 +137,11 @@ if __name__ == '__main__':
     plt.subplot(plot_row,plot_col,6)
     plt.title('angle distance')
     plt.imshow(angle_dis)
+    plt.colorbar()
+
+    plt.subplot(plot_row,plot_col,2)
+    plt.title('dis of dis')
+    plt.imshow(angle_dis_dis)
     plt.colorbar()
 
 

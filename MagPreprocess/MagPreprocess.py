@@ -135,7 +135,7 @@ class MagDetector:
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = fft(self.f(the_x))
-                self.mag_fft_feature[i, :] = yyt.real
+                self.mag_fft_feature[i, :] = yyt
 
         self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
 

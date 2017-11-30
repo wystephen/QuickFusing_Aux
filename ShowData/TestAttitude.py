@@ -76,10 +76,10 @@ if __name__ == '__main__':
 
 
     mangle = mDetector.direct_mag_angle
-    relative_mangle = mangle[:,0]-pangle[:,2]+qeuler[:,2]
+    relative_mangle = mangle[:,0]+pangle[:,2]-qeuler[:,2]
 
 
-    angle_dis = squareform(pdist(mangle))
+    angle_dis = squareform(pdist(mangle,lambda u,v:np.arcsin(np.abs(np.sin(u-v)))/np.pi*180.0))
 
     # relative_mangle = np.arcsin(np.abs(np.sin(relative_mangle)))/np.pi * 180.0
     relative_mangle /=(np.pi/180.0)
@@ -95,25 +95,25 @@ if __name__ == '__main__':
     plot_col = 3
     plt.figure()
     plt.subplot(plot_row,plot_col,1)
-    plt.title('qeuler')
+    # plt.title('qeuler')
     for i in range(qeuler.shape[1]):
-        plt.plot(qeuler[:,i],'-+',label=str(i))
+        plt.plot(qeuler[:,i],'-+',label='qangle '+str(i))
     plt.legend();plt.grid()
 
 
     # plt.figure()
-    plt.subplot(plot_row,plot_col,2)
-    plt.title('pangle')
+    # plt.subplot(plot_row,plot_col,2)
+    # plt.title('pangle')
     for i in range(pangle.shape[1]):
-        plt.plot(pangle[:,i],'-+',label=str(i))
+        plt.plot(pangle[:,i],'-+',label='pangle '+str(i))
     plt.legend();plt.grid()
 
 
     # plt.figure()
-    plt.subplot(plot_row,plot_col,3)
-    plt.title('diff')
+    # plt.subplot(plot_row,plot_col,3)
+    # plt.title('diff')
     for i in range(pangle.shape[1]):
-        plt.plot(qeuler[:,i]-pangle[:,i],'-+',label=str(i))
+        plt.plot(qeuler[:,i]-pangle[:,i],'-+',label='diff '+str(i))
     plt.legend();plt.grid()
 
 
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     plt.grid()
     plt.legend()
 
-    plt.subplot(plot_row,plot_col,5)
+    plt.subplot(plot_row,plot_col,6)
     plt.title('angle distance')
     plt.imshow(angle_dis)
     plt.colorbar()

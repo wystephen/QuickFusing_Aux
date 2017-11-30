@@ -227,10 +227,10 @@ class MagDetector:
         # )*0.5
         self.tmp_mnza_mat[:,1:-1] = np.abs(self.tmp_mnza_mat[:,1:-1]-0.5*(
             self.tmp_mnza_mat[:,:-2]+self.tmp_mnza_mat[:,2:]
-        ))
+        ))/self.tmp_mnza_mat[:,1:-1]
         self.tmp_mnza_mat[1:-1,:] = np.abs(self.tmp_mnza_mat[1:-1,:]-0.5*(
             self.tmp_mnza_mat[:-2,:]+self.tmp_mnza_mat[2:,:]
-        ))
+        ))/self.tmp_mnza_mat[1:-1,:]
         self.tmp_mnza_mat[:,0] *= 0.0
         self.tmp_mnza_mat[:,-1] *= 0.0
         self.tmp_mnza_mat[0,:] *= 0.0

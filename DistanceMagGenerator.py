@@ -36,7 +36,7 @@ import time
 if __name__ == '__main__':
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/33/'
+    dir_name = '/home/steve/Data/II/20/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35
@@ -98,17 +98,17 @@ if __name__ == '__main__':
             # if mDetector.tmp_mnz_mat[i, j] < the_threshold and \
             #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
             #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
-            if mDetector.tmp_mnza_mat[i, j] > 3.0 and \
+            if mDetector.tmp_mnza_mat[i, j] > 5.0 and \
                     abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
                     abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
                 tttttttta=1
-                # ax.plot(
-                #     [v_data[i, 12], v_data[j, 12]],
-                #     [v_data[i, 13], v_data[j, 13]],
-                #     [v_data[i, 14], v_data[j, 14]],
-                #     'b--',
-                #     linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
-                # )
+                ax.plot(
+                    [v_data[i, 12], v_data[j, 12]],
+                    [v_data[i, 13], v_data[j, 13]],
+                    [v_data[i, 14], v_data[j, 14]],
+                    'b--',
+                    linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
+                )
     # plt.figure()
     # plt.title('mag att feature')
     # plt.imshow(mDetector.mag_att_feature.transpose())

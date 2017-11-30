@@ -126,7 +126,7 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_fft_feature = np.zeros([self.length_array.shape[0],
-                                         len(test_shape_fft) ],
+                                         len(test_shape_fft)],
                                         dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
@@ -189,9 +189,9 @@ class MagDetector:
         # for index in range(len(layer_array)):
         #     self.tmp_mnz_mat += self.GetZFFtDis(layer_array[index], False)
         mask_2d = np.array(
-            [0.0,-1.0/4.0,0.0],
-            [-1.0/4.0,1.0,-1.0/4.0],
-            [0.0,-1.0/4.0,0.0]
+            [0.0, -1.0 / 4.0, 0.0],
+            [-1.0 / 4.0, 1.0, -1.0 / 4.0],
+            [0.0, -1.0 / 4.0, 0.0]
         )
         # self.tmp_mnza_mat = convolve2d(self.tmp_mnza_mat,mask_2d)
 
@@ -235,13 +235,26 @@ class MagDetector:
         # self.tmp_mnza_mat[:,-1] *= 0.0
         # self.tmp_mnza_mat[0,:] *= 0.0
         # self.tmp_mnza_mat[-1,:] *= 0.0
+
+        rate = -1.0 / 12.0
+        # mask_2d = np.array(
+        #     [[0.0,-1.0/4.0,0.0],
+        #     [-1.0/4.0,1.0,-1.0/4.0],
+        #     [0.0,-1.0/4.0,0.0]]
+        # )
         mask_2d = np.array(
-            [[0.0,-1.0/4.0,0.0],
-            [-1.0/4.0,1.0,-1.0/4.0],
-            [0.0,-1.0/4.0,0.0]]
+            [
+                [0.0, rate, rate, rate, 0.0],
+                [rate, 0.0, rate, 0.0, rate],
+                [rate, rate, 1.0, rate, rate],
+                [rate, 0.0, rate, 0.0, rate],
+                [0.0, rate, rate, rate, 0.0]
+            ]
         )
+
         # self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
-        self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat,-1,mask_2d)
+        self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d)
+        self.tmp_mnza_mat = np.abs(self.tmp_mnza_mat)
 
         # np.where(self.tmp_mnza_mat>3,)
         # self.tmp_mnza_mat = np.vectorize(lambda x:x if x>3.0 else 3.0)(self.tmp_mnza_mat)
@@ -386,7 +399,7 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_z_fft_feature = np.zeros([self.length_array.shape[0],
-                                           len(test_shape_fft) ],
+                                           len(test_shape_fft)],
                                           dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):

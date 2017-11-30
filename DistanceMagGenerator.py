@@ -102,13 +102,13 @@ if __name__ == '__main__':
                     abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
                     abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
                 tttttttta=1
-                # ax.plot(
-                #     [v_data[i, 12], v_data[j, 12]],
-                #     [v_data[i, 13], v_data[j, 13]],
-                #     [v_data[i, 14], v_data[j, 14]],
-                #     'b--',
-                #     linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
-                # )
+                ax.plot(
+                    [v_data[i, 12], v_data[j, 12]],
+                    [v_data[i, 13], v_data[j, 13]],
+                    [v_data[i, 14], v_data[j, 14]],
+                    'b--',
+                    linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
+                )
     # plt.figure()
     # plt.title('mag att feature')
     # plt.imshow(mDetector.mag_att_feature.transpose())

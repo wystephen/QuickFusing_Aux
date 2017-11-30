@@ -98,7 +98,7 @@ if __name__ == '__main__':
     #         # if mDetector.tmp_mnz_mat[i, j] < the_threshold and \
     #         #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
     #         #                 abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
-            if mDetector.tmp_mnza_mat[i, j] > 50.0 and \
+            if mDetector.tmp_mnza_mat[i, j] > 5.0 and \
                     abs(mDetector.length_array[i] - mDetector.length_array[j]) > max_dis and \
                     abs(v_data[i, 11] - v_data[j, 11]) < 1e11:
                 tttttttta=1

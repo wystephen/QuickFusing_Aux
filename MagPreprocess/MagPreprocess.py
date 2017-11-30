@@ -236,26 +236,43 @@ class MagDetector:
         # self.tmp_mnza_mat[0,:] *= 0.0
         # self.tmp_mnza_mat[-1,:] *= 0.0
 
-        rate = -1.0 / 12.0
+        rate = -1.0 / 8.0
+
+        # mask_2d = np.array([
+        #     [rate,rate,rate],
+        #     [rate,1.0,rate],
+        #     [rate,rate,rate]
+        # ])
+
+        mask_2d1 = np.array(
+            [[0.0,-1.0/4.0,0.0],
+            [-1.0/4.0,1.0,-1.0/4.0],
+            [0.0,-1.0/4.0,0.0]]
+        )
         # mask_2d = np.array(
-        #     [[0.0,-1.0/4.0,0.0],
-        #     [-1.0/4.0,1.0,-1.0/4.0],
-        #     [0.0,-1.0/4.0,0.0]]
+        #     [
+        #         [0.0, rate, rate, rate, 0.0],
+        #         [rate, 0.0, rate, 0.0, rate],
+        #         [rate, rate, 1.0, rate, rate],
+        #         [rate, 0.0, rate, 0.0, rate],
+        #         [0.0, rate, rate, rate, 0.0]
+        #     ]
         # )
         mask_2d = np.array(
             [
-                [0.0, rate, rate, rate, 0.0],
-                [rate, 0.0, rate, 0.0, rate],
+                [0.0, 0.0, rate, 0.0, 0.0],
+                [0.0, 0.0, rate, 0.0, 0.0],
                 [rate, rate, 1.0, rate, rate],
-                [rate, 0.0, rate, 0.0, rate],
-                [0.0, rate, rate, rate, 0.0]
+                [0.0, 0.0, rate, 0.0, 0.0],
+                [0.0, 0.0, rate, 0.0, 0.0]
             ]
         )
-
         # self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
         self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d)
+        # self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d)
+        # self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d)
         self.tmp_mnza_mat = np.abs(self.tmp_mnza_mat)
-        self.tmp_mnza_mat = cv2.Canny(np.uint8(self.tmp_mnza_mat),15,35)
+        # self.tmp_mnza_mat = cv2.Canny(np.uint8(self.tmp_mnza_mat),10,35)
 
         # np.where(self.tmp_mnza_mat>3,)
         # self.tmp_mnza_mat = np.vectorize(lambda x:x if x>3.0 else 3.0)(self.tmp_mnza_mat)

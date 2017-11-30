@@ -36,9 +36,11 @@ import time
 if __name__ == '__main__':
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/20/'
+    dir_name = '/home/steve/Data/II/34/'
 
     ### key 16 17 20 ||| 28  30  (31)
+    ##  33 34 35
+
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
 
     '''

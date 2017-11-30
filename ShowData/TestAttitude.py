@@ -77,11 +77,15 @@ if __name__ == '__main__':
     mangle = mDetector.direct_mag_angle
     relative_mangle = mangle[:, 0] + pangle[:, 2] - qeuler[:, 2]
 
-    angle_dis = squareform(pdist(mangle, lambda u, v: np.arcsin(np.abs(np.sin(u - v))) / np.pi * 180.0))
+    angle_dis = squareform(pdist(mangle, lambda u, v: np.arcsin((np.sin(u - v))) / np.pi * 180.0))
 
     angle_dis_dis = squareform(pdist(angle_dis))
     # np.vectorize(lambda x:x if x<100 else x=100)(angle_dis_dis)
-    np.where(angle_dis_dis < 100, angle_dis_dis, 100)
+    # f = lambda x: x if x<100.0 else 100.0
+    # f = np.vectorize(f)
+    # angle_dis_dis = f(angle_dis_dis)
+    np.where(angle_dis_dis<200.0,angle_dis_dis,200.0)
+
 
     # relative_mangle = np.arcsin(np.abs(np.sin(relative_mangle)))/np.pi * 180.0
     relative_mangle /= (np.pi / 180.0)

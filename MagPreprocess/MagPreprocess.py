@@ -122,7 +122,7 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_fft_feature = np.zeros([self.length_array.shape[0],
-                                         len(test_shape_fft) + len(test_shape_fft)],
+                                         len(test_shape_fft) ],
                                         dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
@@ -135,8 +135,7 @@ class MagDetector:
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = fft(self.f(the_x))
-                self.mag_fft_feature[i, :len(yyt)] = yyt.real
-                self.mag_fft_feature[i, len(yyt):] = yyt.imag
+                self.mag_fft_feature[i, :] = yyt.real
 
         self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
 
@@ -353,7 +352,7 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_z_fft_feature = np.zeros([self.length_array.shape[0],
-                                           len(test_shape_fft) + len(test_shape_fft)],
+                                           len(test_shape_fft) ],
                                           dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
@@ -366,8 +365,7 @@ class MagDetector:
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = fft(self.zf(the_x))
-                self.mag_z_fft_feature[i, :len(yyt)] = yyt.real
-                self.mag_z_fft_feature[i, len(yyt):] = yyt.imag
+                self.mag_z_fft_feature[i, :] = yyt
 
         self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_z_fft_feature)
 

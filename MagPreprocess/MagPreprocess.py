@@ -222,19 +222,21 @@ class MagDetector:
             t_mat = t_mat / t_mat.mean()
             self.tmp_mnza_mat += t_mat
 
-        # self.tmp_mnza_mat[1:-1,1:-1] = self.tmp_mnza_mat[1:-1,1:-1]-(
-        #     self.tmp_mnza_mat[0:-2,1:-1]+self.tmp_mnza_mat[2:,1:-1]
-        # )*0.5
-        self.tmp_mnza_mat[:,1:-1] = np.abs(self.tmp_mnza_mat[:,1:-1]-0.5*(
-            self.tmp_mnza_mat[:,:-2]+self.tmp_mnza_mat[:,2:]
-        ))/self.tmp_mnza_mat[:,1:-1]
-        self.tmp_mnza_mat[1:-1,:] = np.abs(self.tmp_mnza_mat[1:-1,:]-0.5*(
-            self.tmp_mnza_mat[:-2,:]+self.tmp_mnza_mat[2:,:]
-        ))/self.tmp_mnza_mat[1:-1,:]
-        self.tmp_mnza_mat[:,0] *= 0.0
-        self.tmp_mnza_mat[:,-1] *= 0.0
-        self.tmp_mnza_mat[0,:] *= 0.0
-        self.tmp_mnza_mat[-1,:] *= 0.0
+        # # self.tmp_mnza_mat[1:-1,1:-1] = self.tmp_mnza_mat[1:-1,1:-1]-(
+        # #     self.tmp_mnza_mat[0:-2,1:-1]+self.tmp_mnza_mat[2:,1:-1]
+        # # )*0.5
+        # self.tmp_mnza_mat[:,1:-1] = np.abs(self.tmp_mnza_mat[:,1:-1]-0.5*(
+        #     self.tmp_mnza_mat[:,:-2]+self.tmp_mnza_mat[:,2:]
+        # ))/self.tmp_mnza_mat[:,1:-1]
+        # self.tmp_mnza_mat[1:-1,:] = np.abs(self.tmp_mnza_mat[1:-1,:]-0.5*(
+        #     self.tmp_mnza_mat[:-2,:]+self.tmp_mnza_mat[2:,:]
+        # ))/self.tmp_mnza_mat[1:-1,:]
+        # self.tmp_mnza_mat[:,0] *= 0.0
+        # self.tmp_mnza_mat[:,-1] *= 0.0
+        # self.tmp_mnza_mat[0,:] *= 0.0
+        # self.tmp_mnza_mat[-1,:] *= 0.0
+
+        self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
 
         # np.where(self.tmp_mnza_mat>3,)
         # self.tmp_mnza_mat = np.vectorize(lambda x:x if x>3.0 else 3.0)(self.tmp_mnza_mat)

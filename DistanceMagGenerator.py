@@ -57,11 +57,11 @@ if __name__ == '__main__':
                                           v_data[:, 12:],
                                           v_data[:, 11])
 
-    mDetector.Step2Length()
+    mDetector.Step2Length(False)
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetDirectDis(20.0)
-    mDetector.GetZValue(True)
+    mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)
     # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
@@ -116,4 +116,4 @@ if __name__ == '__main__':
     plt.title('hist of dis')
     plt.hist(mDetector.tmp_mnza_mat.reshape([-1]), bins=60)
 
-    # plt.show()
+    plt.show()

@@ -30,10 +30,16 @@ import matplotlib.pylab as plt
 
 from scipy import interpolate
 from scipy.fftpack import fft, ifft
+from scipy.spatial.distance import pdist,squareform
 import numexpr as ne
+
+
 
 from transforms3d.euler import euler2mat, mat2euler, quat2axangle,quat2mat,quat2euler
 
+
+# def dist(mat, i, j):
+#     return np.linalg.norm(mat[i, :] - mat[j, :])
 
 
 class MagDetector:
@@ -84,6 +90,8 @@ class MagDetector:
             plt.legend()
             plt.grid()
 
+
+
     def ComputeDistanceFeatureSpace(self, feature_mat, ifshow=True):
         '''
         compute distance in feature space according to feature matrix
@@ -93,12 +101,21 @@ class MagDetector:
         '''
         dis_mat = np.zeros([feature_mat.shape[0], feature_mat.shape[0]])
 
-        for i in range(feature_mat.shape[0]):
-            for j in range(i, feature_mat.shape[0]):
-                dis_mat[i, j] = np.linalg.norm(
-                    feature_mat[i, :] - feature_mat[j, :]
-                )
-                dis_mat[j, i] = dis_mat[i, j]
+        # dist  = lambda mat,i,j:return np.linalg.norm(mat[i,:]-mat[j,:])
+
+        # for i in range(feature_mat.shape[0]):
+        #     for j in range(i, feature_mat.shape[0]):
+        #         dis_mat[i, j] = np.linalg.norm(
+        #             feature_mat[i, :] - feature_mat[j, :]
+        #         )
+        #         dis_mat[j, i] = dis_mat[i, j]
+
+        # for feature_mat, feature_mat, dis_mat in it:
+        #     dis_mat[...]
+        # dis_mat = np.linalg.norm(feature_mat[:, None] - feature_mat, axis=-1)
+        # sp.spatial.d
+        # print('feature mat shape', feature_mat.shape)
+        dis_mat = squareform(pdist(feature_mat))
 
         return dis_mat
 

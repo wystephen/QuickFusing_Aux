@@ -35,6 +35,8 @@ import timeit
 
 from transforms3d.euler import quat2euler
 
+from scipy.spatial.distance import *
+
 if __name__ == '__main__':
     dir_name = '/home/steve/Data/II/30/'
 
@@ -75,6 +77,9 @@ if __name__ == '__main__':
 
     mangle = mDetector.direct_mag_angle
     relative_mangle = mangle[:,0]-pangle[:,2]+qeuler[:,2]
+
+
+    angle_dis = squareform(pdist(mangle))
 
     # relative_mangle = np.arcsin(np.abs(np.sin(relative_mangle)))/np.pi * 180.0
     relative_mangle /=(np.pi/180.0)
@@ -125,6 +130,11 @@ if __name__ == '__main__':
     plt.plot(relative_mangle,label='relative mag angle')
     plt.grid()
     plt.legend()
+
+    plt.subplot(plot_row,plot_col,5)
+    plt.title('angle distance')
+    plt.imshow(angle_dis)
+    plt.colorbar()
 
 
 

@@ -30,12 +30,10 @@ import matplotlib.pylab as plt
 
 from scipy import interpolate
 from scipy.fftpack import fft, ifft
-from scipy.spatial.distance import pdist,squareform
+from scipy.spatial.distance import pdist, squareform
 import numexpr as ne
 
-
-
-from transforms3d.euler import euler2mat, mat2euler, quat2axangle,quat2mat,quat2euler
+from transforms3d.euler import euler2mat, mat2euler, quat2axangle, quat2mat, quat2euler
 
 
 # def dist(mat, i, j):
@@ -61,7 +59,7 @@ class MagDetector:
         self.pressure_data = pressure
         self.acc_data = acc_data
 
-    def Step2Length(self,ifshow=True):
+    def Step2Length(self, ifshow=True):
         '''
 
         :param length:
@@ -89,8 +87,6 @@ class MagDetector:
             plt.plot(self.length_array, self.mag_norm, 'b*', label='source mag norm')
             plt.legend()
             plt.grid()
-
-
 
     def ComputeDistanceFeatureSpace(self, feature_mat, ifshow=True):
         '''
@@ -126,20 +122,21 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_fft_feature = np.zeros([self.length_array.shape[0],
-                                         len(test_shape_fft)],
+                                         len(test_shape_fft) + len(test_shape_fft)],
                                         dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
 
             if self.length_array[i] < length / 2.0 or \
-                            self.length_array[i] > self.length_array[-1] - length / 2.0:
+                    self.length_array[i] > self.length_array[-1] - length / 2.0:
                 continue
             else:
                 the_x = np.linspace(self.length_array[i] - length / 2.0,
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = fft(self.f(the_x))
-                self.mag_fft_feature[i, :] = yyt
+                self.mag_fft_feature[i, :len(yyt)] = yyt.real
+                self.mag_fft_feature[i, len(yyt):] = yyt.imag
 
         self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_fft_feature)
 
@@ -212,7 +209,7 @@ class MagDetector:
             self.tmp_mnza_mat += t_mat
 
         for index in range(len(layer_array)):
-            t_mat = self.GetRelativeAttDis(layer_array[index],False)
+            t_mat = self.GetRelativeAttDis(layer_array[index], False)
             t_mat = t_mat / t_mat.mean()
             self.tmp_mnza_mat += t_mat
 
@@ -239,7 +236,7 @@ class MagDetector:
         # mag src singal ~
         for i in range(self.mag_src_signal.shape[0]):
             if self.length_array[i] < length / 2.0 or \
-                            self.length_array[i] > self.length_array[-1] - length / 2.0:
+                    self.length_array[i] > self.length_array[-1] - length / 2.0:
                 continue
             else:
                 the_x = np.linspace(self.length_array[i] - length / 2.0,
@@ -255,7 +252,7 @@ class MagDetector:
         for i in range(self.mag_src_signal.shape[0]):
             for j in range(i, self.mag_src_signal.shape[0]):
                 if self.length_array[i] < length / 2.0 or \
-                                self.length_array[i] > self.length_array[-1] - length / 2.0:
+                        self.length_array[i] > self.length_array[-1] - length / 2.0:
                     continue
                 else:
                     the_x = np.linspace(self.length_array[i] - length / 2.0,
@@ -284,7 +281,7 @@ class MagDetector:
         tmp_acc_data = np.zeros_like(self.acc_data)
         self.convert_mag_data = np.zeros_like(self.mag_data)
         self.angle = np.zeros([self.mag_data.shape[0], 1])
-        self.direct_mag_angle = np.zeros([self.mag_data.shape[0],1])
+        self.direct_mag_angle = np.zeros([self.mag_data.shape[0], 1])
 
         for i in range(self.acc_data.shape[0]):
             angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)
@@ -297,7 +294,7 @@ class MagDetector:
 
             self.angle[i, 0] = np.arcsin(
                 self.convert_mag_data[i, 0] / np.linalg.norm(self.convert_mag_data[i, :2])) / np.pi
-            self.direct_mag_angle[i,0] = np.arctan2(self.convert_mag_data[i,1],self.convert_mag_data[i,0])
+            self.direct_mag_angle[i, 0] = np.arctan2(self.convert_mag_data[i, 1], self.convert_mag_data[i, 0])
 
         self.zf = interpolate.interp1d(
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')
@@ -356,20 +353,21 @@ class MagDetector:
         # self.mag_fft_list = list(self.length_array.shape[0])
         test_shape_fft = fft(np.linspace(0, length, int(length / 0.5)))
         self.mag_z_fft_feature = np.zeros([self.length_array.shape[0],
-                                           len(test_shape_fft)],
+                                           len(test_shape_fft) + len(test_shape_fft)],
                                           dtype=np.complex)
 
         for i in range(0, self.length_array.shape[0]):
 
             if self.length_array[i] < length / 2.0 or \
-                            self.length_array[i] > self.length_array[-1] - length / 2.0:
+                    self.length_array[i] > self.length_array[-1] - length / 2.0:
                 continue
             else:
                 the_x = np.linspace(self.length_array[i] - length / 2.0,
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = fft(self.zf(the_x))
-                self.mag_z_fft_feature[i, :] = yyt
+                self.mag_z_fft_feature[i, :len(yyt)] = yyt.real
+                self.mag_z_fft_feature[i, len(yyt):] = yyt.imag
 
         self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_z_fft_feature)
 
@@ -390,7 +388,7 @@ class MagDetector:
 
         return self.tmp_fft_mat
 
-    def GetRelativeAttDis(self, length,ifshow=True):
+    def GetRelativeAttDis(self, length, ifshow=True):
         tx = np.linspace(0.0, self.length_array[-1], num=self.length_array.shape[0] * 10)
 
         # self.mag_fft_list = list(self.length_array.shape[0])
@@ -401,27 +399,26 @@ class MagDetector:
         for i in range(0, self.length_array.shape[0]):
 
             if self.length_array[i] < length / 2.0 or \
-                            self.length_array[i] > self.length_array[-1] - length / 2.0:
+                    self.length_array[i] > self.length_array[-1] - length / 2.0:
                 continue
             else:
                 the_x = np.linspace(self.length_array[i] - length / 2.0,
                                     self.length_array[i] + length / 2.0,
                                     int(length / 0.5))
                 yyt = (self.af(the_x))
-                self.mag_att_feature[i, :] = np.arcsin(np.abs(np.sin(yyt-self.af(self.length_array[i]))))/yyt.std()
-
+                self.mag_att_feature[i, :] = np.arcsin(np.abs(np.sin(yyt - self.af(self.length_array[i])))) / yyt.std()
 
         # self.tmp_fft_mat = self.ComputeDistanceFeatureSpace(self.mag_att_fft_feature)
         self.tmp_fft_mat = np.zeros([self.mag_att_feature.shape[0],
                                      self.mag_att_feature.shape[0]])
         for i in range(self.tmp_fft_mat.shape[0]):
-            for j in range(i,self.tmp_fft_mat.shape[1]):
-                self.tmp_fft_mat[i,j] = np.linalg.norm(
+            for j in range(i, self.tmp_fft_mat.shape[1]):
+                self.tmp_fft_mat[i, j] = np.linalg.norm(
                     np.arcsin(np.abs(np.sin(
                         (self.mag_att_feature[i, :] - self.mag_att_feature[j, :])
                     )))
                 )
-                self.tmp_fft_mat[j,i] = self.tmp_fft_mat[i,j]
+                self.tmp_fft_mat[j, i] = self.tmp_fft_mat[i, j]
 
         if ifshow:
             plt.figure()
@@ -442,6 +439,3 @@ class MagDetector:
 
     def ConvertMagAttitude(self):
         print('empty ...')
-
-
-

@@ -37,7 +37,7 @@ from transforms3d.euler import euler2mat, mat2euler, quat2axangle, quat2mat, qua
 
 from scipy.signal import convolve2d
 
-# import cv2
+import cv2
 
 
 # def dist(mat, i, j):
@@ -235,8 +235,13 @@ class MagDetector:
         # self.tmp_mnza_mat[:,-1] *= 0.0
         # self.tmp_mnza_mat[0,:] *= 0.0
         # self.tmp_mnza_mat[-1,:] *= 0.0
-
-        self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
+        mask_2d = np.array(
+            [[0.0,-1.0/4.0,0.0],
+            [-1.0/4.0,1.0,-1.0/4.0],
+            [0.0,-1.0/4.0,0.0]]
+        )
+        # self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
+        self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat,-1,mask_2d)
 
         # np.where(self.tmp_mnza_mat>3,)
         # self.tmp_mnza_mat = np.vectorize(lambda x:x if x>3.0 else 3.0)(self.tmp_mnza_mat)

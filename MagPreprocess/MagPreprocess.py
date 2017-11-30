@@ -35,6 +35,10 @@ import numexpr as ne
 
 from transforms3d.euler import euler2mat, mat2euler, quat2axangle, quat2mat, quat2euler
 
+from scipy.signal import convolve2d
+
+# import cv2
+
 
 # def dist(mat, i, j):
 #     return np.linalg.norm(mat[i, :] - mat[j, :])
@@ -182,8 +186,14 @@ class MagDetector:
             else:
                 self.tmp_mnz_mat += t_mat
 
-        for index in range(len(layer_array)):
-            self.tmp_mnz_mat += self.GetZFFtDis(layer_array[index], False)
+        # for index in range(len(layer_array)):
+        #     self.tmp_mnz_mat += self.GetZFFtDis(layer_array[index], False)
+        mask_2d = np.array(
+            [0.0,-1.0/4.0,0.0],
+            [-1.0/4.0,1.0,-1.0/4.0],
+            [0.0,-1.0/4.0,0.0]
+        )
+        # self.tmp_mnza_mat = convolve2d(self.tmp_mnza_mat,mask_2d)
 
         if ifshow:
             plt.figure()
@@ -211,6 +221,13 @@ class MagDetector:
             t_mat = self.GetRelativeAttDis(layer_array[index], False)
             t_mat = t_mat / t_mat.mean()
             self.tmp_mnza_mat += t_mat
+
+        # self.tmp_mnza_mat[1:-1,1:-1] = self.tmp_mnza_mat[1:-1,1:-1]-(
+        #     self.tmp_mnza_mat[0:-2,1:-1]+self.tmp_mnza_mat[2:,1:-1]
+        # )*0.5
+        self.tmp_mnza_mat[:,1:-1] = self.tmp_mnza_mat[:,1:-1]-0.5*(
+            self.tmp_mnza_mat[:,:-2]+self.tmp_mnza_mat[:,2:]
+        )
 
         if ifshow:
             plt.figure()

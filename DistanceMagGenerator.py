@@ -116,4 +116,4 @@ if __name__ == '__main__':
     plt.title('hist of dis')
     plt.hist(mDetector.tmp_mnza_mat.reshape([-1]), bins=60)
 
-    plt.show()
+    # plt.show()

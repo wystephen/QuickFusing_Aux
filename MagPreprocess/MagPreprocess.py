@@ -30,6 +30,7 @@ import matplotlib.pylab as plt
 
 from scipy import interpolate
 from scipy.fftpack import fft, ifft
+import numexpr as ne
 
 from transforms3d.euler import euler2mat, mat2euler, quat2axangle,quat2mat,quat2euler
 

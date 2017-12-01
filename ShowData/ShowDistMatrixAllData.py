@@ -37,12 +37,12 @@ import time
 if __name__ == '__main__':
 
     dir_list = [16,17,20,28,34,35]
-    dir_list = [16,17]
+    # dir_list = [16,17]
     plt.figure()
     plot_rows = 3
     plot_cols = len(dir_list)
     # plt.subplot()
-    plt.figure()
+    # plt.figure()
     for dir_i in range(len(dir_list)):
         dir_str = dir_list[dir_i]
         dir_name = '/home/steve/Data/II/'+str(dir_str)+"/"
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         # mDetector.GetZFFtDis(20.0)
         # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
         # mDetector.GetRelativeAttDis(50.0)
-        mDetector.MultiLayerANZFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
+        mDetector.MultiLayerANZFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0],False)
 
         plt.subplot(plot_rows,plot_cols,dir_i+1)
         plt.title(str(dir_str)+' trace')

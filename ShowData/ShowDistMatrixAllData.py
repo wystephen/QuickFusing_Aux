@@ -42,6 +42,7 @@ if __name__ == '__main__':
     plot_rows = 3
     plot_cols = len(dir_list)
     # plt.subplot()
+    plt.figure()
     for dir_i in range(len(dir_list)):
         dir_str = dir_list[dir_i]
         dir_name = '/home/steve/Data/II/'+str(dir_str)+"/"

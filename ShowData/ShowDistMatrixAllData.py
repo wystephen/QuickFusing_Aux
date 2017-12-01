@@ -76,7 +76,7 @@ if __name__ == '__main__':
         plt.grid()
         plt.subplot(plot_rows,plot_cols,dir_i+plot_cols+1)
         plt.title(str(dir_str)+' dis_matrix')
-        plt.imshow(mDetector.tmp_mnza_mat)
+        plt.imshow(np.log(mDetector.tmp_mnza_mat))
         plt.colorbar()
 
 

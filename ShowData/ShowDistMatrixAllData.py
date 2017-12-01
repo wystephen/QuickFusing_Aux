@@ -37,13 +37,14 @@ import time
 if __name__ == '__main__':
 
     dir_list = [16,17,20,28,34,35]
+    dir_list = [16,17]
     plt.figure()
     plot_rows = 3
     plot_cols = len(dir_list)
     # plt.subplot()
     for dir_i in range(len(dir_list)):
         dir_str = dir_list[dir_i]
-        dir_name = 'home/steve/Data/II/'+str(dir_str)+"/"
+        dir_name = '/home/steve/Data/II/'+str(dir_str)+"/"
 
         v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
 
@@ -69,11 +70,11 @@ if __name__ == '__main__':
         mDetector.MultiLayerANZFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
 
         plt.subplot(plot_rows,plot_cols,dir_i+1)
-        plt.title(dir_str+' trace')
+        plt.title(str(dir_str)+' trace')
         plt.plot(v_data[:,12],v_data[:,13],'r--+')
         plt.grid()
-        plt.subplot(plot_rows,plot_cols,dir_i+1+plot_cols)
-        plt.title(dir_str+' dis_matrix')
+        plt.subplot(plot_rows,plot_cols,dir_i+plot_cols+1)
+        plt.title(str(dir_str)+' dis_matrix')
         plt.imshow(mDetector.tmp_mnza_mat)
         plt.colorbar()
 

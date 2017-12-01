@@ -30,13 +30,17 @@ from mpl_toolkits.mplot3d import Axes3D
 
 from MagPreprocess import MagPreprocess
 
+import seaborn as sns
+
+
 import timeit
 import time
 
 if __name__ == '__main__':
+    sns.set('paper','white')
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/33/'
+    dir_name = '/home/steve/Data/II/17/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35
@@ -52,7 +56,8 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], 'r-*')
+    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*',label='trace 3d \\alpha ')
+    ax.legend()
 
     mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],
                                           v_data[:, 2:5],

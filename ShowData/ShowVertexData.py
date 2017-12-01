@@ -84,6 +84,7 @@ if __name__ == '__main__':
             norm_dis_matrix[i, j] = np.linalg.norm(np.linalg.norm(v_data[i - step_len:i + step_len, 8:10], axis=1) -
                                                    np.linalg.norm(v_data[j - step_len:j + step_len, 8:10], axis=1))
 
+
     plt.imshow(norm_dis_matrix)
     plt.colorbar()
 

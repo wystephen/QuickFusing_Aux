@@ -203,24 +203,33 @@ class MagDetector:
 
     def MultiLayerANZFFt(self, layer_array, ifshow=True):
         print('MultiLayerANZFFT', layer_array)
+        self.tmp_mnza_mat = None
+        # t_mat = self.Get
+
+        # for index in range(len(layer_array)):
+        #     t_mat = self.GetNormFFTDis(layer_array[index], False)
+        #     t_mat = t_mat / t_mat.mean()
+        #     if index == 0:
+        #         self.tmp_mnza_mat = t_mat
+        #     else:
+        #         self.tmp_mnza_mat += t_mat
+        #
+        # for index in range(len(layer_array)):
+        #     t_mat = self.GetZFFtDis(layer_array[index], False)
+        #     t_mat = t_mat / t_mat.mean()
+        #     if self.tmp_mnza_mat is None:
+        #         self.tmp_mnza_mat = t_mat
+        #     else:
+        #         self.tmp_mnza_mat += t_mat
 
         for index in range(len(layer_array)):
-            t_mat = self.GetNormFFTDis(layer_array[index], False)
+
+            t_mat = self.GetRelativeAttDis(layer_array[index], False)
             t_mat = t_mat / t_mat.mean()
-            if index == 0:
+            if self.tmp_mnza_mat is None:
                 self.tmp_mnza_mat = t_mat
             else:
                 self.tmp_mnza_mat += t_mat
-
-        for index in range(len(layer_array)):
-            t_mat = self.GetZFFtDis(layer_array[index], False)
-            t_mat = t_mat / t_mat.mean()
-            self.tmp_mnza_mat += t_mat
-
-        for index in range(len(layer_array)):
-            t_mat = self.GetRelativeAttDis(layer_array[index], False)
-            t_mat = t_mat / t_mat.mean()
-            self.tmp_mnza_mat += t_mat
 
         # # self.tmp_mnza_mat[1:-1,1:-1] = self.tmp_mnza_mat[1:-1,1:-1]-(
         # #     self.tmp_mnza_mat[0:-2,1:-1]+self.tmp_mnza_mat[2:,1:-1]

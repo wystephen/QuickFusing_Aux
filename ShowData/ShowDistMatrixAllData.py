@@ -32,6 +32,7 @@ import matplotlib
 
 from palettable.colorbrewer.sequential import *
 import seaborn as sns
+from publib import set_style
 
 from MagPreprocess import MagPreprocess
 
@@ -41,11 +42,12 @@ import time
 if __name__ == '__main__':
 
 
-    sns.set(style='white')
-    sns.set_context("paple")
+    # set_style("poster")
+    sns.set(style='whitegrid')
+    sns.set_context("paper")
     # matplotlib.interactive(True)
     dir_list = [16,17,20,28,34,35]
-    dir_list = [16,17,20,28]
+    # dir_list = [16,17,20,28]
     plt.figure()
     plot_rows = 2
     plot_cols = len(dir_list)
@@ -83,7 +85,7 @@ if __name__ == '__main__':
         plt.subplot(plot_rows,plot_cols,dir_i+1)
         plt.title(str(dir_str)+' trace')
         plt.plot(v_data[:,12],v_data[:,13],'--*')
-        plt.grid()
+        # plt.grid()
         plt.subplot(plot_rows,plot_cols,dir_i+plot_cols+1)
         plt.title(str(dir_str)+' dis_matrix')
         plt.imshow((+mDetector.tmp_mnza_mat))

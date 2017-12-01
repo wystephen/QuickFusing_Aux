@@ -28,6 +28,7 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib
 
 from MagPreprocess import MagPreprocess
 
@@ -36,11 +37,15 @@ import time
 
 if __name__ == '__main__':
 
+
+    matplotlib.interactive(True)
     dir_list = [16,17,20,28,34,35]
     # dir_list = [16,17]
     plt.figure()
-    plot_rows = 3
+    plot_rows = 2
     plot_cols = len(dir_list)
+    plt.ion()
+    plt.show()
     # plt.subplot()
     # plt.figure()
     for dir_i in range(len(dir_list)):
@@ -76,9 +81,14 @@ if __name__ == '__main__':
         plt.grid()
         plt.subplot(plot_rows,plot_cols,dir_i+plot_cols+1)
         plt.title(str(dir_str)+' dis_matrix')
-        plt.imshow(np.log(mDetector.tmp_mnza_mat))
+        plt.imshow(np.exp(1.0+mDetector.tmp_mnza_mat))
         plt.colorbar()
+        # if dir_i is 0:
+        # plt.show(block=False)
+        plt.draw()
+        plt.pause(0.001)
 
 
 
-    plt.show()
+    plt.pause(1000000000000)
+    # plt.waitforbuttonpress()

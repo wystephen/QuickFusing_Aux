@@ -212,15 +212,15 @@ class MagDetector:
             else:
                 self.tmp_mnza_mat += t_mat
 
-        # for index in range(len(layer_array)):
-        #     t_mat = self.GetZFFtDis(layer_array[index], False)
-        #     t_mat = t_mat / t_mat.mean()
-        #     self.tmp_mnza_mat += t_mat
+        for index in range(len(layer_array)):
+            t_mat = self.GetZFFtDis(layer_array[index], False)
+            t_mat = t_mat / t_mat.mean()
+            self.tmp_mnza_mat += t_mat
 
-        # for index in range(len(layer_array)):
-        #     t_mat = self.GetRelativeAttDis(layer_array[index], False)
-        #     t_mat = t_mat / t_mat.mean()
-        #     self.tmp_mnza_mat += t_mat
+        for index in range(len(layer_array)):
+            t_mat = self.GetRelativeAttDis(layer_array[index], False)
+            t_mat = t_mat / t_mat.mean()
+            self.tmp_mnza_mat += t_mat
 
         # # self.tmp_mnza_mat[1:-1,1:-1] = self.tmp_mnza_mat[1:-1,1:-1]-(
         # #     self.tmp_mnza_mat[0:-2,1:-1]+self.tmp_mnza_mat[2:,1:-1]

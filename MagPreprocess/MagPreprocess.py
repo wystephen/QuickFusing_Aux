@@ -245,9 +245,9 @@ class MagDetector:
         # ])
 
         mask_2d1 = np.array(
-            [[0.0,-1.0/4.0,0.0],
-            [-1.0/4.0,1.0,-1.0/4.0],
-            [0.0,-1.0/4.0,0.0]]
+            [[0.0, -1.0 / 4.0, 0.0],
+             [-1.0 / 4.0, 1.0, -1.0 / 4.0],
+             [0.0, -1.0 / 4.0, 0.0]]
         )
         # mask_2d = np.array(
         #     [
@@ -268,8 +268,8 @@ class MagDetector:
             ]
         )
 
-        mask_2d2 = np.ones([10,10])*(-1.0/99.0)
-        mask_2d2[5,5] = 1.0
+        mask_2d2 = np.ones([10, 10]) * (-1.0 / 99.0)
+        mask_2d2[5, 5] = 1.0
         # self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
         self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
         self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d2)

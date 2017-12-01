@@ -74,8 +74,8 @@ if __name__ == '__main__':
     max_dis = 30.0
 
     for i in range(0, mDetector.tmp_fft_mat.shape[0]):
-        for j in range(i+1, mDetector.tmp_fft_mat.shape[0]):
-            tttttttta=1
+        for j in range(i + 1, mDetector.tmp_fft_mat.shape[0]):
+            tttttttta = 1
     #         # if mDetector.tmp_fft_mat[i, j] < the_threshold and \
     #         #                 abs(mDetector.length_array[i] - mDetector.length_array[j]) > 50.0 and \
     #         #                 mDetector.tmp_fft_mat[i, j] > 2.0 and \

@@ -281,6 +281,8 @@ class MagDetector:
         mask_2d2[5, 5] = 1.0
         # self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
         self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
+        self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
+        self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
         # self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d2)
         # self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d)
         self.tmp_mnza_mat = (np.abs(self.tmp_mnza_mat))

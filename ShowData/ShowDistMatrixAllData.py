@@ -46,10 +46,10 @@ if __name__ == '__main__':
     sns.set(style='whitegrid')
     sns.set_context("paper")
     # matplotlib.interactive(True)
-    dir_list = [16,17,20,28,34,35]
+    dir_list = [16,17,20,28,33,34,35]
     # dir_list = [16,17,20,28]
     plt.figure()
-    plot_rows = 2
+    plot_rows = 3
     plot_cols = len(dir_list)
     # plt.ion()
     # plt.show()
@@ -74,7 +74,7 @@ if __name__ == '__main__':
         mDetector.Step2Length(False)
         # mDetector.GetFFTDis(20.0)
         # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
-        # mDetector.GetDirectDis(20.0)
+        mDetector.GetDirectDis(20.0,False)
         mDetector.GetZValue(False)
         mDetector.ConvertMagAttitude()
         # mDetector.GetZFFtDis(20.0)
@@ -88,7 +88,11 @@ if __name__ == '__main__':
         # plt.grid()
         plt.subplot(plot_rows,plot_cols,dir_i+plot_cols+1)
         plt.title(str(dir_str)+' dis_matrix')
-        plt.imshow((+mDetector.tmp_mnza_mat))
+        plt.imshow((mDetector.tmp_mnza_mat))
+        plt.colorbar()
+        plt.subplot(plot_rows,plot_cols,dir_i+plot_cols*2+1)
+        plt.title(str(dir_str)+' src dis matrix')
+        plt.imshow(mDetector.tmp_src_mat)
         plt.colorbar()
         # if dir_i is 0:
         # plt.show(block=False)

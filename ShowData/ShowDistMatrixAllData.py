@@ -81,14 +81,19 @@ if __name__ == '__main__':
         # mDetector.GetRelativeAttDis(50.0)
         mDetector.MultiLayerANZFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0], False)
 
+        # trace in x-o-y
         plt.subplot(plot_rows, plot_cols, dir_i + 1)
         plt.title(str(dir_str) + ' trace')
         plt.plot(v_data[:, 12], v_data[:, 13], '--*')
         # plt.grid()
+
+        # distance of fft features
         plt.subplot(plot_rows, plot_cols, dir_i + plot_cols + 1)
         plt.title(str(dir_str) + ' dis_matrix')
         plt.imshow((mDetector.tmp_mnza_mat))
         plt.colorbar()
+
+        # direct euler distance
         plt.subplot(plot_rows, plot_cols, dir_i + plot_cols * 2 + 1)
         plt.title(str(dir_str) + ' src dis matrix')
         plt.imshow(mDetector.tmp_src_mat)

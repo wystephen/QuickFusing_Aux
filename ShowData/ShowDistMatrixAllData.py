@@ -91,7 +91,7 @@ if __name__ == '__main__':
         # distance of fft features
         plt.subplot(plot_rows, plot_cols, dir_i + plot_cols + 1)
         plt.title(str(dir_str) + ' dis_matrix')
-        mDetector.tmp_mnza_mat = np.where(mDetector.tmp_mnza_mat > 20, 20, mDetector.tmp_mnza_mat)
+        # mDetector.tmp_mnza_mat = np.where(mDetector.tmp_mnza_mat > 20, 20, mDetector.tmp_mnza_mat)
         plt.imshow((mDetector.tmp_mnza_mat))
         plt.colorbar()
 
@@ -106,15 +106,28 @@ if __name__ == '__main__':
         # plt.pause(0.001)
 
     #
+    print('begin cv2')
     import cv2
 
-    cv2.namedWindow("the")
-    cv2.createTrackbar('threshold', 'the', 0, 100, lambda x: x)
+    cv2.namedWindow('the')
+    cv2.namedWindow('the2')
+    cv2.createTrackbar('threshold', 'the2', 0, 500, lambda x: x)
+
+    t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
-        t = np.where(mDetector.tmp_mnza_mat > float(cv2.getTrackbarPos('threshold', 'the')) / 10.0,
-                     float(cv2.getTrackbarPos('threshold', 'the')) / 10.0,
-                     mDetector.tmp_mnza_mat)
-        cv2.imshow('the', t)
+        t_v = float(cv2.getTrackbarPos('threshold', 'the2')) / 10.0
+        t = np.where(t_mat > t_v,
+                     t_v,
+                     t_mat)
+        # t = cv2.cvtColor(t,cv2.CV_8S)
+        plt.figure(2)
+        plt.imshow(t)
+        # plt.savefig('./ttt.png')
+        # t_figure = cv2.imread('./ttt.png')
+        cv2.imshow('the',t/t.max())
+        # plt.show()
+        # cv2.imshow('the', t)
+        cv2.waitKey(10)
     # plt.pause(1000000000000)
     # plt.waitforbuttonpress()
-    plt.show()
+    # plt.show()

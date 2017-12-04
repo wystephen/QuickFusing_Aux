@@ -360,6 +360,7 @@ class MagDetector:
         self.convert_mag_data = np.zeros_like(self.mag_data)
         self.angle = np.zeros([self.mag_data.shape[0], 1])
         self.direct_mag_angle = np.zeros([self.mag_data.shape[0], 1])
+        self.rate_of_x = np.zeros([self.mag_data.shape[0],1])
 
         for i in range(self.acc_data.shape[0]):
             angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)

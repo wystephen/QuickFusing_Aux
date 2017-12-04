@@ -45,7 +45,7 @@ if __name__ == '__main__':
     # sns.set_context("paper")
 
     # dir_list = [16, 17, 20, 28, 33, 34, 35]
-    dir_list = [20]
+    dir_list = [34]
     # dir_list = [28,35]
     # dir_list = [16,17,20,28]
     plt.figure()

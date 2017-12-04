@@ -77,9 +77,9 @@ class MagDetector:
             self.length_array[i] = self.length_array[i - 1] + \
                                    np.linalg.norm(self.pose_data[i, :]
                                                   - self.pose_data[i - 1, :])
-
+        # ['zero', 'slinear', 'quadratic', 'cubic']
         self.f = interpolate.interp1d(self.length_array
-                                      [:, 0], self.mag_norm / self.mag_norm.mean(), kind='linear')
+                                      [:, 0], self.mag_norm / self.mag_norm.mean(), kind='slinear')
 
         if ifshow:
             plt.figure()

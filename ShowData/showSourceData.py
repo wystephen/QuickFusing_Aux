@@ -28,7 +28,7 @@ import scipy as sp
 import numpy as np
 
 if __name__ == '__main__':
-    dir_nema = '/home/steve/Data/II/31/'
+    dir_nema = '/home/steve/Data/II/35/'
     imudata = np.loadtxt(dir_nema + 'imu2.txt', delimiter=',')
 
     acc_cent = [0.0195, 0.0154, -0.0877]

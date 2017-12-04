@@ -84,8 +84,7 @@ if __name__ == '__main__':
     # f = lambda x: x if x<100.0 else 100.0
     # f = np.vectorize(f)
     # angle_dis_dis = f(angle_dis_dis)
-    np.where(angle_dis_dis<200.0,angle_dis_dis,200.0)
-
+    np.where(angle_dis_dis < 200.0, angle_dis_dis, 200.0)
 
     # relative_mangle = np.arcsin(np.abs(np.sin(relative_mangle)))/np.pi * 180.0
     relative_mangle /= (np.pi / 180.0)
@@ -141,6 +140,16 @@ if __name__ == '__main__':
     plt.subplot(plot_row, plot_col, 2)
     plt.title('dis of dis')
     plt.imshow(angle_dis_dis)
+    plt.colorbar()
+
+    plt.subplot(plot_row, plot_col, 3)
+    plt.title('rate of x')
+    # plt.imshow(mDetector.rate_of_x)
+    # plt.plot(mDetector.rate_of_x[:, 0], '-+')
+    for i in range(mDetector.rate_of_xy.shape[1]):
+        plt.plot(mDetector.rate_of_xy[:,i],'-+',label=str(i))
+    plt.grid()
+    plt.legend()
     plt.colorbar()
 
     plt.show()

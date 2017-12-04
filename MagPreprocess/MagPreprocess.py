@@ -58,7 +58,10 @@ class MagDetector:
         :param pressure:
         '''
         # self.data = data
-        self.mag_data = mag_data
+        # self.mag_data = mag_data
+        mag_cent = np.array([-58.0512, -117.0970, 151.9004])
+        mag_scale = np.array([213.8826, 208.3894, 232.3945])
+        self.mag_data = (mag_data-mag_cent)/mag_scale
         self.pose_data = pose_data
         self.pressure_data = pressure
         self.acc_data = acc_data
@@ -360,7 +363,7 @@ class MagDetector:
         self.convert_mag_data = np.zeros_like(self.mag_data)
         self.angle = np.zeros([self.mag_data.shape[0], 1])
         self.direct_mag_angle = np.zeros([self.mag_data.shape[0], 1])
-        self.rate_of_x = np.zeros([self.mag_data.shape[0],1])
+        self.rate_of_xy = np.zeros([self.mag_data.shape[0], 2])
 
         for i in range(self.acc_data.shape[0]):
             angle_all[i, 0] = np.arctan2(-self.acc_data[i, 1] ** 2.0, -self.acc_data[i, 2] ** 2.0)
@@ -373,7 +376,11 @@ class MagDetector:
 
             self.angle[i, 0] = np.arcsin(
                 self.convert_mag_data[i, 0] / np.linalg.norm(self.convert_mag_data[i, :2])) / np.pi
-            self.direct_mag_angle[i, 0] = np.arctan2(self.convert_mag_data[i, 1], self.convert_mag_data[i, 0])
+            self.direct_mag_angle[i, 0] = \
+                np.arctan2(self.convert_mag_data[i, 1], self.convert_mag_data[i, 0])
+
+            self.rate_of_xy[i, 0] = np.abs(self.convert_mag_data[i, 0] / np.linalg.norm(self.convert_mag_data[i, :2]))
+            self.rate_of_xy[i, 1] = np.abs(self.convert_mag_data[i, 1] / np.linalg.norm(self.convert_mag_data[i, :2]))
 
         self.zf = interpolate.interp1d(
             self.length_array[:, 0], self.convert_mag_data[:, 2] / self.convert_mag_data[:, 2].mean(), kind='linear')

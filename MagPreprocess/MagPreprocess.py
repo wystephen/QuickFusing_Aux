@@ -209,30 +209,30 @@ class MagDetector:
         self.tmp_mnza_mat = None
         # t_mat = self.Get
 
-        # for index in range(len(layer_array)):
-        #     t_mat = self.GetNormFFTDis(layer_array[index], False)
-        #     t_mat = t_mat / t_mat.mean()
-        #     if index == 0:
-        #         self.tmp_mnza_mat = t_mat
-        #     else:
-        #         self.tmp_mnza_mat += t_mat
-        #
-        # for index in range(len(layer_array)):
-        #     t_mat = self.GetZFFtDis(layer_array[index], False)
-        #     t_mat = t_mat / t_mat.mean()
-        #     if self.tmp_mnza_mat is None:
-        #         self.tmp_mnza_mat = t_mat
-        #     else:
-        #         self.tmp_mnza_mat += t_mat
+        for index in range(len(layer_array)):
+            t_mat = self.GetNormFFTDis(layer_array[index], False)
+            t_mat = t_mat / t_mat.mean()
+            if index == 0:
+                self.tmp_mnza_mat = t_mat
+            else:
+                self.tmp_mnza_mat += t_mat
 
         for index in range(len(layer_array)):
-
-            t_mat = self.GetRelativeAttDis(layer_array[index], False)
+            t_mat = self.GetZFFtDis(layer_array[index], False)
             t_mat = t_mat / t_mat.mean()
             if self.tmp_mnza_mat is None:
                 self.tmp_mnza_mat = t_mat
             else:
                 self.tmp_mnza_mat += t_mat
+
+        # for index in range(len(layer_array)):
+        #
+        #     t_mat = self.GetRelativeAttDis(layer_array[index], False)
+        #     t_mat = t_mat / t_mat.mean()
+        #     if self.tmp_mnza_mat is None:
+        #         self.tmp_mnza_mat = t_mat
+        #     else:
+        #         self.tmp_mnza_mat += t_mat
 
         # # self.tmp_mnza_mat[1:-1,1:-1] = self.tmp_mnza_mat[1:-1,1:-1]-(
         # #     self.tmp_mnza_mat[0:-2,1:-1]+self.tmp_mnza_mat[2:,1:-1]
@@ -283,12 +283,12 @@ class MagDetector:
         mask_2d2 = np.ones([10, 10]) * (-1.0 / 99.0)
         mask_2d2[5, 5] = 1.0
         # self.tmp_mnza_mat = np.log10(self.tmp_mnza_mat)
-        self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
-        self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
-        self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
+        # self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
+        # self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
+        # self.tmp_mnza_mat = np.abs(cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d))
         # self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d2)
         # self.tmp_mnza_mat = cv2.filter2D(self.tmp_mnza_mat, -1, mask_2d)
-        self.tmp_mnza_mat = (np.abs(self.tmp_mnza_mat))
+        # self.tmp_mnza_mat = (np.abs(self.tmp_mnza_mat))
         # self.tmp_mnza_mat = cv2.Canny(np.uint8(self.tmp_mnza_mat),10,35)
 
         # np.where(self.tmp_mnza_mat>3,)

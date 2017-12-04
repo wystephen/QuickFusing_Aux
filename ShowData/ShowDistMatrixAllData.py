@@ -41,15 +41,17 @@ import time
 if __name__ == '__main__':
 
     # set_style("poster")
-    sns.set(style='whitegrid')
-    sns.set_context("paper")
-    # matplotlib.interactive(True)
+    # sns.set(style='whitegrid')
+    # sns.set_context("paper")
+
+
+
     # dir_list = [16, 17, 20, 28, 33, 34, 35]
-    dir_list = [20, 28, 34]
+    dir_list = [34]
     # dir_list = [28,35]
     # dir_list = [16,17,20,28]
     plt.figure()
-    plot_rows = 3
+    plot_rows = 2
     plot_cols = len(dir_list)
     # plt.ion()
     # plt.show()
@@ -95,10 +97,10 @@ if __name__ == '__main__':
         plt.colorbar()
 
         # direct euler distance
-        plt.subplot(plot_rows, plot_cols, dir_i + plot_cols * 2 + 1)
-        plt.title(str(dir_str) + ' src dis matrix')
-        plt.imshow(mDetector.tmp_src_mat)
-        plt.colorbar()
+        # plt.subplot(plot_rows, plot_cols, dir_i + plot_cols * 2 + 1)
+        # plt.title(str(dir_str) + ' src dis matrix')
+        # plt.imshow(mDetector.tmp_src_mat)
+        # plt.colorbar()
         # if dir_i is 0:
         # plt.show(block=False)
         # plt.draw()

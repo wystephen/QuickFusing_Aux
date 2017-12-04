@@ -44,8 +44,6 @@ if __name__ == '__main__':
     # sns.set(style='whitegrid')
     # sns.set_context("paper")
 
-
-
     # dir_list = [16, 17, 20, 28, 33, 34, 35]
     dir_list = [34]
     # dir_list = [28,35]
@@ -93,7 +91,7 @@ if __name__ == '__main__':
         # distance of fft features
         plt.subplot(plot_rows, plot_cols, dir_i + plot_cols + 1)
         plt.title(str(dir_str) + ' dis_matrix')
-        mDetector.tmp_mnza_mat = np.where(mDetector.tmp_mnza_mat>20,20,mDetector.tmp_mnza_mat)
+        mDetector.tmp_mnza_mat = np.where(mDetector.tmp_mnza_mat > 20, 20, mDetector.tmp_mnza_mat)
         plt.imshow((mDetector.tmp_mnza_mat))
         plt.colorbar()
 
@@ -109,13 +107,14 @@ if __name__ == '__main__':
 
     #
     import cv2
+
     cv2.namedWindow("the")
-    cv2.createTrackbar('threshold','the',0,100)
-    while(True):
-        t = np.where(mDetector.tmpmnza_mat>float(cv2.getTrackbarPos('threshold','the'))/10.0,
-                     float(cv2.getTrackbarPos('threshold','the'))/10.0,
+    cv2.createTrackbar('threshold', 'the', 0, 100, lambda x: x)
+    while (True):
+        t = np.where(mDetector.tmp_mnza_mat > float(cv2.getTrackbarPos('threshold', 'the')) / 10.0,
+                     float(cv2.getTrackbarPos('threshold', 'the')) / 10.0,
                      mDetector.tmp_mnza_mat)
-        cv2.imshow('the',t)
+        cv2.imshow('the', t)
     # plt.pause(1000000000000)
     # plt.waitforbuttonpress()
     plt.show()

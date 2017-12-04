@@ -44,7 +44,8 @@ if __name__ == '__main__':
     sns.set(style='whitegrid')
     sns.set_context("paper")
     # matplotlib.interactive(True)
-    dir_list = [16, 17, 20, 28, 33, 34, 35]
+    # dir_list = [16, 17, 20, 28, 33, 34, 35]
+    dir_list = [20, 28, 34]
     # dir_list = [28,35]
     # dir_list = [16,17,20,28]
     plt.figure()

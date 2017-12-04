@@ -45,7 +45,7 @@ if __name__ == '__main__':
     # sns.set_context("paper")
 
     # dir_list = [16, 17, 20, 28, 33, 34, 35]
-    dir_list = [34]
+    dir_list = [20]
     # dir_list = [28,35]
     # dir_list = [16,17,20,28]
     plt.figure()
@@ -110,12 +110,12 @@ if __name__ == '__main__':
     import cv2
 
     cv2.namedWindow('the')
-    cv2.namedWindow('the2')
-    cv2.createTrackbar('threshold', 'the2', 0, 500, lambda x: x)
+    # cv2.namedWindow('the2')
+    cv2.createTrackbar('threshold', 'the', 0, 500, lambda x: x)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
-        t_v = float(cv2.getTrackbarPos('threshold', 'the2')) / 10.0
+        t_v = float(cv2.getTrackbarPos('threshold', 'the')) / 10.0
         t = np.where(t_mat > t_v,
                      t_v,
                      t_mat)

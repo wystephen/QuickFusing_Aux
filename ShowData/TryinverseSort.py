@@ -23,7 +23,6 @@
          佛祖保佑       永无BUG 
 '''
 
-
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
@@ -33,14 +32,14 @@ from MagPreprocess import MagPreprocess
 
 import seaborn as sns
 
-
 import timeit
 import time
 
 if __name__ == '__main__':
-    sns.set('paper','white')
+    sns.set('paper', 'white')
 
     start_time = time.time()
+    dir_name = '/home/steve/Data/II/34/'
     dir_name = '/home/steve/Data/II/34/'
 
     ### key 16 17 20 ||| 28  30  (31)
@@ -57,7 +56,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*',label='trace 3d \\alpha ')
+    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*', label='trace 3d \\alpha ')
     ax.legend()
 
     mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],
@@ -82,11 +81,11 @@ if __name__ == '__main__':
     cv2.namedWindow('the')
     # cv2.namedWindow('the2')
     cv2.createTrackbar('threshold', 'the', 0, 500, lambda x: x)
-    cv2.createTrackbar('line_len','the',2220,2550,lambda y:y)
-    cv2.createTrackbar('line_gap','the',0,2550,lambda x:x)
-    cv2.createTrackbar('c_size','the',1,50,lambda x:x)
-    cv2.createTrackbar('ero_size','the',1,50,lambda x:x)
-
+    cv2.createTrackbar('line_len', 'the', 2220, 2550, lambda y: y)
+    cv2.createTrackbar('line_gap', 'the', 0, 2550, lambda x: x)
+    cv2.createTrackbar('c_size', 'the', 1, 50, lambda x: x)
+    cv2.createTrackbar('ero_size', 'the', 1, 50, lambda x: x)
+    cv2.createTrackbar('ero_times','the',1,30,lambda  x:x)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -98,48 +97,45 @@ if __name__ == '__main__':
         plt.figure(2)
         plt.imshow(t)
 
-
         t = (t / t.max())
-        kernel_size = cv2.getTrackbarPos('c_size','the')
-        kernel = np.zeros([kernel_size*2+1,kernel_size*2+1])
-        kernel[:,kernel_size] = 1.0/float(kernel_size)
-        kernel[kernel_size,:] = 1.0 / float(kernel_size)
-        kernel[kernel_size,kernel_size] = 1.0
-        t = cv2.filter2D(t,-1,kernel)
+        kernel_size = cv2.getTrackbarPos('c_size', 'the')
+        if kernel_size>0:
+            kernel = np.zeros([kernel_size * 2 + 1, kernel_size * 2 + 1])
+            kernel[:, kernel_size] = 1.0 / float(kernel_size)
+            kernel[kernel_size, :] = 1.0 / float(kernel_size)
+            kernel[kernel_size, kernel_size] = 1.0
+            t = cv2.filter2D(t, -1, kernel)
 
-        eros_size = cv2.getTrackbarPos('ero_size','the')
-        ero_kernel = np.zeros([eros_size,eros_size],np.uint8)
+        eros_size = cv2.getTrackbarPos('ero_size', 'the')
+        eros_times = cv2.getTrackbarPos('ero_times','the')
+        ero_kernel = np.zeros([eros_size, eros_size], np.uint8)
         for i in range(ero_kernel.shape[0]):
             for j in range(ero_kernel.shape[1]):
-                if i==j:
-                    ero_kernel[i,j] =1
-                elif i+j == ero_kernel.shape[0]:
-                    ero_kernel[i,j] = 1
-
-        t = cv2.dilate(t,ero_kernel,1)
+                if i == j:
+                    ero_kernel[i, j] = 1
+                elif i + j == ero_kernel.shape[0]:
+                    ero_kernel[i, j] = 1
 
 
-        t = t*255
+        for i in range(int(eros_times)):
+            t = cv2.dilate(t, ero_kernel, 1)
+
+        t = t * 255
         t = t.astype(dtype=np.uint8)
 
-
-
-        line_len = cv2.getTrackbarPos('line_len','the')
-        line_gap = cv2.getTrackbarPos('line_gap','the')
+        line_len = cv2.getTrackbarPos('line_len', 'the')
+        line_gap = cv2.getTrackbarPos('line_gap', 'the')
         # t = cv2.cvtColor(t, cv2.COlor)
-        lines = cv2.HoughLinesP(t,1,np.pi/180*5,line_len,line_gap)
+        lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
         # print(type(lines))
         if type(lines) is type(np.array([0])):
             for line in lines:
-                for x1,y1,x2,y2 in line:
-                    cv2.line(t,(x1,y1),(x2,y2),(0,255,0),2)
-
+                for x1, y1, x2, y2 in line:
+                    cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
         #
 
-
-
-        cv2.imshow('the', t )
+        cv2.imshow('the', t)
         # plt.show()
         # cv2.imshow('the', t)
         cv2.waitKey(10)

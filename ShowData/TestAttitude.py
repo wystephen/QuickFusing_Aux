@@ -37,7 +37,7 @@ from transforms3d.euler import quat2euler
 from scipy.spatial.distance import *
 
 if __name__ == '__main__':
-    dir_name = '/home/steve/Data/II/35/'
+    dir_name = '/home/steve/Data/II/34/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35
@@ -151,5 +151,14 @@ if __name__ == '__main__':
     plt.grid()
     plt.legend()
     plt.colorbar()
+
+    plt.figure()
+    plt.title('rate of x')
+    # plt.imshow(mDetector.rate_of_x)
+    # plt.plot(mDetector.rate_of_x[:, 0], '-+')
+    for i in range(mDetector.rate_of_xy.shape[1]):
+        plt.plot(mDetector.rate_of_xy[:,i],'-+',label=str(i))
+    plt.grid()
+    plt.legend()
 
     plt.show()

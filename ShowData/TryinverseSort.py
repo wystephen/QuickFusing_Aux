@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # mDetector.GetZFFtDis(20.0)
     # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetRelativeAttDis(50.0)
-    mDetector.MultiLayerANZFFt([60,50,40,30,  20.0,  10.0, 5.0])
+    mDetector.MultiLayerANZFFt([60, 50, 40, 30, 20.0, 10.0, 5.0])
 
     print('begin cv2')
     import cv2
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     cv2.createTrackbar('line_gap', 'the', 0, 2550, lambda x: x)
     cv2.createTrackbar('c_size', 'the', 1, 50, lambda x: x)
     cv2.createTrackbar('ero_size', 'the', 1, 50, lambda x: x)
-    cv2.createTrackbar('ero_times','the',1,30,lambda  x:x)
+    cv2.createTrackbar('ero_times', 'the', 1, 30, lambda x: x)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
         t = (t / t.max())
         kernel_size = cv2.getTrackbarPos('c_size', 'the')
-        if kernel_size>0:
+        if kernel_size > 0:
             kernel = np.zeros([kernel_size * 2 + 1, kernel_size * 2 + 1])
             kernel[:, kernel_size] = 1.0 / float(kernel_size)
             kernel[kernel_size, :] = 1.0 / float(kernel_size)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
             t = cv2.filter2D(t, -1, kernel)
 
         eros_size = cv2.getTrackbarPos('ero_size', 'the')
-        eros_times = cv2.getTrackbarPos('ero_times','the')
+        eros_times = cv2.getTrackbarPos('ero_times', 'the')
         ero_kernel = np.zeros([eros_size, eros_size], np.uint8)
         for i in range(ero_kernel.shape[0]):
             for j in range(ero_kernel.shape[1]):
@@ -115,7 +115,6 @@ if __name__ == '__main__':
                     ero_kernel[i, j] = 1
                 elif i + j == ero_kernel.shape[0]:
                     ero_kernel[i, j] = 1
-
 
         for i in range(int(eros_times)):
             t = cv2.dilate(t, ero_kernel, 1)

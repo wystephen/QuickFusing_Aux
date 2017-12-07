@@ -61,7 +61,7 @@ class MagDetector:
         # self.mag_data = mag_data
         mag_cent = np.array([-58.0512, -117.0970, 151.9004])
         mag_scale = np.array([213.8826, 208.3894, 232.3945])
-        self.mag_data = (mag_data-mag_cent)/mag_scale
+        self.mag_data = (mag_data - mag_cent) / mag_scale
         self.pose_data = pose_data
         self.pressure_data = pressure
         self.acc_data = acc_data

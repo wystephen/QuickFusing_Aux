@@ -126,14 +126,28 @@ if __name__ == '__main__':
         line_gap = cv2.getTrackbarPos('line_gap', 'the')
         # t = cv2.cvtColor(t, cv2.COlor)
         # convert
-        lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
-        # print(type(lines))
-        if type(lines) is type(np.array([0])):
-            for line in lines:
-                for x1, y1, x2, y2 in line:
-                    cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        # lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
+        # # print(type(lines))
+        # if type(lines) is type(np.array([0])):
+        #     for line in lines:
+        #         for x1, y1, x2, y2 in line:
+        #             cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
+        lines = cv2.HoughLines(t,1,np.pi/180.0*5.0,line_len)
+        print('lines ;', lines )
+        lines1 = lines[:, 0, :]  # 提取为为二维
+        for rho, theta in lines1[:]:
+            a = np.cos(theta)
+            b = np.sin(theta)
+            x0 = a * rho
+            y0 = b * rho
+            x1 = int(x0 + 1000 * (-b))
+            y1 = int(y0 + 1000 * (a))
+            x2 = int(x0 - 1000 * (-b))
+            y2 = int(y0 - 1000 * (a))
+            cv2.line(t, (x1, y1), (x2, y2), (255, 0, 0), 1)
         #
+        t = (t.astype(dtype=np.float) /t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
 
         cv2.imshow('the', t)
         # plt.show()

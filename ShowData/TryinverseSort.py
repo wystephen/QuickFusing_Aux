@@ -125,6 +125,7 @@ if __name__ == '__main__':
         line_len = cv2.getTrackbarPos('line_len', 'the')
         line_gap = cv2.getTrackbarPos('line_gap', 'the')
         # t = cv2.cvtColor(t, cv2.COlor)
+        # convert
         lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
         # print(type(lines))
         if type(lines) is type(np.array([0])):

@@ -45,7 +45,11 @@ if __name__ == '__main__':
     start_time = time.time()
     dir_name = '/home/steve/Data/II/34/'
 
+    load_start = time.time()
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
+    load_end = time.time()
+
+    print('load file costs time :', load_end-load_start)
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw

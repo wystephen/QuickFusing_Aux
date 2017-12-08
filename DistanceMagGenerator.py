@@ -40,7 +40,7 @@ if __name__ == '__main__':
     sns.set('paper','white')
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/17/'
+    dir_name = '/home/steve/Data/II/34/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35

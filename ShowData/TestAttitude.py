@@ -116,7 +116,7 @@ if __name__ == '__main__':
     # plt.title('diff')
     for i in range(pangle.shape[1]):
         plt.plot(qeuler[:, i] - pangle[:, i], '-+', label='diff ' + str(i))
-    plt.legend();
+    plt.legend()
     plt.grid()
 
     # plt.figure()

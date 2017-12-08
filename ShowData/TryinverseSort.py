@@ -41,6 +41,7 @@ change_flag = True
 
 
 def is_changed(k):
+    global change_flag
     change_flag = True
 
 
@@ -100,113 +101,118 @@ if __name__ == '__main__':
     # search parameters
     cv2.createTrackbar('detector_threshold', 'the', 0, 255, is_changed)
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
+    cv2.createTrackbar('less_rate','the',10,100,is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
         if not change_flag:
             cv2.waitKey(10)
             continue
-        t_v = float(cv2.getTrackbarPos('threshold', 'the')) / 10.0
-        t = np.where(t_mat > t_v,
-                     t_v,
-                     t_mat)
-        # t = cv2.cvtColor(t,cv2.CV_8S)
-        plt.figure(2)
-        plt.imshow(t)
+        else:
+            t_v = float(cv2.getTrackbarPos('threshold', 'the')) / 10.0
+            t = np.where(t_mat > t_v,
+                         t_v,
+                         t_mat)
+            # t = cv2.cvtColor(t,cv2.CV_8S)
+            plt.figure(2)
+            plt.imshow(t)
 
-        t = (t / t.max())
-        kernel_size = cv2.getTrackbarPos('c_size', 'the')
-        if kernel_size > 0:
-            kernel = np.zeros([kernel_size * 2 + 1, kernel_size * 2 + 1])
-            kernel[:, kernel_size] = 1.0 / float(kernel_size)
-            kernel[kernel_size, :] = 1.0 / float(kernel_size)
-            kernel[kernel_size, kernel_size] = 1.0
-            t = cv2.filter2D(t, -1, kernel)
+            t = (t / t.max())
+            kernel_size = cv2.getTrackbarPos('c_size', 'the')
+            if kernel_size > 0:
+                kernel = np.zeros([kernel_size * 2 + 1, kernel_size * 2 + 1])
+                kernel[:, kernel_size] = 1.0 / float(kernel_size)
+                kernel[kernel_size, :] = 1.0 / float(kernel_size)
+                kernel[kernel_size, kernel_size] = 1.0
+                t = cv2.filter2D(t, -1, kernel)
 
-        eros_size = cv2.getTrackbarPos('ero_size', 'the')
-        eros_times = cv2.getTrackbarPos('ero_times', 'the')
-        ero_kernel = np.zeros([eros_size, eros_size], np.uint8)
-        for i in range(ero_kernel.shape[0]):
-            for j in range(ero_kernel.shape[1]):
-                if i == j:
-                    ero_kernel[i, j] = 1
-                elif i + j == ero_kernel.shape[0]:
-                    ero_kernel[i, j] = 1
+            eros_size = cv2.getTrackbarPos('ero_size', 'the')
+            eros_times = cv2.getTrackbarPos('ero_times', 'the')
+            ero_kernel = np.zeros([eros_size, eros_size], np.uint8)
+            for i in range(ero_kernel.shape[0]):
+                for j in range(ero_kernel.shape[1]):
+                    if i == j:
+                        ero_kernel[i, j] = 1
+                    elif i + j == ero_kernel.shape[0]:
+                        ero_kernel[i, j] = 1
 
-        for i in range(int(eros_times)):
-            t = cv2.dilate(t, ero_kernel, 1)
+            for i in range(int(eros_times)):
+                t = cv2.dilate(t, ero_kernel, 1)
 
-        t = t * 255
-        t = t.astype(dtype=np.uint8)
+            t = t * 255
+            t = t.astype(dtype=np.uint8)
 
-        line_len = cv2.getTrackbarPos('line_len', 'the')
-        line_gap = cv2.getTrackbarPos('line_gap', 'the')
-        # t = cv2.cvtColor(t, cv2.COlor)
-        # convert
-        # lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
-        # # print(type(lines))
-        # if type(lines) is type(np.array([0])):
-        #     for line in lines:
-        #         for x1, y1, x2, y2 in line:
-        #             cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            line_len = cv2.getTrackbarPos('line_len', 'the')
+            line_gap = cv2.getTrackbarPos('line_gap', 'the')
+            # t = cv2.cvtColor(t, cv2.COlor)
+            # convert
+            # lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
+            # # print(type(lines))
+            # if type(lines) is type(np.array([0])):
+            #     for line in lines:
+            #         for x1, y1, x2, y2 in line:
+            #             cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-        line_img = np.zeros_like(t)
-        lines = cv2.HoughLines(t, 1, np.pi / 180.0 * 5.0, line_len)
-        # print('lines ;', lines )
-        if type(lines) is type(np.array([0])):
-            lines1 = lines[:, 0, :]  # 提取为为二维
-            for rho, theta in lines1[:]:
-                a = np.cos(theta)
-                b = np.sin(theta)
-                x0 = a * rho
-                y0 = b * rho
-                x1 = int(x0 + 1000 * (-b))
-                y1 = int(y0 + 1000 * (a))
-                x2 = int(x0 - 1000 * (-b))
-                y2 = int(y0 - 1000 * (a))
-                cv2.line(t, (x1, y1), (x2, y2), (255, 0, 0), 1)
-                cv2.line(line_img, (x1, y1), (x2, y2), (255, 255, 0), 1)
-        # cv2.imshow('the2', line_img)
-        #
-        t = (t.astype(dtype=np.float) / t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
+            line_img = np.zeros_like(t)
+            lines = cv2.HoughLines(t, 1, np.pi / 180.0 * 5.0, line_len)
+            # print('lines ;', lines )
+            if type(lines) is type(np.array([0])):
+                lines1 = lines[:, 0, :]  # 提取为为二维
+                for rho, theta in lines1[:]:
+                    a = np.cos(theta)
+                    b = np.sin(theta)
+                    x0 = a * rho
+                    y0 = b * rho
+                    x1 = int(x0 + 1000 * (-b))
+                    y1 = int(y0 + 1000 * (a))
+                    x2 = int(x0 - 1000 * (-b))
+                    y2 = int(y0 - 1000 * (a))
+                    cv2.line(t, (x1, y1), (x2, y2), (255, 0, 0), 1)
+                    cv2.line(line_img, (x1, y1), (x2, y2), (255, 255, 0), 1)
+            # cv2.imshow('the2', line_img)
+            #
+            t = (t.astype(dtype=np.float) / t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
 
-        '''
-        Search detector ....
-        '''
-        d_threshold = cv2.getTrackbarPos('detector_threshold', 'the')
-        d_less_len = cv2.getTrackbarPos('less_len', 'the')
+            '''
+            Search detector ....
+            '''
+            d_threshold = cv2.getTrackbarPos('detector_threshold', 'the')
+            d_less_len = cv2.getTrackbarPos('less_len', 'the')
 
-        bi_mat = np.zeros_like(t)
+            bi_mat = np.zeros_like(t)
 
-        cv2.threshold(t, d_threshold, 255, cv2.THRESH_BINARY_INV, dst=bi_mat)
+            cv2.threshold(t, d_threshold, 255, cv2.THRESH_BINARY_INV, dst=bi_mat)
 
-        flag_mat = np.zeros_like(t)
+            flag_mat = np.zeros_like(t)
 
-        # flag_mat = bi_mat
+            # flag_mat = bi_mat
 
-        labels = measure.label(bi_mat, connectivity=2)
+            labels = measure.label(bi_mat, connectivity=2)
 
-        # print('labels:',labels.shape,labels.max(),labels.min())
-        begin_plot = time.time()
-        for l_index in range(labels.max()):
-            # print(l_index, np.where(labels==l_index))
-            x_list, y_list = np.where(labels == l_index)
+            # print('labels:',labels.shape,labels.max(),labels.min())
+            begin_plot = time.time()
+            for l_index in range(labels.max()):
+                # print(l_index, np.where(labels==l_index))
+                x_list, y_list = np.where(labels == l_index)
 
-            if len(x_list) > d_less_len and len(x_list) < max(x_list) - min(x_list) + max(y_list) - min(y_list):
-                flag_mat[x_list, y_list] += 200
+                if len(x_list) > d_less_len and len(x_list) < max(x_list) - min(x_list) + max(y_list) - min(y_list):
+                    flag_mat[x_list, y_list] += 200
+            end_plot = time.time()
 
+            print('plot cost time :', end_plot - begin_plot)
 
-        # for i in range(t.shape[0]):
-        #     for j in range(i + 1, t.shape[1]):
-        #         xoff, yoff = i, j
-        #         # x_list = list()
-        #         # y_list = list()
-        #         point_list = list()
-        #         while True:
+            # for i in range(t.shape[0]):
+            #     for j in range(i + 1, t.shape[1]):
+            #         xoff, yoff = i, j
+            #         # x_list = list()
+            #         # y_list = list()
+            #         point_list = list()
+            #         while True:
 
-        cv2.imshow('the2', flag_mat)
-        cv2.imshow('the3', bi_mat)
-        cv2.imshow('the', t)
-        # plt.show()
-        # cv2.imshow('the', t)
-        cv2.waitKey(10)
+            cv2.imshow('the2', flag_mat)
+            cv2.imshow('the3', bi_mat)
+            cv2.imshow('the', t)
+            # plt.show()
+            # cv2.imshow('the', t)
+            change_flag = False
+            cv2.waitKey(10)

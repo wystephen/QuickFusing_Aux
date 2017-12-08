@@ -79,13 +79,17 @@ if __name__ == '__main__':
     import cv2
 
     cv2.namedWindow('the')
-    # cv2.namedWindow('the2')
+    cv2.namedWindow('the2')
     cv2.createTrackbar('threshold', 'the', 100, 500, lambda x: x)
     cv2.createTrackbar('line_len', 'the', 2220, 2550, lambda y: y)
     cv2.createTrackbar('line_gap', 'the', 0, 2550, lambda x: x)
     cv2.createTrackbar('c_size', 'the', 0, 50, lambda x: x)
     cv2.createTrackbar('ero_size', 'the', 0, 50, lambda x: x)
     cv2.createTrackbar('ero_times', 'the', 0, 30, lambda x: x)
+
+    # search parameters
+    cv2.createTrackbar('detector_threshold', 'the', 0, 255, lambda x: x)
+    cv2.createTrackbar('less_len', 'the', 5, 200, lambda x: x)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -133,22 +137,46 @@ if __name__ == '__main__':
         #         for x1, y1, x2, y2 in line:
         #             cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-        lines = cv2.HoughLines(t,1,np.pi/180.0*5.0,line_len)
-        print('lines ;', lines )
-        lines1 = lines[:, 0, :]  # 提取为为二维
-        for rho, theta in lines1[:]:
-            a = np.cos(theta)
-            b = np.sin(theta)
-            x0 = a * rho
-            y0 = b * rho
-            x1 = int(x0 + 1000 * (-b))
-            y1 = int(y0 + 1000 * (a))
-            x2 = int(x0 - 1000 * (-b))
-            y2 = int(y0 - 1000 * (a))
-            cv2.line(t, (x1, y1), (x2, y2), (255, 0, 0), 1)
+        line_img = np.zeros_like(t)
+        lines = cv2.HoughLines(t, 1, np.pi / 180.0 * 5.0, line_len)
+        # print('lines ;', lines )
+        if type(lines) is type(np.array([0])):
+            lines1 = lines[:, 0, :]  # 提取为为二维
+            for rho, theta in lines1[:]:
+                a = np.cos(theta)
+                b = np.sin(theta)
+                x0 = a * rho
+                y0 = b * rho
+                x1 = int(x0 + 1000 * (-b))
+                y1 = int(y0 + 1000 * (a))
+                x2 = int(x0 - 1000 * (-b))
+                y2 = int(y0 - 1000 * (a))
+                cv2.line(t, (x1, y1), (x2, y2), (255, 0, 0), 1)
+                cv2.line(line_img, (x1, y1), (x2, y2), (255, 255, 0), 1)
+        # cv2.imshow('the2', line_img)
         #
-        t = (t.astype(dtype=np.float) /t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
+        t = (t.astype(dtype=np.float) / t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
 
+
+
+
+        '''
+        Search detector ....
+        '''
+        d_threshold = cv2.getTrackbarPos('detector_threshold','the')
+        d_less_len = cv2.getTrackbarPos('less_len','the')
+
+        flag_mat = np.zeros_like(t)
+
+        for i in range(t.shape[0]):
+            for j in range(i+1,t.shape[1]):
+
+
+
+
+
+
+        cv2.imshow('the2',flag_mat)
         cv2.imshow('the', t)
         # plt.show()
         # cv2.imshow('the', t)

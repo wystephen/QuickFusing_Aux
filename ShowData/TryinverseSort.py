@@ -32,8 +32,17 @@ from MagPreprocess import MagPreprocess
 
 import seaborn as sns
 
+from skimage import measure, color
+
 import timeit
 import time
+
+change_flag = True
+
+
+def is_changed(k):
+    change_flag = True
+
 
 if __name__ == '__main__':
     sns.set('paper', 'white')
@@ -80,19 +89,23 @@ if __name__ == '__main__':
 
     cv2.namedWindow('the')
     cv2.namedWindow('the2')
-    cv2.createTrackbar('threshold', 'the', 100, 500, lambda x: x)
-    cv2.createTrackbar('line_len', 'the', 2220, 2550, lambda y: y)
-    cv2.createTrackbar('line_gap', 'the', 0, 2550, lambda x: x)
-    cv2.createTrackbar('c_size', 'the', 0, 50, lambda x: x)
-    cv2.createTrackbar('ero_size', 'the', 0, 50, lambda x: x)
-    cv2.createTrackbar('ero_times', 'the', 0, 30, lambda x: x)
+    cv2.namedWindow('the3')
+    cv2.createTrackbar('threshold', 'the', 100, 500, is_changed)
+    cv2.createTrackbar('line_len', 'the', 2220, 2550, is_changed)
+    cv2.createTrackbar('line_gap', 'the', 0, 2550, is_changed)
+    cv2.createTrackbar('c_size', 'the', 0, 50, is_changed)
+    cv2.createTrackbar('ero_size', 'the', 0, 50, is_changed)
+    cv2.createTrackbar('ero_times', 'the', 0, 30, is_changed)
 
     # search parameters
-    cv2.createTrackbar('detector_threshold', 'the', 0, 255, lambda x: x)
-    cv2.createTrackbar('less_len', 'the', 5, 200, lambda x: x)
+    cv2.createTrackbar('detector_threshold', 'the', 0, 255, is_changed)
+    cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
+        if not change_flag:
+            cv2.waitKey(10)
+            continue
         t_v = float(cv2.getTrackbarPos('threshold', 'the')) / 10.0
         t = np.where(t_mat > t_v,
                      t_v,
@@ -157,26 +170,42 @@ if __name__ == '__main__':
         #
         t = (t.astype(dtype=np.float) / t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
 
-
-
-
         '''
         Search detector ....
         '''
-        d_threshold = cv2.getTrackbarPos('detector_threshold','the')
-        d_less_len = cv2.getTrackbarPos('less_len','the')
+        d_threshold = cv2.getTrackbarPos('detector_threshold', 'the')
+        d_less_len = cv2.getTrackbarPos('less_len', 'the')
+
+        bi_mat = np.zeros_like(t)
+
+        cv2.threshold(t, d_threshold, 255, cv2.THRESH_BINARY_INV, dst=bi_mat)
 
         flag_mat = np.zeros_like(t)
 
-        for i in range(t.shape[0]):
-            for j in range(i+1,t.shape[1]):
+        # flag_mat = bi_mat
+
+        labels = measure.label(bi_mat, connectivity=2)
+
+        # print('labels:',labels.shape,labels.max(),labels.min())
+        begin_plot = time.time()
+        for l_index in range(labels.max()):
+            # print(l_index, np.where(labels==l_index))
+            x_list, y_list = np.where(labels == l_index)
+
+            if len(x_list) > d_less_len and len(x_list) < max(x_list) - min(x_list) + max(y_list) - min(y_list):
+                flag_mat[x_list, y_list] += 200
 
 
+        # for i in range(t.shape[0]):
+        #     for j in range(i + 1, t.shape[1]):
+        #         xoff, yoff = i, j
+        #         # x_list = list()
+        #         # y_list = list()
+        #         point_list = list()
+        #         while True:
 
-
-
-
-        cv2.imshow('the2',flag_mat)
+        cv2.imshow('the2', flag_mat)
+        cv2.imshow('the3', bi_mat)
         cv2.imshow('the', t)
         # plt.show()
         # cv2.imshow('the', t)

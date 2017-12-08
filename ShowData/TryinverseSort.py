@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # mDetector.GetZFFtDis(20.0)
     # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetRelativeAttDis(50.0)
-    mDetector.MultiLayerANZFFt([ 30, 20.0, 10.0, 5.0])
+    mDetector.MultiLayerANZFFt([30, 20.0, 10.0, 5.0])
 
     print('begin cv2')
     import cv2

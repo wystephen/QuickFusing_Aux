@@ -178,6 +178,7 @@ if __name__ == '__main__':
             '''
             d_threshold = cv2.getTrackbarPos('detector_threshold', 'the')
             d_less_len = cv2.getTrackbarPos('less_len', 'the')
+            d_less_rate = cv2.getTrackbarPos('less_rate','the')
 
             bi_mat = np.zeros_like(t)
 

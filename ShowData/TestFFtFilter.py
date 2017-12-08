@@ -97,6 +97,9 @@ if __name__ == '__main__':
     t = cv2.filter2D(t,-1,mask_2d)
 
 
+    t = np.where(t<25,t,25)
+
+
 
 
 

@@ -83,9 +83,9 @@ if __name__ == '__main__':
     cv2.createTrackbar('threshold', 'the', 0, 500, lambda x: x)
     cv2.createTrackbar('line_len', 'the', 2220, 2550, lambda y: y)
     cv2.createTrackbar('line_gap', 'the', 0, 2550, lambda x: x)
-    cv2.createTrackbar('c_size', 'the', 1, 50, lambda x: x)
-    cv2.createTrackbar('ero_size', 'the', 1, 50, lambda x: x)
-    cv2.createTrackbar('ero_times', 'the', 1, 30, lambda x: x)
+    cv2.createTrackbar('c_size', 'the', 0, 50, lambda x: x)
+    cv2.createTrackbar('ero_size', 'the', 0, 50, lambda x: x)
+    cv2.createTrackbar('ero_times', 'the', 0, 30, lambda x: x)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):

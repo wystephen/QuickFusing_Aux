@@ -28,7 +28,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from MagPreprocess import MagPreprocess
+from MagPreprocess import MagPreprocess,ransac
 
 import seaborn as sns
 
@@ -199,16 +199,30 @@ if __name__ == '__main__':
 
             labels = measure.label(bi_mat, connectivity=2)
 
+
             # print('labels:',labels.shape,labels.max(),labels.min())
             '''
             Focus here the  important way to create image
             
             '''
             begin_plot = time.time()
+
+
             for l_index in range(labels.max()):
                 # print(l_index, np.where(labels==l_index))
                 x_list, y_list = np.where(labels == l_index)
                 # print([x_list, y_list])
+                line_sac = ransac.LinearLeastSquaresModel(range(1),range(1,2))
+
+                txy = np.zeros([len(x_list),2])
+                txy[:,0] = x_list
+                txy[:,1] = y_list
+                txy = txy.astype(dtype=np.float)
+                # line_sac.fit(txy)
+                print(line_sac)
+                linear_fit, ransac_data = ransac(txy,line_sac,2,20,2,0.8*txy.shape[0])
+                print(l_index,linear_fit)
+
 
                 x_val_range = float(max(x_list)-min(x_list))
                 y_val_range = float(max(y_list)-min(y_list))

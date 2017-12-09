@@ -175,7 +175,7 @@ class LinearLeastSquaresModel:
         return err_per_point
 
 
-def test():
+def Ttest():
     # generate perfect input data
 
     n_samples = 500
@@ -237,10 +237,11 @@ def test():
         pylab.plot(A_col0_sorted[:, 0],
                    numpy.dot(A_col0_sorted, linear_fit)[:, 0],
                    label='linear fit')
+
         pylab.legend()
         pylab.show()
 
 
 if __name__ == '__main__':
-    test()
+    Ttest()
 

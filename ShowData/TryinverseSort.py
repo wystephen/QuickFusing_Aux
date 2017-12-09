@@ -99,9 +99,9 @@ if __name__ == '__main__':
     cv2.createTrackbar('ero_times', 'the', 0, 30, is_changed)
 
     # search parameters
-    cv2.createTrackbar('detector_threshold', 'the', 0, 255, is_changed)
+    cv2.createTrackbar('detector_threshold', 'the', 109, 255, is_changed)
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
-    cv2.createTrackbar('less_rate', 'the', 10, 100, is_changed)
+    cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -109,10 +109,13 @@ if __name__ == '__main__':
             cv2.waitKey(10)
             continue
         else:
+
             t_v = float(cv2.getTrackbarPos('threshold', 'the')) / 10.0
             t = np.where(t_mat > t_v,
                          t_v,
                          t_mat)
+
+            cv2.imshow('the', t)
             # t = cv2.cvtColor(t,cv2.CV_8S)
             plt.figure(2)
             plt.imshow(t)

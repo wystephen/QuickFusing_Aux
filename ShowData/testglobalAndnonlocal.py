@@ -34,11 +34,11 @@ if __name__ == '__main__':
     bb = aa
 
 
-    def su(i):
-        global aa
-        global a
-        global b
-        global bb
+    def su(i, bb):
+        # global aa
+        # global a
+        # global b
+        # global bb
         bb[i, i] = aa[i, i] + a
         b = a
 

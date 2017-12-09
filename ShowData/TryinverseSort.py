@@ -209,12 +209,15 @@ if __name__ == '__main__':
             '''
             begin_plot = time.time()
             segment_img = np.zeros_like(t)
+            segment_img_list = list()
+            # segment_img_list.append(segment_img)
 
 
             # def process(l_index):
             for l_index in range(labels.max()):
                 # nonlocal segment_img
                 # global segment_img
+                # global segment_img_list
 
 
                 x_list, y_list = np.where(labels == l_index)

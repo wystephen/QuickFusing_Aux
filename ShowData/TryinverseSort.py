@@ -202,12 +202,13 @@ if __name__ == '__main__':
             for l_index in range(labels.max()):
                 # print(l_index, np.where(labels==l_index))
                 x_list, y_list = np.where(labels == l_index)
+                print([x_list,y_list])
 
                 if len(x_list) > d_less_len and \
                         len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list) and \
                         ((max(y_list) - min(y_list)) * d_less_k > (max(x_list) - min(x_list)) or
                          (max(x_list) - min(x_list)) * d_less_k < (max(y_list) - min(y_list))) and \
-                        (not (max(y_list) is min(y_list) or max(x_list) is min(x_list))):
+                        (not (max(y_list) is min(y_list)) and not (max(x_list) is min(x_list))):
                     flag_mat[x_list, y_list] += 200
             end_plot = time.time()
 

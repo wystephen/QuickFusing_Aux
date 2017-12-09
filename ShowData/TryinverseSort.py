@@ -214,17 +214,14 @@ if __name__ == '__main__':
                 x_list, y_list = np.where(labels == l_index)
                 # print([x_list, y_list])
 
-                if len(x_list) > d_less_len:
-                    # line_sac = ransac.LinearLeastSquaresModel(range(1), range(1, 2))
+                x_val_range = float(max(x_list) - min(x_list))
+                y_val_range = float(max(y_list) - min(y_list))
 
-                    # txy = np.zeros([len(x_list), 2])
-                    # txy[:, 0] = x_list
-                    # txy[:, 1] = y_list
-                    # txy = txy.astype(dtype=np.float)
-                    # # line_sac.fit(txy)
-                    # # print(line_sac)
-                    # linear_fit, ransac_data = ransac.ransac(txy, line_sac, 2, 20, 3.0, 0.8 * txy.shape[0])
-                    # print(l_index, linear_fit)
+                if len(x_list) > d_less_len and \
+                        float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
+                        (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
+                        x_val_range > d_less_len and y_val_range > d_less_len:
+
                     try:
                         ransac_line = linear_model.RANSACRegressor()
                         ransac_line.fit(x_list.reshape(-1, 1), y_list)
@@ -236,14 +233,14 @@ if __name__ == '__main__':
                     except ValueError:
                         continue
 
-                x_val_range = float(max(x_list) - min(x_list))
-                y_val_range = float(max(y_list) - min(y_list))
-
-                if len(x_list) > d_less_len and \
-                        float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
-                        (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
-                        x_val_range > d_less_len and y_val_range > d_less_len:
-                    flag_mat[x_list, y_list] += 200
+                # x_val_range = float(max(x_list) - min(x_list))
+                # y_val_range = float(max(y_list) - min(y_list))
+                #
+                # if len(x_list) > d_less_len and \
+                #         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
+                #         (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
+                #         x_val_range > d_less_len and y_val_range > d_less_len:
+                #     flag_mat[x_list, y_list] += 200
             end_plot = time.time()
             # line_segment_detector = cv2.createLineSegmentDetector()
             #

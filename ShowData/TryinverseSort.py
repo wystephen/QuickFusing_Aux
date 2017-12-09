@@ -216,6 +216,12 @@ if __name__ == '__main__':
             #                 max(x_list) - min(x_list)) * d_less_k):
             #         flag_mat[x_list, y_list] += 200
             end_plot = time.time()
+            line_segment_detector = cv2.createLineSegmentDetector()
+
+            line_segment_detector.detect(bi_mat, line_segs, 1)
+
+            segment_img = np.zeros_like(bi_mat)
+            segment_img = line_segment_detector.drawSegments(segment_img,line_segs)
 
             print('plot cost time :', end_plot - begin_plot)
 

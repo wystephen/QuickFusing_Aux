@@ -38,8 +38,10 @@ from sklearn import linear_model, datasets
 import timeit
 import time
 
-change_flag = True
+from multiprocessing import Pool
 
+change_flag = True
+segment_img = np.zeros([10,10])
 
 def is_changed(k):
     global change_flag
@@ -189,7 +191,7 @@ if __name__ == '__main__':
             d_less_rate = cv2.getTrackbarPos('less_rate', 'the')
             d_less_rate = float(d_less_rate) / 10.0
             d_less_k = cv2.getTrackbarPos('less_k', 'the')
-            d_less_rate = float(d_less_k / 10.0)
+            d_less_k = float(d_less_k / 10.0)
 
             bi_mat = np.zeros_like(t)
 
@@ -201,7 +203,6 @@ if __name__ == '__main__':
 
             labels = measure.label(bi_mat, connectivity=2)
 
-            # print('labels:',labels.shape,labels.max(),labels.min())
             '''
             Focus here the  important way to create image
             
@@ -209,11 +210,14 @@ if __name__ == '__main__':
             begin_plot = time.time()
             segment_img = np.zeros_like(t)
 
-            for l_index in range(labels.max()):
-                # print(l_index, np.where(labels==l_index))
-                x_list, y_list = np.where(labels == l_index)
-                # print([x_list, y_list])
 
+            # def process(l_index):
+            for l_index in range(labels.max()):
+                # nonlocal segment_img
+                # global segment_img
+
+
+                x_list, y_list = np.where(labels == l_index)
                 x_val_range = float(max(x_list) - min(x_list))
                 y_val_range = float(max(y_list) - min(y_list))
 
@@ -229,35 +233,19 @@ if __name__ == '__main__':
                         segment_img[x_list.astype(dtype=np.int),
                                     ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
 
-                        # print(l_index, ':', ransac_line.score(x_list.reshape(-1,1), y_list))
                     except ValueError:
-                        continue
+                        print(l_index)
 
-                # x_val_range = float(max(x_list) - min(x_list))
-                # y_val_range = float(max(y_list) - min(y_list))
-                #
-                # if len(x_list) > d_less_len and \
-                #         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
-                #         (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
-                #         x_val_range > d_less_len and y_val_range > d_less_len:
-                #     flag_mat[x_list, y_list] += 200
+
+
+            # p = Pool()
+            # map(process, range(labels.max()))
+            # p.close()
+            # p.join()
+
             end_plot = time.time()
-            # line_segment_detector = cv2.createLineSegmentDetector()
-            #
-            # line_segs = line_segment_detector.detect(bi_mat)[0]
-            #
-            # segment_img = np.zeros_like(bi_mat)
-            # segment_img = line_segment_detector.drawSegments(segment_img,line_segs)
 
             print('plot cost time :', end_plot - begin_plot)
-
-            # for i in range(t.shape[0]):
-            #     for j in range(i + 1, t.shape[1]):
-            #         xoff, yoff = i, j
-            #         # x_list = list()
-            #         # y_list = list()
-            #         point_list = list()
-            #         while True:
 
             cv2.imshow('the4', segment_img)
             cv2.imshow('the2', flag_mat)

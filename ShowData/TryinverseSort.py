@@ -93,7 +93,6 @@ if __name__ == '__main__':
     cv2.namedWindow('the3')
     cv2.namedWindow('the4')
 
-
     cv2.createTrackbar('threshold', 'the', 100, 500, is_changed)
     cv2.createTrackbar('line_len', 'the', 2220, 2550, is_changed)
     cv2.createTrackbar('line_gap', 'the', 0, 2550, is_changed)
@@ -205,7 +204,7 @@ if __name__ == '__main__':
             for l_index in range(labels.max()):
                 # print(l_index, np.where(labels==l_index))
                 x_list, y_list = np.where(labels == l_index)
-                print([x_list,y_list])
+                print([x_list, y_list])
 
                 if len(x_list) > d_less_len and \
                         len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list) and \

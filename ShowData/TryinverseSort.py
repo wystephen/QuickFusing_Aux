@@ -205,23 +205,26 @@ if __name__ == '__main__':
             
             '''
             begin_plot = time.time()
-            # for l_index in range(labels.max()):
-            #     # print(l_index, np.where(labels==l_index))
-            #     x_list, y_list = np.where(labels == l_index)
-            #     # print([x_list, y_list])
-            #
-            #     if len(x_list) > d_less_len and \
-            #             len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list) and \
-            #             (float(max(x_list) - min(x_list)) / d_less_k < float(max(y_list) - min(y_list)) < float(
-            #                 max(x_list) - min(x_list)) * d_less_k):
-            #         flag_mat[x_list, y_list] += 200
+            for l_index in range(labels.max()):
+                # print(l_index, np.where(labels==l_index))
+                x_list, y_list = np.where(labels == l_index)
+                # print([x_list, y_list])
+
+                x_val_range = float(max(x_list)-min(x_list))
+                y_val_range = float(max(y_list)-min(y_list))
+
+                if len(x_list) > d_less_len and \
+                        float(len(x_list)) / d_less_rate < float(x_val_range+y_val_range)and \
+                        (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
+                        x_val_range > d_less_len and y_val_range > d_less_len:
+                    flag_mat[x_list, y_list] += 200
             end_plot = time.time()
-            line_segment_detector = cv2.createLineSegmentDetector()
-
-            line_segs = line_segment_detector.detect(bi_mat)[0]
-
-            segment_img = np.zeros_like(bi_mat)
-            segment_img = line_segment_detector.drawSegments(segment_img,line_segs)
+            # line_segment_detector = cv2.createLineSegmentDetector()
+            #
+            # line_segs = line_segment_detector.detect(bi_mat)[0]
+            #
+            # segment_img = np.zeros_like(bi_mat)
+            # segment_img = line_segment_detector.drawSegments(segment_img,line_segs)
 
             print('plot cost time :', end_plot - begin_plot)
 

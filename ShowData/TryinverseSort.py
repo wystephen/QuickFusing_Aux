@@ -91,6 +91,9 @@ if __name__ == '__main__':
     cv2.namedWindow('the')
     cv2.namedWindow('the2')
     cv2.namedWindow('the3')
+    cv2.namedWindow('the4')
+
+
     cv2.createTrackbar('threshold', 'the', 100, 500, is_changed)
     cv2.createTrackbar('line_len', 'the', 2220, 2550, is_changed)
     cv2.createTrackbar('line_gap', 'the', 0, 2550, is_changed)

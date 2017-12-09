@@ -200,18 +200,21 @@ if __name__ == '__main__':
             labels = measure.label(bi_mat, connectivity=2)
 
             # print('labels:',labels.shape,labels.max(),labels.min())
+            '''
+            Focus here the  important way to create image
+            
+            '''
             begin_plot = time.time()
-            for l_index in range(labels.max()):
-                # print(l_index, np.where(labels==l_index))
-                x_list, y_list = np.where(labels == l_index)
-                # print([x_list, y_list])
-
-                if len(x_list) > d_less_len and \
-                        len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list) and \
-                        ((max(y_list) - min(y_list)) * d_less_k < (max(x_list) - min(x_list)) or
-                         (max(x_list) - min(x_list)) * d_less_k < (max(y_list) - min(y_list))) and \
-                        (not (max(y_list) is min(y_list))) and not (max(x_list) is min(x_list)):
-                    flag_mat[x_list, y_list] += 200
+            # for l_index in range(labels.max()):
+            #     # print(l_index, np.where(labels==l_index))
+            #     x_list, y_list = np.where(labels == l_index)
+            #     # print([x_list, y_list])
+            #
+            #     if len(x_list) > d_less_len and \
+            #             len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list) and \
+            #             (float(max(x_list) - min(x_list)) / d_less_k < float(max(y_list) - min(y_list)) < float(
+            #                 max(x_list) - min(x_list)) * d_less_k):
+            #         flag_mat[x_list, y_list] += 200
             end_plot = time.time()
 
             print('plot cost time :', end_plot - begin_plot)

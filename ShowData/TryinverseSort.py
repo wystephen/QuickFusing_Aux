@@ -102,7 +102,7 @@ if __name__ == '__main__':
     cv2.createTrackbar('detector_threshold', 'the', 109, 255, is_changed)
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
     cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
-    cv2.createTrackbar('less_k', 'the', 0, 10, is_changed)
+    cv2.createTrackbar('less_k', 'the', 10, 100, is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -184,6 +184,8 @@ if __name__ == '__main__':
             d_less_len = cv2.getTrackbarPos('less_len', 'the')
             d_less_rate = cv2.getTrackbarPos('less_rate', 'the')
             d_less_rate = float(d_less_rate) / 10.0
+            d_less_k = cv2.getTrackbarPos('less_k', 'the')
+            d_less_rate = float(d_less_k / 10.0)
 
             bi_mat = np.zeros_like(t)
 
@@ -202,7 +204,10 @@ if __name__ == '__main__':
                 x_list, y_list = np.where(labels == l_index)
 
                 if len(x_list) > d_less_len and \
-                        len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list):
+                        len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list) and \
+                        ((max(y_list) - min(y_list)) * d_less_k > (max(x_list) - min(x_list)) or
+                         (max(x_list) - min(x_list)) * d_less_k < (max(y_list) - min(y_list))) and \
+                        (not (max(y_list) is min(y_list) or max(x_list) is min(x_list))):
                     flag_mat[x_list, y_list] += 200
             end_plot = time.time()
 

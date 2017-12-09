@@ -161,6 +161,7 @@ if __name__ == '__main__':
             #             cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
             line_img = np.zeros_like(t)
+
             lines = cv2.HoughLines(t, 1, np.pi / 180.0 * 5.0, line_len)
             # print('lines ;', lines )
             if type(lines) is type(np.array([0])):
@@ -206,6 +207,7 @@ if __name__ == '__main__':
             
             '''
             begin_plot = time.time()
+            segment_img = np.zeros_like(t)
 
             for l_index in range(labels.max()):
                 # print(l_index, np.where(labels==l_index))
@@ -213,16 +215,26 @@ if __name__ == '__main__':
                 # print([x_list, y_list])
 
                 if len(x_list) > d_less_len:
-                    line_sac = ransac.LinearLeastSquaresModel(range(1), range(1, 2))
+                    # line_sac = ransac.LinearLeastSquaresModel(range(1), range(1, 2))
 
-                    txy = np.zeros([len(x_list), 2])
-                    txy[:, 0] = x_list
-                    txy[:, 1] = y_list
-                    txy = txy.astype(dtype=np.float)
-                    # line_sac.fit(txy)
-                    # print(line_sac)
-                    linear_fit, ransac_data = ransac.ransac(txy, line_sac, 2, 20, 3.0, 0.8 * txy.shape[0])
-                    print(l_index, linear_fit)
+                    # txy = np.zeros([len(x_list), 2])
+                    # txy[:, 0] = x_list
+                    # txy[:, 1] = y_list
+                    # txy = txy.astype(dtype=np.float)
+                    # # line_sac.fit(txy)
+                    # # print(line_sac)
+                    # linear_fit, ransac_data = ransac.ransac(txy, line_sac, 2, 20, 3.0, 0.8 * txy.shape[0])
+                    # print(l_index, linear_fit)
+                    try:
+                        ransac_line = linear_model.RANSACRegressor()
+                        ransac_line.fit(x_list.reshape(-1, 1), y_list)
+
+                        segment_img[x_list.astype(dtype=np.int),
+                                    ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
+
+                        # print(l_index, ':', ransac_line.score(x_list.reshape(-1,1), y_list))
+                    except ValueError:
+                        continue
 
                 x_val_range = float(max(x_list) - min(x_list))
                 y_val_range = float(max(y_list) - min(y_list))
@@ -250,7 +262,7 @@ if __name__ == '__main__':
             #         point_list = list()
             #         while True:
 
-            # cv2.imshow('the4',segment_img)
+            cv2.imshow('the4', segment_img)
             cv2.imshow('the2', flag_mat)
             cv2.imshow('the3', bi_mat)
             cv2.imshow('the', t)

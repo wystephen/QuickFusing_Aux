@@ -218,7 +218,7 @@ if __name__ == '__main__':
             end_plot = time.time()
             line_segment_detector = cv2.createLineSegmentDetector()
 
-            line_segment_detector.detect(bi_mat, line_segs, 1)
+            line_segs = line_segment_detector.detect(bi_mat)[0]
 
             segment_img = np.zeros_like(bi_mat)
             segment_img = line_segment_detector.drawSegments(segment_img,line_segs)
@@ -233,6 +233,7 @@ if __name__ == '__main__':
             #         point_list = list()
             #         while True:
 
+            # cv2.imshow('the4',segment_img)
             cv2.imshow('the2', flag_mat)
             cv2.imshow('the3', bi_mat)
             cv2.imshow('the', t)

@@ -249,7 +249,8 @@ if __name__ == '__main__':
 
 
             # p = Pool()
-            # map(process, range(labels.max()))
+            # the_range_list = range(labels.max())
+            # map(process, the_range_list)
             # p.close()
             # p.join()
             if len(score_list) > 0:

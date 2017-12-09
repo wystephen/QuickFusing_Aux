@@ -179,7 +179,7 @@ if __name__ == '__main__':
             d_threshold = cv2.getTrackbarPos('detector_threshold', 'the')
             d_less_len = cv2.getTrackbarPos('less_len', 'the')
             d_less_rate = cv2.getTrackbarPos('less_rate', 'the')
-            d_less_rate = float(d_less_rate)/10.0
+            d_less_rate = float(d_less_rate) / 10.0
 
             bi_mat = np.zeros_like(t)
 
@@ -198,7 +198,7 @@ if __name__ == '__main__':
                 x_list, y_list = np.where(labels == l_index)
 
                 if len(x_list) > d_less_len and \
-                        len(x_list)/d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list):
+                        len(x_list) / d_less_rate < max(x_list) - min(x_list) + max(y_list) - min(y_list):
                     flag_mat[x_list, y_list] += 200
             end_plot = time.time()
 

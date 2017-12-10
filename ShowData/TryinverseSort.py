@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     # search parameters
     cv2.createTrackbar('detector_threshold', 'the', 109, 255, is_changed)
-    cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
+    cv2.createTrackbar('less_len', 'the', 6, 200, is_changed)
     cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
     cv2.createTrackbar('less_k', 'the', 32, 100, is_changed)
     cv2.createTrackbar('max_r_error', 'the', 5, 100, is_changed)
@@ -219,7 +219,7 @@ if __name__ == '__main__':
                                      mDetector.length_array[min(pre_y_list.astype(dtype=np.int)), 0]
 
                         if the_tmp_score / float(len(x_list)) < d_max_r_error and \
-                                d_less_k < y_distance / x_distance < d_less_k:
+                                0.8 < (y_distance / x_distance) < 1.20:
                             segment_img[x_list.astype(dtype=np.int),
                                         ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] = 200
 

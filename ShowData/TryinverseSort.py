@@ -205,7 +205,7 @@ if __name__ == '__main__':
             labels = measure.label(bi_mat, connectivity=2)
 
 
-            cv2.cvtColor(bi_mat,cv2.COLOR_GRAY2RGB,bi_mat)
+            bi_mat= cv2.cvtColor(bi_mat,cv2.COLOR_GRAY2RGB)
             print('type bi mat',type(bi_mat),bi_mat.shape)
 
             '''
@@ -246,6 +246,8 @@ if __name__ == '__main__':
                                     ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
                         bi_mat[x_list.astype(dtype=np.int),
                         ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] += 200
+                        bi_mat[x_list.astype(dtype=np.int),
+                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] += 200
 
                     except ValueError:
                         print(l_index)

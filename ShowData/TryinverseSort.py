@@ -109,7 +109,7 @@ if __name__ == '__main__':
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
     cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
     cv2.createTrackbar('less_k', 'the', 32, 100, is_changed)
-    cv2.createTrackbar('max_r_error','the',5,100,is_changed)
+    cv2.createTrackbar('max_r_error', 'the', 5, 100, is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -156,7 +156,6 @@ if __name__ == '__main__':
             line_len = cv2.getTrackbarPos('line_len', 'the')
             line_gap = cv2.getTrackbarPos('line_gap', 'the')
 
-
             # cv2.imshow('the2', line_img)
             #
             t = (t.astype(dtype=np.float) / t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
@@ -170,8 +169,8 @@ if __name__ == '__main__':
             d_less_rate = float(d_less_rate) / 10.0
             d_less_k = cv2.getTrackbarPos('less_k', 'the')
             d_less_k = float(d_less_k / 10.0)
-            d_max_r_error = cv2.getTrackbarPos('max_r_error','the')
-            d_max_r_error = float(d_max_r_error)/10.0
+            d_max_r_error = cv2.getTrackbarPos('max_r_error', 'the')
+            d_max_r_error = float(d_max_r_error) / 10.0
 
             bi_mat = np.zeros_like(t)
 
@@ -179,9 +178,8 @@ if __name__ == '__main__':
 
             labels = measure.label(bi_mat, connectivity=2)
 
-
-            bi_mat= cv2.cvtColor(bi_mat,cv2.COLOR_GRAY2RGB)
-            print('type bi mat',type(bi_mat),bi_mat.shape)
+            bi_mat = cv2.cvtColor(bi_mat, cv2.COLOR_GRAY2RGB)
+            print('type bi mat', type(bi_mat), bi_mat.shape)
 
             '''
             Focus here the  important way to create image
@@ -207,7 +205,7 @@ if __name__ == '__main__':
                 if len(x_list) > d_less_len and \
                         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
                         (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
-                        x_val_range > d_less_len and y_val_range > d_less_len  :
+                        x_val_range > d_less_len and y_val_range > d_less_len:
 
                     try:
                         ransac_line = linear_model.RANSACRegressor()
@@ -216,18 +214,17 @@ if __name__ == '__main__':
                         score_list.append(the_tmp_score)
                         score_rel_list.append(the_tmp_score / float(len(x_list)))
 
-                        if the_tmp_score/float(len(x_list)) < d_max_r_error:
-
+                        if the_tmp_score / float(len(x_list)) < d_max_r_error:
                             segment_img[x_list.astype(dtype=np.int),
                                         ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] = 200
 
-                            #plot~
+                            # plot~
                             bi_mat[x_list.astype(dtype=np.int),
-                            ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] = 100
+                                   ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int), 1] = 100
                             bi_mat[x_list.astype(dtype=np.int),
-                            ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] = 200
+                                   ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int), 0] = 200
                             bi_mat[x_list.astype(dtype=np.int),
-                            ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),2] = 0
+                                   ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int), 2] = 0
 
                     except ValueError:
                         print(l_index)

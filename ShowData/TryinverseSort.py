@@ -109,6 +109,7 @@ if __name__ == '__main__':
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
     cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
     cv2.createTrackbar('less_k', 'the', 32, 100, is_changed)
+    cv2.createTrackbar('max_r_error','the',10,100,is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -245,7 +246,7 @@ if __name__ == '__main__':
                         segment_img[x_list.astype(dtype=np.int),
                                     ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
                         bi_mat[x_list.astype(dtype=np.int),
-                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] = 10
+                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] = 100
                         bi_mat[x_list.astype(dtype=np.int),
                         ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] = 200
                         bi_mat[x_list.astype(dtype=np.int),

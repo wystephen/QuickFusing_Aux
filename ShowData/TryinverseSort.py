@@ -194,6 +194,8 @@ if __name__ == '__main__':
             d_less_rate = float(d_less_rate) / 10.0
             d_less_k = cv2.getTrackbarPos('less_k', 'the')
             d_less_k = float(d_less_k / 10.0)
+            d_max_r_error = cv2.getTrackbarPos('max_r_error','the')
+            d_max_r_error = float(d_max_r_error)/10.0
 
             bi_mat = np.zeros_like(t)
 

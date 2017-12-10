@@ -245,9 +245,11 @@ if __name__ == '__main__':
                         segment_img[x_list.astype(dtype=np.int),
                                     ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
                         bi_mat[x_list.astype(dtype=np.int),
-                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] += 200
+                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] = 10
                         bi_mat[x_list.astype(dtype=np.int),
-                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] += 200
+                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] = 200
+                        bi_mat[x_list.astype(dtype=np.int),
+                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),2] = 0
 
                     except ValueError:
                         print(l_index)
@@ -266,7 +268,7 @@ if __name__ == '__main__':
             print('plot cost time :', end_plot - begin_plot)
 
             cv2.imshow('the4', segment_img)
-            cv2.imshow('the2', flag_mat)
+            # cv2.imshow('the2', flag_mat)
             cv2.imshow('the3', bi_mat)
             cv2.imshow('the', t)
             # plt.show()

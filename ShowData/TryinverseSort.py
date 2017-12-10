@@ -108,7 +108,7 @@ if __name__ == '__main__':
     cv2.createTrackbar('detector_threshold', 'the', 109, 255, is_changed)
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
     cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
-    cv2.createTrackbar('less_k', 'the', 10, 100, is_changed)
+    cv2.createTrackbar('less_k', 'the', 32, 100, is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):

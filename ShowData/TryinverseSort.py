@@ -41,7 +41,8 @@ import time
 from multiprocessing import Pool
 
 change_flag = True
-segment_img = np.zeros([10,10])
+segment_img = np.zeros([10, 10])
+
 
 def is_changed(k):
     global change_flag
@@ -215,14 +216,11 @@ if __name__ == '__main__':
             score_list = list()
             score_rel_list = list()
 
-
-
             # def process(l_index):
             for l_index in range(labels.max()):
                 # nonlocal segment_img
                 # global segment_img
                 # global segment_img_list
-
 
                 x_list, y_list = np.where(labels == l_index)
                 x_val_range = float(max(x_list) - min(x_list))
@@ -236,9 +234,9 @@ if __name__ == '__main__':
                     try:
                         ransac_line = linear_model.RANSACRegressor()
                         ransac_line.fit(x_list.reshape(-1, 1), y_list)
-                        the_tmp_score = np.linalg.norm(y_list-ransac_line.predict(x_list.reshape(-1,1)))
+                        the_tmp_score = np.linalg.norm(y_list - ransac_line.predict(x_list.reshape(-1, 1)))
                         score_list.append(the_tmp_score)
-                        score_rel_list.append(the_tmp_score/float(len(x_list)))
+                        score_rel_list.append(the_tmp_score / float(len(x_list)))
 
                         segment_img[x_list.astype(dtype=np.int),
                                     ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
@@ -246,16 +244,14 @@ if __name__ == '__main__':
                     except ValueError:
                         print(l_index)
 
-
-
             # p = Pool()
             # the_range_list = range(labels.max())
             # map(process, the_range_list)
             # p.close()
             # p.join()
             if len(score_list) > 0:
-                print('scorlist:',min(score_list),max(score_list) )
-                print('scorlist:',min(score_rel_list),max(score_rel_list) )
+                print('scorlist:', min(score_list), max(score_list))
+                print('scorlist:', min(score_rel_list), max(score_rel_list))
 
             end_plot = time.time()
 

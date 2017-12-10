@@ -179,7 +179,7 @@ if __name__ == '__main__':
             labels = measure.label(bi_mat, connectivity=2)
 
             bi_mat = cv2.cvtColor(bi_mat, cv2.COLOR_GRAY2RGB)
-            print('type bi mat', type(bi_mat), bi_mat.shape)
+            # print('type bi mat', type(bi_mat), bi_mat.shape)
 
             '''
             Focus here the  important way to create image
@@ -202,25 +202,24 @@ if __name__ == '__main__':
                 x_val_range = float(max(x_list) - min(x_list))
                 y_val_range = float(max(y_list) - min(y_list))
 
-
                 if len(x_list) > d_less_len and \
                         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
                         (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
-                        x_val_range > d_less_len and y_val_range > d_less_len :
+                        x_val_range > d_less_len and y_val_range > d_less_len:
 
                     try:
                         ransac_line = linear_model.RANSACRegressor()
                         ransac_line.fit(x_list.reshape(-1, 1), y_list)
-                        pre_y_list = ransac_line.predict(x_list.reshape(-1,1))
+                        pre_y_list = ransac_line.predict(x_list.reshape(-1, 1))
                         the_tmp_score = np.linalg.norm(y_list - ransac_line.predict(x_list.reshape(-1, 1)))
                         score_list.append(the_tmp_score)
                         score_rel_list.append(the_tmp_score / float(len(x_list)))
-                        x_distance = mDetector.length_array[max(x_list),0]-mDetector.length_array[min(x_list),0]
-                        y_distance = mDetector.length_array[max(pre_y_list.astype(dtype=np.int)),0]-\
-                                     mDetector.length_array[min(pre_y_list.astype(dtype=np.int)),0]
+                        x_distance = mDetector.length_array[max(x_list), 0] - mDetector.length_array[min(x_list), 0]
+                        y_distance = mDetector.length_array[max(pre_y_list.astype(dtype=np.int)), 0] - \
+                                     mDetector.length_array[min(pre_y_list.astype(dtype=np.int)), 0]
 
                         if the_tmp_score / float(len(x_list)) < d_max_r_error and \
-                                d_less_k < y_distance/x_distance < d_less_k:
+                                d_less_k < y_distance / x_distance < d_less_k:
                             segment_img[x_list.astype(dtype=np.int),
                                         ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] = 200
 

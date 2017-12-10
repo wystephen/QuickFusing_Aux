@@ -109,7 +109,7 @@ if __name__ == '__main__':
     cv2.createTrackbar('less_len', 'the', 5, 200, is_changed)
     cv2.createTrackbar('less_rate', 'the', 33, 100, is_changed)
     cv2.createTrackbar('less_k', 'the', 32, 100, is_changed)
-    cv2.createTrackbar('max_r_error','the',10,100,is_changed)
+    cv2.createTrackbar('max_r_error','the',5,100,is_changed)
 
     t_mat = mDetector.tmp_mnza_mat * 1.0
     while (True):
@@ -155,32 +155,8 @@ if __name__ == '__main__':
 
             line_len = cv2.getTrackbarPos('line_len', 'the')
             line_gap = cv2.getTrackbarPos('line_gap', 'the')
-            # t = cv2.cvtColor(t, cv2.COlor)
-            # convert
-            # lines = cv2.HoughLinesP(t, 1, np.pi / 180 * 5, line_len, line_gap)
-            # # print(type(lines))
-            # if type(lines) is type(np.array([0])):
-            #     for line in lines:
-            #         for x1, y1, x2, y2 in line:
-            #             cv2.line(t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-            line_img = np.zeros_like(t)
 
-            lines = cv2.HoughLines(t, 1, np.pi / 180.0 * 5.0, line_len)
-            # print('lines ;', lines )
-            if type(lines) is type(np.array([0])):
-                lines1 = lines[:, 0, :]  # 提取为为二维
-                for rho, theta in lines1[:]:
-                    a = np.cos(theta)
-                    b = np.sin(theta)
-                    x0 = a * rho
-                    y0 = b * rho
-                    x1 = int(x0 + 1000 * (-b))
-                    y1 = int(y0 + 1000 * (a))
-                    x2 = int(x0 - 1000 * (-b))
-                    y2 = int(y0 - 1000 * (a))
-                    cv2.line(t, (x1, y1), (x2, y2), (255, 0, 0), 1)
-                    cv2.line(line_img, (x1, y1), (x2, y2), (255, 255, 0), 1)
             # cv2.imshow('the2', line_img)
             #
             t = (t.astype(dtype=np.float) / t.astype(dtype=np.float).max() * 255).astype(dtype=np.uint8)
@@ -201,10 +177,6 @@ if __name__ == '__main__':
 
             cv2.threshold(t, d_threshold, 255, cv2.THRESH_BINARY_INV, dst=bi_mat)
 
-            flag_mat = np.zeros_like(t)
-
-            # flag_mat = bi_mat
-
             labels = measure.label(bi_mat, connectivity=2)
 
 
@@ -218,7 +190,6 @@ if __name__ == '__main__':
             begin_plot = time.time()
             segment_img = np.zeros_like(t)
             segment_img_list = list()
-            # segment_img_list.append(segment_img)
 
             score_list = list()
             score_rel_list = list()
@@ -236,7 +207,7 @@ if __name__ == '__main__':
                 if len(x_list) > d_less_len and \
                         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
                         (x_val_range / d_less_k < y_val_range < x_val_range * d_less_k) and \
-                        x_val_range > d_less_len and y_val_range > d_less_len:
+                        x_val_range > d_less_len and y_val_range > d_less_len  :
 
                     try:
                         ransac_line = linear_model.RANSACRegressor()
@@ -245,14 +216,18 @@ if __name__ == '__main__':
                         score_list.append(the_tmp_score)
                         score_rel_list.append(the_tmp_score / float(len(x_list)))
 
-                        segment_img[x_list.astype(dtype=np.int),
-                                    ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] += 200
-                        bi_mat[x_list.astype(dtype=np.int),
-                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] = 100
-                        bi_mat[x_list.astype(dtype=np.int),
-                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] = 200
-                        bi_mat[x_list.astype(dtype=np.int),
-                        ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),2] = 0
+                        if the_tmp_score/float(len(x_list)) < d_max_r_error:
+
+                            segment_img[x_list.astype(dtype=np.int),
+                                        ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int)] = 200
+
+                            #plot~
+                            bi_mat[x_list.astype(dtype=np.int),
+                            ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),1] = 100
+                            bi_mat[x_list.astype(dtype=np.int),
+                            ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),0] = 200
+                            bi_mat[x_list.astype(dtype=np.int),
+                            ransac_line.predict(x_list.reshape(-1,1)).astype(dtype=np.int),2] = 0
 
                     except ValueError:
                         print(l_index)

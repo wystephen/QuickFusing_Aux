@@ -67,7 +67,7 @@ if __name__ == '__main__':
     mDetector.Step2Length(False)
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
-    # mDetector.GetDirectDis(20.0)
+    mDetector.GetDirectDis(20.0)
     mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)

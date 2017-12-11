@@ -282,7 +282,7 @@ if __name__ == '__main__':
             data['max_r_error'] = cv2.getTrackbarPos('max_r_error', 'the')
 
             p_f = open(result_dir+'para.json','w')
-            p_f.write(json.jumps(data))
+            p_f.write(json.dumps(data))
 
 
 

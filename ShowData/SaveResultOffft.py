@@ -83,13 +83,13 @@ if __name__ == '__main__':
     mDetector.Step2Length(False)
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
-    # mDetector.GetDirectDis(20.0)
+    mDetector.GetDirectDis(30.0)
     mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)
     # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetRelativeAttDis(50.0)
-    mDetector.MultiLayerANZFFt([30, 20.0, 10.0, 5.0])
+    mDetector.MultiLayerANZFFt([30, 25,20.0,15, 10.0, 5.0])
 
     print('begin cv2')
     import cv2

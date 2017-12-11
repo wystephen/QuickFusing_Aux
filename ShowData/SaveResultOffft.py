@@ -83,13 +83,19 @@ if __name__ == '__main__':
     mDetector.Step2Length(False)
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
+    start = time.time()
     mDetector.GetDirectDis(30.0)
+    end = time.time()
+    print('GetDirectDis time', end-start)
     mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)
     # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetRelativeAttDis(50.0)
+    start = time.time()
     mDetector.MultiLayerANZFFt([30, 25,20.0,15, 10.0, 5.0])
+    end = time.time()
+    print('MultiLayerANZFFT time:', end-start)
 
     print('begin cv2')
     import cv2
@@ -243,13 +249,13 @@ if __name__ == '__main__':
             # map(process, the_range_list)
             # p.close()
             # p.join()
-            if len(score_list) > 0:
-                print('scorlist:', min(score_list), max(score_list))
-                print('scorlist:', min(score_rel_list), max(score_rel_list))
+            # if len(score_list) > 0:
+                # print('scorlist:', min(score_list), max(score_list))
+                # print('scorlist:', min(score_rel_list), max(score_rel_list))
 
             end_plot = time.time()
 
-            print('plot cost time :', end_plot - begin_plot)
+            # print('plot cost time :', end_plot - begin_plot)
 
             cv2.imshow('the4', segment_img)
             # cv2.imshow('the2', flag_mat)

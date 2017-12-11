@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
     data_dir = '/home/steve/Data/II/'
-    data_num = 34
+    data_num = 32
     result_dir = '/home/steve/Data/II/result/'+str(data_num)
     dir_name = '/home/steve/Data/II/' + str(data_num) + '/'
     # dir_name = '/home/steve/Data/II/20/'
@@ -265,3 +265,8 @@ if __name__ == '__main__':
             # cv2.imshow('the', t)
             change_flag = False
             cv2.waitKey(10)
+
+            # save data to file
+            # 1. write parameters to file
+            p_f = open(result_dir+'para.txt')
+            # p_f.write('detector_threshold:',)

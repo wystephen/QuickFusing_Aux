@@ -234,7 +234,8 @@ if __name__ == '__main__':
                                    ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int), 2] = 0
 
                     except ValueError:
-                        print(l_index)
+                        print('some error here', l_index)
+
 
 
             # p = Pool()

@@ -53,8 +53,8 @@ if __name__ == '__main__':
 
     start_time = time.time()
     data_dir = '/home/steve/Data/II/'
-    data_num = 32
-    result_dir = '/home/steve/Data/II/result/'+str(data_num)
+    data_num = 17
+    result_dir = '/home/steve/Data/II/result/' + str(data_num)
     dir_name = '/home/steve/Data/II/' + str(data_num) + '/'
     # dir_name = '/home/steve/Data/II/20/'
 
@@ -86,16 +86,16 @@ if __name__ == '__main__':
     start = time.time()
     mDetector.GetDirectDis(30.0)
     end = time.time()
-    print('GetDirectDis time', end-start)
+    print('GetDirectDis time', end - start)
     mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)
     # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
     # mDetector.GetRelativeAttDis(50.0)
     start = time.time()
-    mDetector.MultiLayerANZFFt([30, 25,20.0,15, 10.0, 5.0])
+    mDetector.MultiLayerANZFFt([30, 25, 20.0, 15, 10.0, 5.0])
     end = time.time()
-    print('MultiLayerANZFFT time:', end-start)
+    print('MultiLayerANZFFT time:', end - start)
 
     print('begin cv2')
     import cv2
@@ -242,16 +242,14 @@ if __name__ == '__main__':
                     except ValueError:
                         print('some error here', l_index)
 
-
-
             # p = Pool()
             # the_range_list = range(labels.max())
             # map(process, the_range_list)
             # p.close()
             # p.join()
             # if len(score_list) > 0:
-                # print('scorlist:', min(score_list), max(score_list))
-                # print('scorlist:', min(score_rel_list), max(score_rel_list))
+            # print('scorlist:', min(score_list), max(score_list))
+            # print('scorlist:', min(score_rel_list), max(score_rel_list))
 
             end_plot = time.time()
 
@@ -268,5 +266,23 @@ if __name__ == '__main__':
 
             # save data to file
             # 1. write parameters to file
-            p_f = open(result_dir+'para.txt')
-            # p_f.write('detector_threshold:',)
+            import json
+
+            data = dict()
+            data['threshold'] = cv2.getTrackbarPos('threshold', 'the')
+            data['line_len'] = cv2.getTrackbarPos('line_len', 'the')
+            data['line_gap'] = cv2.getTrackbarPos('line_gap', 'the')
+            data['c_size'] = cv2.getTrackbarPos('c_size', 'the')
+            data['ero_size'] = cv2.getTrackbarPos('ero_size', 'the')
+            data['ero_times'] = cv2.getTrackbarPos('ero_times', 'the')
+            data['detector_threshold'] = cv2.getTrackbarPos('detector_threshold', 'the')
+            data['less_len'] = cv2.getTrackbarPos('less_len', 'the')
+            data['less_rate'] = cv2.getTrackbarPos('less_rate', 'the')
+            data['less_k'] = cv2.getTrackbarPos('less_k', 'the')
+            data['max_r_error'] = cv2.getTrackbarPos('max_r_error', 'the')
+
+            p_f = open(result_dir+'para.json','w')
+            p_f.write(json.jumps(data))
+
+
+

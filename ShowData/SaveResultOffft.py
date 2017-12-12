@@ -185,6 +185,7 @@ if __name__ == '__main__':
             cv2.threshold(t, d_threshold, 255, cv2.THRESH_BINARY_INV, dst=bi_mat)
 
             labels = measure.label(bi_mat, connectivity=2)
+            real_bi_mat = bi_mat.copy()
 
             bi_mat = cv2.cvtColor(bi_mat, cv2.COLOR_GRAY2RGB)
             # print('type bi mat', type(bi_mat), bi_mat.shape)
@@ -288,11 +289,16 @@ if __name__ == '__main__':
             # 2. write data to file
             np.savetxt(result_dir+'source_distance_mat.data',mDetector.tmp_src_mat)
             np.savetxt(result_dir+'mnza_mat.data', mDetector.tmp_mnza_mat)
-            np.savetxt(result_dir+'bi_mat.data',bi_mat)
+            np.savetxt(result_dir+'bi_mat.data', real_bi_mat)
             np.savetxt(result_dir+'result_mat.data',segment_img)
-            # np.savetxt(result_dir+'pairs_index.csv',)
-            # print([])
-            pairs_array = np.array(segment_img[segment_img>100])
-            print(pairs_array)
+
+            pairs1,pairs2 = np.where(segment_img>100)
+            pairs_mat = np.zeros([pairs1.shape[0],2])
+            pairs_mat[:,0] = pairs1
+            pairs_mat[:,1] = pairs2
+            np.savetxt(result_dir+'pairs_mat.data', pairs_mat)
+
+            np.savetxt(dir_name+'pairs.csv', pairs_mat) # save to data directory for graph optimization
+
 
             # 3. save image

@@ -283,3 +283,13 @@ if __name__ == '__main__':
 
             p_f = open(result_dir + 'para.json', 'w')
             p_f.write(json.dumps(data))
+
+
+            # 2. write data to file
+            np.savetxt(result_dir+'source_distance_mat.data',mDetector.tmp_src_mat)
+            np.savetxt(result_dir+'mnza_mat.data', mDetector.tmp_mnza_mat)
+            np.savetxt(result_dir+'bi_mat.data',bi_mat)
+            np.savetxt(result_dir+'result_mat.data',segment_img)
+            # np.savetxt(result_dir+'pairs_index.csv',)
+
+            # 3. save image

@@ -291,5 +291,8 @@ if __name__ == '__main__':
             np.savetxt(result_dir+'bi_mat.data',bi_mat)
             np.savetxt(result_dir+'result_mat.data',segment_img)
             # np.savetxt(result_dir+'pairs_index.csv',)
+            # print([])
+            pairs_array = np.array(segment_img[segment_img>100])
+            print(pairs_array)
 
             # 3. save image

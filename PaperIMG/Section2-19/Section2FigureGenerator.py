@@ -48,38 +48,57 @@ if __name__ == '__main__':
     ref_dis_mat = np.zeros([trace_graph.shape[0],trace_graph.shape[0]])
 
     ref_dis_mat = squareform(pdist(trace_graph))
-
-    rows = 3
-    cols = 1
-    plt.subplot(rows,cols, 2)
-    plt.title('bi_mat')
-    plt.imshow(bi_mat)
-    # plt.colorbar()
-
-    plt.subplot(rows,cols, 1)
-    plt.title('feature_mat')
-    plt.imshow(mnza_mat)
-    # plt.colorbar()
-
-    plt.subplot(rows,cols, 3)
-    plt.title('pairs_mat')
-    plt.imshow(pairs_mat)
-    # plt.colorbar()
-
-    plt.savefig('three_mat.png',dpi=1000)
-
-    plt.figure()
-    plt.plot(trace_imu[:, 0], trace_imu[:, 1], '+-', label='trace_imu')
-    plt.plot(trace_graph[:, 0], trace_graph[:, 1], '+-', label='trace graph')
-    plt.grid()
-    plt.legend()
-    plt.savefig('ref_trace.png',dpi  = 1000)
-
-    plt.figure()
     ref_dis_mat = np.where(ref_dis_mat<1.6,1.0,0.0)
-    plt.imshow(ref_dis_mat)
-    plt.title('ref distance mat')
-    plt.colorbar()
-    plt.savefig('ref_dis.png',dpi=1000)
+
+    '''
+    Display several feature mat and save to png files.
+    '''
+    if False:
+        rows = 3
+        cols = 1
+        # plt.subplot(rows,cols, 2)
+        plt.figure()
+        plt.title('bi_mat')
+        plt.imshow(bi_mat)
+        plt.colorbar()
+        plt.savefig('bi_mat.png',dpi=1000)
+
+        # plt.subplot(rows,cols, 1)
+        plt.figure()
+        plt.title('feature_mat')
+        plt.imshow(mnza_mat)
+        plt.colorbar()
+        plt.savefig('feature_mat.png',dpi=1000)
+
+        # plt.subplot(rows,cols, 3)
+        plt.figure()
+        plt.title('pairs_mat')
+        plt.imshow(pairs_mat)
+        plt.colorbar()
+        plt.savefig('pairs_mat.png',dpi=1000)
+
+        # plt.savefig('three_mat.png',dpi=10000)
+
+        plt.figure()
+        plt.plot(trace_imu[:, 0], trace_imu[:, 1], '+-', label='trace_imu')
+        plt.plot(trace_graph[:, 0], trace_graph[:, 1], '+-', label='trace graph')
+        plt.grid()
+        plt.legend()
+        plt.savefig('ref_trace.png',dpi  = 1000)
+
+        plt.figure()
+
+        plt.imshow(ref_dis_mat)
+        plt.title('ref distance mat')
+        plt.colorbar()
+        plt.savefig('ref_dis.png',dpi=1000)
+
+
+
+    threshold_list = np.asarray(range(0,600,1),dtype=np.float)
+    threshold_list = threshold_list/10.0
+    print(threshold_list)
+
+
 
     plt.show()

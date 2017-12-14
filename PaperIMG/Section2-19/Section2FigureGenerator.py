@@ -107,8 +107,20 @@ if __name__ == '__main__':
 
     print('real positive:',real_positive,' real negative: ', real_negative)
 
+    mnza_mat_without_line = np.zeros_like(mnza_mat)
+    for i in range(mnza_mat.shape[0]):
+        for j in range(mnza_mat.shape[1]):
+            if abs(i-j)<5:
+                mnza_mat_without_line[i,j] = mnza_mat.max()
+                if ref_dis_mat[i,j]>0.5:
+                    real_positive-=1.0
+                else:
+                    real_negative-=1.0
+            else:
+                mnza_mat_without_line[i,j] = mnza_mat[i,j]
+
     for i in range(2,threshold_list.shape[0]):
-        x_list,y_list = np.where(mnza_mat<threshold_list[i])
+        x_list,y_list = np.where(mnza_mat_without_line<threshold_list[i])
         tmp = ref_dis_mat[x_list,y_list]
 
         tp = tmp[tmp>0.5].shape[0]
@@ -119,10 +131,12 @@ if __name__ == '__main__':
 
     plt.figure()
     # plt.plot(FPR,TPR,'*')
-    plt.plot(threshold_list,TPR,'--+',label='TPR')
-    plt.plot(threshold_list,FPR,'-+',label='FPR')
+    plt.plot(threshold_list,TPR,'-',label='TPR')
+    plt.plot(threshold_list,FPR,'-',label='FPR')
     plt.legend()
     plt.grid()
+    plt.title('TPR & FPR')
+    plt.savefig('TPRFPR.png',dpi=1000)
 
 
 

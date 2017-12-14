@@ -98,7 +98,7 @@ if __name__ == '__main__':
         plt.title('(b)')
         plt.imshow(pairs_mat)
         plt.axis([400, 550, 170, 50])
-        plt.savefig('pairs_aux.png', dpi=3000)
+        plt.savefig('pairs_aux.png', dpi=1000)
 
         # plt.savefig('three_mat.png',dpi=10000)
 

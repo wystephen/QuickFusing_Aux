@@ -97,7 +97,36 @@ if __name__ == '__main__':
 
     threshold_list = np.asarray(range(0,600,1),dtype=np.float)
     threshold_list = threshold_list/10.0
-    print(threshold_list)
+    # print(threshold_list)
+
+    TPR = np.zeros(threshold_list.shape[0])
+    FPR = np.zeros(threshold_list.shape[0])
+
+    real_positive = float(ref_dis_mat[ref_dis_mat>0.5].shape[0])
+    real_negative = float(ref_dis_mat[ref_dis_mat<0.5].shape[0])
+
+    print('real positive:',real_positive,' real negative: ', real_negative)
+
+    for i in range(2,threshold_list.shape[0]):
+        x_list,y_list = np.where(mnza_mat<threshold_list[i])
+        tmp = ref_dis_mat[x_list,y_list]
+
+        tp = tmp[tmp>0.5].shape[0]
+        fp = tmp[tmp<0.5].shape[0]
+
+        TPR[i] = float(tp)/ real_positive
+        FPR[i] = float(fp)/real_negative
+
+    plt.figure()
+    # plt.plot(FPR,TPR,'*')
+    plt.plot(threshold_list,TPR,'--+',label='TPR')
+    plt.plot(threshold_list,FPR,'-+',label='FPR')
+    plt.legend()
+    plt.grid()
+
+
+
+
 
 
 

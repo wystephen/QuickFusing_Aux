@@ -88,6 +88,16 @@ if __name__ == '__main__':
         plt.colorbar()
         plt.savefig('pairs_mat.png',dpi=1000)
 
+        plt.figure()
+        # plt.title('')
+        plt.subplot(1,2,1)
+        plt.imshow(pairs_mat)
+        plt.suptitle('suptitle')
+        plt.subplot(1,2,2)
+        plt.imshow(pairs_mat)
+        plt.axis([400,550,170,50])
+        plt.savefig('pairs_aux.png',dpi=3000)
+
         # plt.savefig('three_mat.png',dpi=10000)
 
         plt.figure()

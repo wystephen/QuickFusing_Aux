@@ -58,6 +58,7 @@ if __name__ == '__main__':
         cols = 1
         # plt.subplot(rows,cols, 2)
         plt.figure()
+
         plt.title('bi_mat')
         plt.imshow(bi_mat)
         plt.colorbar()
@@ -65,9 +66,12 @@ if __name__ == '__main__':
 
 
         plt.figure()
-        plt.title('bi_aux')
+        plt.subplot(1,2,1)
+        # plt.title('bi_aux')
         plt.imshow(bi_mat)
-        plt.axis([400,550,50,170])
+        plt.subplot(1,2,2)
+        plt.imshow(bi_mat)
+        plt.axis([400,550,170,50])
         plt.savefig('bi_aux.png',dpi=1000)
 
         # plt.subplot(rows,cols, 1)

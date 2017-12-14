@@ -136,7 +136,10 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid()
     plt.title('TPR & FPR')
+    plt.xlabel('threshold')
+    plt.ylabel('rate')
     plt.savefig('TPRFPR.png',dpi=1000)
+
 
 
 

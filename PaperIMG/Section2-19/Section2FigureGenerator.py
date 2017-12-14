@@ -53,7 +53,7 @@ if __name__ == '__main__':
     '''
     Display several feature mat and save to png files.
     '''
-    if False:
+    if True:
         rows = 3
         cols = 1
         # plt.subplot(rows,cols, 2)
@@ -62,6 +62,13 @@ if __name__ == '__main__':
         plt.imshow(bi_mat)
         plt.colorbar()
         plt.savefig('bi_mat.png',dpi=1000)
+
+
+        plt.figure()
+        plt.title('bi_aux')
+        plt.imshow(bi_mat)
+        plt.axis([400,550,50,170])
+        plt.savefig('bi_aux.png',dpi=1000)
 
         # plt.subplot(rows,cols, 1)
         plt.figure()
@@ -138,7 +145,27 @@ if __name__ == '__main__':
     plt.title('TPR & FPR')
     plt.xlabel('threshold')
     plt.ylabel('rate')
+    plt.axis([0,threshold_list.max(),0.0,1.0])
     plt.savefig('TPRFPR.png',dpi=1000)
+
+    plt.figure()
+    plt.title('AUC')
+    plt.plot(FPR,TPR,'--+')
+    plt.grid()
+    plt.plot(np.linspace(0.0,1.0,1000),np.linspace(0.0,1.0,1000),'-')
+    plt.axis([0,1.0,0,1.0])
+
+    show_t_list = range(2,11,1)
+    plt.figure()
+    for i in show_t_list:
+        axes = plt.subplot(3,3,i-1)
+        axes.imshow(np.where(mnza_mat<float(i),1.0,0.0))
+        axes.set_title('threshold:'+str(i))
+        axes.set_xticks([])
+        axes.set_yticks([])
+
+    plt.savefig('seriousOfImg.png',dpi=1000)
+
 
 
 

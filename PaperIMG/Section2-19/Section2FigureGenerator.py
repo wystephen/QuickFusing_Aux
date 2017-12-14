@@ -71,7 +71,7 @@ if __name__ == '__main__':
     plt.legend()
 
     plt.figure()
-    ref_dis_mat = np.where(ref_dis_mat<1.0,ref_dis_mat,2.0)
+    ref_dis_mat = np.where(ref_dis_mat<1.6,1.0,0.0)
     plt.imshow(ref_dis_mat)
     plt.title('ref distance mat')
     plt.colorbar()

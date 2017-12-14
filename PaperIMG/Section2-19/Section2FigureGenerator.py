@@ -71,7 +71,7 @@ if __name__ == '__main__':
         plt.title('(b)')
         plt.imshow(bi_mat)
         plt.axis([400, 550, 170, 50])
-        plt.savefig('bi_aux.png', dpi=1000)
+        plt.savefig('bi_aux.png', dpi=3000)
 
         # plt.subplot(rows,cols, 1)
         plt.figure()
@@ -89,8 +89,9 @@ if __name__ == '__main__':
 
         plt.figure()
         # plt.title('')
-        plt.title('(a)')
+
         plt.subplot(1, 2, 1)
+        plt.title('(a)')
         plt.imshow(pairs_mat)
         # plt.suptitle('suptitle')
         plt.subplot(1, 2, 2)

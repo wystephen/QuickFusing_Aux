@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
     data_dir = '/home/steve/Data/II/'
-    data_num = 20
+    data_num = 19
     # 16,17,19,20,28,31,32,33,34
     result_dir = '/home/steve/Data/II/result/' + str(data_num)
     dir_name = '/home/steve/Data/II/' + str(data_num) + '/'
@@ -268,38 +268,38 @@ if __name__ == '__main__':
 
             # save data to file
             # 1. write parameters to file
-            import json
-
-            data = dict()
-            data['threshold'] = cv2.getTrackbarPos('threshold', 'the')
-            data['line_len'] = cv2.getTrackbarPos('line_len', 'the')
-            data['line_gap'] = cv2.getTrackbarPos('line_gap', 'the')
-            data['c_size'] = cv2.getTrackbarPos('c_size', 'the')
-            data['ero_size'] = cv2.getTrackbarPos('ero_size', 'the')
-            data['ero_times'] = cv2.getTrackbarPos('ero_times', 'the')
-            data['detector_threshold'] = cv2.getTrackbarPos('detector_threshold', 'the')
-            data['less_len'] = cv2.getTrackbarPos('less_len', 'the')
-            data['less_rate'] = cv2.getTrackbarPos('less_rate', 'the')
-            data['less_k'] = cv2.getTrackbarPos('less_k', 'the')
-            data['max_r_error'] = cv2.getTrackbarPos('max_r_error', 'the')
-
-            p_f = open(result_dir + 'para.json', 'w')
-            p_f.write(json.dumps(data))
-
-
-            # 2. write data to file
-            np.savetxt(result_dir+'source_distance_mat.data',mDetector.tmp_src_mat)
-            np.savetxt(result_dir+'mnza_mat.data', mDetector.tmp_mnza_mat)
-            np.savetxt(result_dir+'bi_mat.data', real_bi_mat)
-            np.savetxt(result_dir+'result_mat.data',segment_img)
-
-            pairs1,pairs2 = np.where(segment_img>100)
-            pairs_mat = np.zeros([pairs1.shape[0],2])
-            pairs_mat[:,0] = pairs1
-            pairs_mat[:,1] = pairs2
-            np.savetxt(result_dir+'pairs_mat.data', pairs_mat)
-
-            np.savetxt(dir_name+'pairs.csv', pairs_mat) # save to data directory for graph optimization
+            # import json
+            #
+            # data = dict()
+            # data['threshold'] = cv2.getTrackbarPos('threshold', 'the')
+            # data['line_len'] = cv2.getTrackbarPos('line_len', 'the')
+            # data['line_gap'] = cv2.getTrackbarPos('line_gap', 'the')
+            # data['c_size'] = cv2.getTrackbarPos('c_size', 'the')
+            # data['ero_size'] = cv2.getTrackbarPos('ero_size', 'the')
+            # data['ero_times'] = cv2.getTrackbarPos('ero_times', 'the')
+            # data['detector_threshold'] = cv2.getTrackbarPos('detector_threshold', 'the')
+            # data['less_len'] = cv2.getTrackbarPos('less_len', 'the')
+            # data['less_rate'] = cv2.getTrackbarPos('less_rate', 'the')
+            # data['less_k'] = cv2.getTrackbarPos('less_k', 'the')
+            # data['max_r_error'] = cv2.getTrackbarPos('max_r_error', 'the')
+            #
+            # p_f = open(result_dir + 'para.json', 'w')
+            # p_f.write(json.dumps(data))
+            #
+            #
+            # # 2. write data to file
+            # np.savetxt(result_dir+'source_distance_mat.data',mDetector.tmp_src_mat)
+            # np.savetxt(result_dir+'mnza_mat.data', mDetector.tmp_mnza_mat)
+            # np.savetxt(result_dir+'bi_mat.data', real_bi_mat)
+            # np.savetxt(result_dir+'result_mat.data',segment_img)
+            #
+            # pairs1,pairs2 = np.where(segment_img>100)
+            # pairs_mat = np.zeros([pairs1.shape[0],2])
+            # pairs_mat[:,0] = pairs1
+            # pairs_mat[:,1] = pairs2
+            # np.savetxt(result_dir+'pairs_mat.data', pairs_mat)
+            #
+            # np.savetxt(dir_name+'pairs.csv', pairs_mat) # save to data directory for graph optimization
 
 
             # 3. save image

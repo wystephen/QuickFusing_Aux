@@ -286,20 +286,18 @@ if __name__ == '__main__':
             p_f = open(result_dir + 'para.json', 'w')
             p_f.write(json.dumps(data))
 
-
             # 2. write data to file
-            np.savetxt(result_dir+'source_distance_mat.data',mDetector.tmp_src_mat)
-            np.savetxt(result_dir+'mnza_mat.data', mDetector.tmp_mnza_mat)
-            np.savetxt(result_dir+'bi_mat.data', real_bi_mat)
-            np.savetxt(result_dir+'result_mat.data',segment_img)
+            np.savetxt(result_dir + 'source_distance_mat.data', mDetector.tmp_src_mat)
+            np.savetxt(result_dir + 'mnza_mat.data', mDetector.tmp_mnza_mat)
+            np.savetxt(result_dir + 'bi_mat.data', real_bi_mat)
+            np.savetxt(result_dir + 'result_mat.data', segment_img)
 
-            pairs1,pairs2 = np.where(segment_img>100)
-            pairs_mat = np.zeros([pairs1.shape[0],2])
-            pairs_mat[:,0] = pairs1
-            pairs_mat[:,1] = pairs2
-            np.savetxt(result_dir+'pairs_mat.data', pairs_mat)
+            pairs1, pairs2 = np.where(segment_img > 100)
+            pairs_mat = np.zeros([pairs1.shape[0], 2])
+            pairs_mat[:, 0] = pairs1
+            pairs_mat[:, 1] = pairs2
+            np.savetxt(result_dir + 'pairs_mat.data', pairs_mat)
 
-            np.savetxt(dir_name+'pairs.csv', pairs_mat) # save to data directory for graph optimization
-
+            np.savetxt(dir_name + 'pairs.csv', pairs_mat)  # save to data directory for graph optimization
 
             # 3. save image

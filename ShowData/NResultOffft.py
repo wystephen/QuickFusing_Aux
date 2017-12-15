@@ -301,5 +301,4 @@ if __name__ == '__main__':
             #
             # np.savetxt(dir_name+'pairs.csv', pairs_mat) # save to data directory for graph optimization
 
-
             # 3. save image

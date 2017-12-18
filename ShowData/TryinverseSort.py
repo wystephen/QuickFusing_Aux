@@ -56,7 +56,7 @@ if __name__ == '__main__':
     data_dir = '/home/steve/Data/II/'
     data_num = 34
 
-    dir_name = '/home/steve/Data/II/'+str(data_num)+'/'
+    dir_name = '/home/steve/Data/II/' + str(data_num) + '/'
     # dir_name = '/home/steve/Data/II/20/'
 
     ### key 16 17 20 ||| 28  30  (31)

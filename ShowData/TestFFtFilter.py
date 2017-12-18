@@ -23,8 +23,6 @@
          佛祖保佑       永无BUG 
 '''
 
-
-
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
@@ -49,7 +47,7 @@ if __name__ == '__main__':
     v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
     load_end = time.time()
 
-    print('load file costs time :', load_end-load_start)
+    print('load file costs time :', load_end - load_start)
 
     '''
             id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
@@ -79,11 +77,9 @@ if __name__ == '__main__':
     # mDetector.GetRelativeAttDis(50.0)
     mDetector.MultiLayerANZFFt([30, 20.0, 10.0, 5.0])
 
-
     t = np.copy(mDetector.tmp_mnza_mat)
 
-
-    rate = 1.0/8.0
+    rate = 1.0 / 8.0
     mask_2d = np.array(
         [
             [0.0, 0.0, rate, 0.0, 0.0],
@@ -94,14 +90,9 @@ if __name__ == '__main__':
         ]
     )
 
-    t = cv2.filter2D(t,-1,mask_2d)
+    t = cv2.filter2D(t, -1, mask_2d)
 
-
-    t = np.where(t<25,t,25)
-
-
-
-
+    t = np.where(t < 25, t, 25)
 
     plt.figure()
     plt.imshow(t)

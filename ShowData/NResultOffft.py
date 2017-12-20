@@ -205,8 +205,6 @@ if __name__ == '__main__':
             # def process(l_index):
             for l_index in range(labels.max()):
                 # nonlocal segment_img
-                # global segment_img
-                # global segment_img_list
 
                 x_list, y_list = np.where(labels == l_index)
                 x_val_range = float(max(x_list) - min(x_list))

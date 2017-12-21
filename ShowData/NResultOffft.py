@@ -208,8 +208,11 @@ if __name__ == '__main__':
                 # nonlocal segment_img
 
                 x_list, y_list = np.where(labels == l_index)
+                dis_list = t_mat[x_list,y_list]
+                dis_list = 1.0 / (0.1+dis_list)
                 x_val_range = float(max(x_list) - min(x_list))
                 y_val_range = float(max(y_list) - min(y_list))
+
 
                 if len(x_list) > d_less_len and \
                         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
@@ -217,13 +220,17 @@ if __name__ == '__main__':
                         x_val_range > d_less_len and y_val_range > d_less_len:
 
                     try:
+                        # weight
+
                         ransac_line = linear_model.RANSACRegressor()
-                        ransac_line.fit(x_list.reshape(-1, 1), y_list)
+                        ransac_line.fit(x_list.reshape(-1, 1), y_list, dis_list)
+
                         pre_y_list = ransac_line.predict(x_list.reshape(-1, 1))
                         the_tmp_score = np.linalg.norm(y_list - ransac_line.predict(x_list.reshape(-1, 1)))
                         score_list.append(the_tmp_score)
                         score_rel_list.append(the_tmp_score / float(len(x_list)))
                         x_distance = mDetector.length_array[max(x_list), 0] - mDetector.length_array[min(x_list), 0]
+
                         y_distance = mDetector.length_array[max(pre_y_list.astype(dtype=np.int)), 0] - \
                                      mDetector.length_array[min(pre_y_list.astype(dtype=np.int)), 0]
 
@@ -241,16 +248,9 @@ if __name__ == '__main__':
                                    ransac_line.predict(x_list.reshape(-1, 1)).astype(dtype=np.int), 2] = 0
 
                     except ValueError:
-                        print('some error here', l_index)
+                        print('Value error here', l_index)
 
-            # p = Pool()
-            # the_range_list = range(labels.max())
-            # map(process, the_range_list)
-            # p.close()
-            # p.join()
-            # if len(score_list) > 0:
-            # print('scorlist:', min(score_list), max(score_list))
-            # print('scorlist:', min(score_rel_list), max(score_rel_list))
+
 
             end_plot = time.time()
 

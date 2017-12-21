@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
     ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*', label='trace 3d \\alpha ')
     ax.legend()
-    plt.show()
+    # plt.show()
 
     mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],
                                           v_data[:, 2:5],

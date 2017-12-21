@@ -208,11 +208,10 @@ if __name__ == '__main__':
                 # nonlocal segment_img
 
                 x_list, y_list = np.where(labels == l_index)
-                dis_list = t_mat[x_list,y_list]
-                dis_list = 1.0 / (0.1+dis_list)
+                dis_list = t_mat[x_list, y_list]
+                dis_list = 1.0 / (0.1 + dis_list)
                 x_val_range = float(max(x_list) - min(x_list))
                 y_val_range = float(max(y_list) - min(y_list))
-
 
                 if len(x_list) > d_less_len and \
                         float(len(x_list)) / d_less_rate < float(x_val_range + y_val_range) and \
@@ -249,8 +248,6 @@ if __name__ == '__main__':
 
                     except ValueError:
                         print('Value error here', l_index)
-
-
 
             end_plot = time.time()
 

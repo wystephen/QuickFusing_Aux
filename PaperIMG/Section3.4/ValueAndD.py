@@ -27,10 +27,6 @@ import numpy as np
 import scipy as sp
 
 
-import matplotlib
-# matplotlib.use('Ps')
-# matplotlib.rcParams['text.usetex'] = True
-# matplotlib.rcParams['text.latex.unicode'] = True
 
 import matplotlib.pyplot as plt
 import seaborn as sbn
@@ -45,7 +41,6 @@ def lose_func(v):
 
 if __name__ == '__main__':
     sbn.set("paper","whitegrid")
-    # matplotlib.rc('text',usetex=True)
 
     x = np.linspace(0.0,10.0,1000000)
     # x =
@@ -54,13 +49,17 @@ if __name__ == '__main__':
 
     plt.figure()
     plt.subplot(1,2,1)
-    plt.title(r"\Tex e_{loopKernel}")
+    plt.title(r'(a)')
     plt.plot(x,x**2.0)
 
     plt.subplot(1,2,2)
-    plt.title(r"e_{lossloop}")
-    plt.plot(x,y2)
+    plt.title(r'(b)')
+    plt.plot(x,y2,label=r'$e_{lossloop}$')
+    plt.plot(x[1:],(y2[1:]-y2[:-1])/(x[1:]-x[:-1]),
+             label=r'$\frac{\partial{e_{lossloop}}}{\partial{e_{loss}}}$')
+
+
+    plt.legend(fontsize=20)
+
     plt.savefig('test.png')
-
-
     plt.show()

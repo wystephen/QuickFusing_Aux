@@ -52,7 +52,7 @@ if __name__ == '__main__':
     y2 = np.vectorize(lose_func)(x)
 
     legend_fond_size = 10
-    axis_a = [0.0,10.0,-1.0,2.0]
+    axis_a = [0.0, 10.0, -1.0, 2.0]
     plt.figure()
     plt.subplot(1, 2, 1)
     plt.title(r'(a)')
@@ -72,5 +72,5 @@ if __name__ == '__main__':
     plt.legend(fontsize=legend_fond_size)
     plt.axis(axis_a)
 
-    plt.savefig('test.png')
+    plt.savefig('test.png', dpi=1000)
     plt.show()

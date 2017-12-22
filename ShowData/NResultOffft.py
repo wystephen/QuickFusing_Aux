@@ -222,7 +222,7 @@ if __name__ == '__main__':
                         # weight
 
                         ransac_line = linear_model.RANSACRegressor()
-                        ransac_line.fit(x_list.reshape(-1, 1), y_list, dis_list)
+                        ransac_line.fit(x_list.reshape(-1, 1), y_list)
 
                         pre_y_list = ransac_line.predict(x_list.reshape(-1, 1))
                         the_tmp_score = np.linalg.norm(y_list - ransac_line.predict(x_list.reshape(-1, 1)))

@@ -56,10 +56,10 @@ if __name__ == '__main__':
     plt.title(r'(b)')
     plt.plot(x,y2,label=r'$e_{lossloop}$')
     plt.plot(x[1:],(y2[1:]-y2[:-1])/(x[1:]-x[:-1]),
-             label=r'$\frac{\partial{e_{lossloop}}}{\partial{e_{loss}}}$')
+             label=r'${\partial{e_{lossloop}}}/{\partial{e_{loss}}}$')
 
 
-    plt.legend(fontsize=20)
+    plt.legend(fontsize=10)
 
     plt.savefig('test.png')
     plt.show()

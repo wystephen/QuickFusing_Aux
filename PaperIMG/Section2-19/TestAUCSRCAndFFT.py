@@ -40,41 +40,9 @@ import time
 if __name__ == '__main__':
     sns.set('paper', 'white')
 
-    start_time = time.time()
-    dir_name = '/home/steve/Data/II/19/'
+    tmp_mnza_mat = np.loadtxt('19mnza_mat.data')
+    tmp_src_mat = np.loadtxt('19source_distance_mat.data')
 
-    ### key 16 17 20 ||| 28  30  (31)
-    ##  33 34 35
-
-    v_data = np.loadtxt(dir_name + 'vertex_all_data.csv', delimiter=',')
-
-    '''
-            id | time ax ay az wx wy wz mx my mz pressure| x  y  z  vx vy vz| qx qy qz qw
-            0  |   1   2  3 4  5   6  7 8  9  10 11      | 12 13 14 15 16 17| 18 19 20 21
-            1 + 11 + 6 + 4 = 22
-        '''
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*', label='trace 3d \\alpha ')
-    ax.legend()
-
-    mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],
-                                          v_data[:, 2:5],
-                                          v_data[:, 12:],
-                                          v_data[:, 11])
-
-    mDetector.Step2Length(False)
-    # mDetector.GetFFTDis(20.0)
-    # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
-    mDetector.GetDirectDis(30.0)
-    mDetector.GetZValue(False)
-    mDetector.ConvertMagAttitude()
-    # mDetector.GetZFFtDis(20.0)
-    # mDetector.MultiLayerNZFFt([30, 25, 20.0, 15.0, 10.0, 5.0])
-    # mDetector.GetRelativeAttDis(50.0)
-    mDetector.MultiLayerANZFFt([30.0, 25, 20, 15, 10, 5.0])
 
     trace_graph = np.loadtxt('test.txt', delimiter=',')
 
@@ -83,7 +51,7 @@ if __name__ == '__main__':
     ref_dis_mat = squareform(pdist(trace_graph))
     ref_dis_mat = np.where(ref_dis_mat < 1.6, 1.0, 0.0)
 
-    threshold_list = np.asarray(range(0, 600, 1), dtype=np.float)
+    threshold_list = np.asarray(range(0, 6000, 1), dtype=np.float)
     threshold_list = threshold_list / 10.0
     # print(threshold_list)
 
@@ -97,7 +65,7 @@ if __name__ == '__main__':
     real_negative = float(ref_dis_mat[ref_dis_mat < 0.5].shape[0])
 
     print('real positive:', real_positive, ' real negative: ', real_negative)
-    tmp_feature_mat = mDetector.tmp_mnza_mat
+    tmp_feature_mat = tmp_mnza_mat
 
     mnza_mat_without_line = np.zeros_like(tmp_feature_mat)
     for i in range(tmp_feature_mat.shape[0]):
@@ -121,7 +89,7 @@ if __name__ == '__main__':
         fft_TPR[i] = float(tp) / real_positive
         fft_FPR[i] = float(fp) / real_negative
 
-    tmp_feature_mat = mDetector.tmp_src_mat
+    tmp_feature_mat = tmp_src_mat
 
     mnza_mat_without_line = np.zeros_like(tmp_feature_mat)
     for i in range(tmp_feature_mat.shape[0]):
@@ -146,8 +114,25 @@ if __name__ == '__main__':
         src_FPR[i] = float(fp) / real_negative
 
     plt.figure()
-    plt.plot(fft_FPR,fft_TPR,'*',label='fft')
-    plt.plot(src_FPR,fft_TPR,'*',label='src')
+    plt.plot(fft_FPR, fft_TPR, '*', label='fft')
+    plt.plot(src_FPR, fft_TPR, '*', label='src')
     plt.legend()
     plt.grid()
+
+
+    plt.figure()
+    plt.subplot(1,2,1)
+    plt.title('TPR')
+    plt.plot(threshold_list,fft_TPR,label='fft')
+    plt.plot(threshold_list,src_TPR,label='src')
+    plt.legend()
+
+    plt.subplot(1,2,2)
+    plt.title('FPR')
+    plt.plot(threshold_list,fft_FPR,label='fft')
+    plt.plot(threshold_list,src_FPR,label='fft')
+    plt.legend()
+
+
+
     plt.show()

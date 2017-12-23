@@ -144,14 +144,16 @@ class AUCBuilder(object):
 
         last_size = 1000
 
-        for i in range(1, 50):
+        for i in range(1, 30):
             t_list = list()
             ti = 1
-            while ti < 30:
+            while ti < 50:
                 t_list.append(ti)
                 ti += i
             if len(t_list) is last_size:
                 continue
+            else:
+                last_size = len(t_list)
 
             self.mDetector.MultiLayerANZFFt(t_list, ifshow=False)
             t_feature_mat = self.mDetector.tmp_mnza_mat

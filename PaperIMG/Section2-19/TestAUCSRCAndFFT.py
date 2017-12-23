@@ -44,6 +44,8 @@ if __name__ == '__main__':
 
     tmp_mnza_mat = np.loadtxt('19mnza_mat.data')
     tmp_src_mat = np.loadtxt('19source_distance_mat.data')
+    tmp_src_mat[:15,:] = 100.0
+    tmp_src_mat[:,:15] = 100.0
     trace_graph = np.loadtxt('test.txt', delimiter=',')
 
     ref_dis_mat = np.zeros([trace_graph.shape[0], trace_graph.shape[0]])

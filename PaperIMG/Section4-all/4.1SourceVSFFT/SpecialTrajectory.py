@@ -142,12 +142,16 @@ class AUCBuilder(object):
             plt.figure()
             plt.plot(self.src_FPR, self.src_TPR, '*', label='src')
 
-        for i in range(1, 10):
+        last_size = 1000
+
+        for i in range(1, 50):
             t_list = list()
             ti = 1
             while ti < 30:
                 t_list.append(ti)
                 ti += i
+            if len(t_list) is last_size:
+                continue
 
             self.mDetector.MultiLayerANZFFt(t_list, ifshow=False)
             t_feature_mat = self.mDetector.tmp_mnza_mat

@@ -43,9 +43,11 @@ if __name__ == '__main__':
     sns.set('paper', 'white')
 
     tmp_mnza_mat = np.loadtxt('19mnza_mat.data')
+
     tmp_src_mat = np.loadtxt('19source_distance_mat.data')
     tmp_src_mat[:15,:] = 100.0
     tmp_src_mat[:,:15] = 100.0
+
     trace_graph = np.loadtxt('test.txt', delimiter=',')
 
     ref_dis_mat = np.zeros([trace_graph.shape[0], trace_graph.shape[0]])
@@ -140,7 +142,7 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid()
 
-    t_list = np.linspace(0.0, 1.8, 30)
+    t_list = np.linspace(0.0, 1.8, 12)
     plt.figure()
     for index, threshold in enumerate(t_list):
         print(index, threshold)
@@ -149,7 +151,7 @@ if __name__ == '__main__':
         plt.imshow(tmp_mat)
         plt.title('threshold:' + str(threshold))
 
-    t_list = np.linspace(0.0, 5.0, 30)
+    t_list = np.linspace(0.0, 5.0, 12)
     plt.figure()
     for index, threshold in enumerate(t_list):
         print(index, threshold)

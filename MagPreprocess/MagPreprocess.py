@@ -300,7 +300,6 @@ class MagDetector:
             plt.imshow(self.tmp_mnza_mat)
             plt.colorbar()
 
-
     def GetDirectDisSpeedUp(self, length, ifshow=True):
         '''
 

@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
     data_dir = '/home/steve/Data/II/'
-    data_num = 33
+    data_num = 34
     # 16,17,19,20,28,31,32,33,34
     result_dir = '/home/steve/Data/II/result/' + str(data_num)
     dir_name = '/home/steve/Data/II/' + str(data_num) + '/'

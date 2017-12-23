@@ -47,6 +47,24 @@ if __name__ == '__main__':
     print(time.time()-start_auc_time)
 
     # begin plot
+    for auc in auc_list:
+        plt.figure()
+        plt.subplot(4,1,1)
+        plt.plot(auc.trace_path[:,0],auc.trace_path[:,1],'-*')
+        plt.grid()
+        plt.subplot(4,1,2)
+        plt.imshow(auc.src_mat)
+        plt.grid()
+        plt.subplot(4,1,3)
+        plt.imshow(auc.mnza_mat)
+        plt.grid()
+        plt.subplot(4,1,4)
+        plt.plot(auc.mnza_FPR, auc.mnza_TPR, '*', label='mnza')
+        plt.plot(auc.src_FPR, auc.src_TPR, '*', label='src')
+        plt.legend()
+        plt.grid()
+        plt.axis([0,1,0,1])
+    plt.show()
 
 
 

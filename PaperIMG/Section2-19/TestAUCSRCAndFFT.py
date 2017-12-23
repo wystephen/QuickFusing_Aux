@@ -55,8 +55,8 @@ if __name__ == '__main__':
     ref_dis_mat = squareform(pdist(trace_graph))
     ref_dis_mat = np.where(ref_dis_mat < 1.6, 1.0, 0.0)
 
-    threshold_list = np.asarray(range(0, 6000, 1), dtype=np.float)
-    threshold_list = threshold_list / 10.0
+    threshold_list =np.linspace(0.0,20.0,2000) #np.asarray(range(0, 6000, 1), dtype=np.float)
+    # threshold_list = threshold_list / 10.0
     # print(threshold_list)
 
     fft_TPR = np.zeros(threshold_list.shape[0])
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     for i in range(tmp_feature_mat.shape[0]):
         for j in range(tmp_feature_mat.shape[1]):
             if abs(i - j) < 5:
-                mnza_mat_without_line[i, j] = tmp_feature_mat.max()
+                mnza_mat_without_line[i, j] = 1000.0 # tmp_feature_mat.max()
                 if ref_dis_mat[i, j] > 0.5:
                     real_positive -= 1.0
                 else:
@@ -93,13 +93,21 @@ if __name__ == '__main__':
         fft_TPR[i] = float(tp) / real_positive
         fft_FPR[i] = float(fp) / real_negative
 
-    tmp_feature_mat = tmp_src_mat
+    ## source compute
+    ref_dis_mat = np.zeros([trace_graph.shape[0], trace_graph.shape[0]])
 
+    ref_dis_mat = squareform(pdist(trace_graph))
+    ref_dis_mat = np.where(ref_dis_mat < 1.6, 1.0, 0.0)
+
+    real_positive = float(ref_dis_mat[ref_dis_mat > 0.5].shape[0])
+    real_negative = float(ref_dis_mat[ref_dis_mat < 0.5].shape[0])
+
+    tmp_feature_mat = tmp_src_mat
     mnza_mat_without_line = np.zeros_like(tmp_feature_mat)
     for i in range(tmp_feature_mat.shape[0]):
         for j in range(tmp_feature_mat.shape[1]):
             if abs(i - j) < 5:
-                mnza_mat_without_line[i, j] = tmp_feature_mat.max()
+                mnza_mat_without_line[i, j] = 1000.0 #tmp_feature_mat.max()
                 if ref_dis_mat[i, j] > 0.5:
                     real_positive -= 1.0
                 else:

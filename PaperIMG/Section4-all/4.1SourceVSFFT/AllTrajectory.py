@@ -29,7 +29,24 @@ import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
 
 from MagPreprocess import MagPreprocess
+import time
 
 import os
 
-import Auc
+from ShowData import AucBuilder
+
+if __name__ == '__main__':
+    auc_list = list()
+    start_auc_time = time.time()
+    print()
+    for data_num in [19, 20, 28, 33, 34]:
+        t_auc = AucBuilder.AUCBuilder(str(data_num))
+        t_auc.compute_ref_mat(is_show=False)
+        t_auc.compute_all_auc(is_show=False)
+        auc_list.append(t_auc)
+    print(time.time()-start_auc_time)
+
+    # begin plot
+
+
+

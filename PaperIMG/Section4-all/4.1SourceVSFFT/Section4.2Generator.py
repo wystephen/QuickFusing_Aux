@@ -52,7 +52,7 @@ if __name__ == '__main__':
         plt.subplot(1, 3, 2)
         plt.title('(b)')
         plt.imshow(auc.bi_mat[15:-15, 15:-15])
-        plt.subplot(1, 3, 2)
+        plt.subplot(1, 3, 3)
         plt.title('(c)')
         plt.imshow(auc.result_mat[15:-15, 15:-15])
 

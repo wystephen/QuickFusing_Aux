@@ -46,6 +46,7 @@ class AUCBuilder(object):
             if 'bi_mat' in file_name:
                 self.bi_mat = np.loadtxt(dir_name + file_name)
 
+
             if 'mnza_mat' in file_name:
                 self.mnza_mat = np.loadtxt(dir_name + file_name)
 
@@ -54,6 +55,10 @@ class AUCBuilder(object):
 
             if 'result_mat' in file_name:
                 self.result_mat = np.loadtxt(dir_name + file_name)
+                for i in range(self.result_mat.shape[0]):
+                    for j in range(self.result_mat.shape[1]):
+                        if i < j :
+                            self.result_mat[i,j]  = self.result_mat[j,i]
 
             if 'source_distance_mat' in file_name:
                 self.src_mat = np.loadtxt(dir_name + file_name)
@@ -144,7 +149,7 @@ class AUCBuilder(object):
 
         last_size = 1000
 
-        for i in range(30,1,-1):
+        for i in range(30, 1, -1):
             t_list = list()
             ti = 1
             while ti < 30:
@@ -168,7 +173,7 @@ class AUCBuilder(object):
         if is_show:
             plt.legend()
             plt.grid()
-            plt.axis([0.0,1.0,0.0,1.0])
+            plt.axis([0.0, 1.0, 0.0, 1.0])
 
             # self.mDetector
 
@@ -238,5 +243,3 @@ if __name__ == '__main__':
     auc_b.compute_multi_auc()
 
     auc_b.display_loaded_file()
-
-

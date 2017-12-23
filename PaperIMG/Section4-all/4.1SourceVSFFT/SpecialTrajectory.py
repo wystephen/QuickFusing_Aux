@@ -130,7 +130,7 @@ class AUCBuilder(object):
     def compute_multi_auc(self, intervel_num: int = 1000,
                           is_show: bool = True):
 
-        tmp_source_data = np.loadtxt('/home/steve/Data/' + self.dir_name + 'vertex_all_data.csv',
+        tmp_source_data = np.loadtxt('/home/steve/Data/II/' + self.dir_name + 'vertex_all_data.csv',
                                      delimiter=',')
         self.mDetector = MagPreprocess.MagDetector(tmp_source_data[:, 8:11],
                                                    tmp_source_data[:, 2:5],
@@ -140,24 +140,30 @@ class AUCBuilder(object):
         self.mDetector.GetZValue(False)
         if is_show:
             plt.figure()
-            plt.plot(self.src_FPR, self.src_TPR,'*',label='src')
+            plt.plot(self.src_FPR, self.src_TPR, '*', label='src')
 
-        for i in range(10):
-            t_list = range(30,1,-i)
-            self.mDetector(t_list,is_show=False)
-            t_TPR, t_FPR = self.compute_auc(feature_mat=self.mDetector.tmp_mnza_mat,
+        for i in range(1, 10):
+            t_list = list()
+            ti = 1
+            while ti < 30:
+                t_list.append(ti)
+                ti += i
+
+            self.mDetector.MultiLayerANZFFt(t_list, ifshow=False)
+            t_feature_mat = self.mDetector.tmp_mnza_mat
+            t_TPR, t_FPR = self.compute_auc(feature_mat=t_feature_mat,
                                             src_ref_mat=self.ref_mat,
-                                            threshold_list=self.linspace(0.0,np.max(self.mDetector.tmp_mnza_mat),intervel_num),
+                                            threshold_list=np.linspace(0.0, np.max(self.mDetector.tmp_mnza_mat),
+                                                                       intervel_num),
                                             if_show=False)
             if is_show:
-                plt.plot(t_FPR,t_TPR,'*',label=''.join(str(e)+',' for e in t_list))
+                plt.plot(t_FPR, t_TPR, '*', label=''.join(str(e) + ',' for e in t_list))
+
         if is_show:
             plt.legend()
             plt.grid()
 
             # self.mDetector
-
-
 
     def compute_auc(self, *,
                     feature_mat,

@@ -109,25 +109,27 @@ class AUCBuilder(object):
 
         plt.figure()
         plt.title('AUC')
-        plt.plot(self.mnza_FPR,self.mnza_TPR,'*',label='mnza')
-        plt.plot(self.src_FPR,self.src_TPR,'*',label ='src')
+        plt.plot(self.mnza_FPR, self.mnza_TPR, '*', label='mnza')
+        plt.plot(self.src_FPR, self.src_TPR, '*', label='src')
         plt.legend()
         plt.grid()
-        plt.axis([0.0,1.0,0.0,1.0])
+        plt.axis([0.0, 1.0, 0.0, 1.0])
 
     def compute_auc(self, *, feature_mat, src_ref_mat, threshold_list, if_show: bool = False):
         banned_ref_mat = src_ref_mat.copy()
         banned_feature_mat = feature_mat.copy()
         max_of_feature_mat = np.max(feature_mat) + 1.0
+        banned_counter = 0
 
         for i in range(banned_ref_mat.shape[0]):
             for j in range(banned_ref_mat.shape[1]):
                 if abs(i - j) < 5:
                     banned_ref_mat[i, j] = 0.0
                     banned_feature_mat[i, j] = max_of_feature_mat
+                    banned_counter += 1.0
 
         real_positive = float(banned_ref_mat[banned_ref_mat > 0.5].shape[0])
-        real_negative = float(banned_ref_mat[banned_ref_mat < 0.5].shape[0])
+        real_negative = float(banned_ref_mat[banned_ref_mat < 0.5].shape[0] - banned_counter)
 
         TPR = np.zeros_like(threshold_list)
         FPR = np.zeros_like(threshold_list)

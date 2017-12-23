@@ -39,7 +39,7 @@ if __name__ == '__main__':
     auc_list = list()
     start_auc_time = time.time()
     print()
-    for data_num in [19, 20, 28, 33, 34]:
+    for data_num in [ 20, 28, 33, 34]:
         t_auc = AucBuilder.AUCBuilder(str(data_num))
         t_auc.compute_ref_mat(is_show=False)
         t_auc.compute_all_auc(is_show=False)
@@ -53,17 +53,19 @@ if __name__ == '__main__':
         plt.plot(auc.trace_path[:,0],auc.trace_path[:,1],'-*')
         plt.grid()
         plt.subplot(4,1,2)
-        plt.imshow(auc.src_mat)
-        plt.grid()
+        plt.imshow(auc.src_mat[15:-15,15:-15])
+        # plt.grid()
         plt.subplot(4,1,3)
-        plt.imshow(auc.mnza_mat)
-        plt.grid()
+        plt.imshow(auc.mnza_mat[15:-15,15:-15])
+        # plt.grid()
         plt.subplot(4,1,4)
         plt.plot(auc.mnza_FPR, auc.mnza_TPR, '*', label='mnza')
         plt.plot(auc.src_FPR, auc.src_TPR, '*', label='src')
         plt.legend()
         plt.grid()
         plt.axis([0,1,0,1])
+
+        plt.savefig(auc.dir_name[:-1]+'data.png',dpi=2000)
     plt.show()
 
 

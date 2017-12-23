@@ -37,13 +37,13 @@ import seaborn as sns
 import timeit
 import time
 
+import math
+
 if __name__ == '__main__':
     sns.set('paper', 'white')
 
     tmp_mnza_mat = np.loadtxt('19mnza_mat.data')
     tmp_src_mat = np.loadtxt('19source_distance_mat.data')
-
-
     trace_graph = np.loadtxt('test.txt', delimiter=',')
 
     ref_dis_mat = np.zeros([trace_graph.shape[0], trace_graph.shape[0]])
@@ -119,20 +119,42 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid()
 
+    plt.figure()
+    plt.subplot(1, 2, 1)
+    plt.title('TPR')
+    plt.plot(threshold_list, fft_TPR, label='fft')
+    plt.plot(threshold_list, src_TPR, label='src')
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.title('FPR')
+    plt.plot(threshold_list, fft_FPR, label='fft')
+    plt.plot(threshold_list, src_FPR, label='srt')
+    plt.legend()
 
     plt.figure()
-    plt.subplot(1,2,1)
-    plt.title('TPR')
-    plt.plot(threshold_list,fft_TPR,label='fft')
-    plt.plot(threshold_list,src_TPR,label='src')
+    plt.plot(threshold_list, fft_TPR / fft_FPR, label='fft')
+    plt.plot(threshold_list, src_TPR / fft_FPR, label='src')
     plt.legend()
+    plt.grid()
 
-    plt.subplot(1,2,2)
-    plt.title('FPR')
-    plt.plot(threshold_list,fft_FPR,label='fft')
-    plt.plot(threshold_list,src_FPR,label='fft')
-    plt.legend()
+    t_list = np.linspace(0.0, 5.0, 30)
+    plt.figure()
+    for index, threshold in enumerate(t_list):
+        print(index,threshold)
+        plt.subplot(3, math.ceil(float(t_list.shape[0]) / 3), index+1)
+        tmp_mat = np.vectorize(lambda x: 0.0 if x < threshold else 1.0)(tmp_src_mat)
+        plt.imshow(tmp_mat)
+        plt.title('threshold:' + str(threshold))
 
+    t_list = np.linspace(0.0, 10.0, 30)
+    plt.figure()
+    for index, threshold in enumerate(t_list):
+        print(index,threshold)
+        plt.subplot(3, math.ceil(float(t_list.shape[0]) / 3), index+1)
+        tmp_mat = np.vectorize(lambda x: 0.0 if x < threshold else 1.0)(tmp_mnza_mat)
+        plt.imshow(tmp_mat)
+        plt.title('threshold:' + str(threshold))
 
 
     plt.show()

@@ -29,3 +29,30 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
+    pair_mat = np.loadtxt('./DCS/pair.txt',delimiter=',')
+
+    dcs_trace = np.loadtxt('./DCS/test.txt',delimiter=',')
+
+    robust_trace = np.loadtxt('./Robust/test.txt',delimiter=',')
+
+    plt.figure()
+    plt.subplot(1,2,1)
+    plt.grid()
+    plt.plot(dcs_trace[:,0],dcs_trace[:,1],label='path')
+    for i, v in enumerate(pair_mat):
+        plt.plot([dcs_trace[v[0],0],dcs_trace[v[1],0]],
+                 [dcs_trace[v[0],0],dcs_trace[v[1],1]],
+                 '--g',label='pairs')
+    plt.legend()
+
+    plt.subplot(1,2,2)
+    plt.grid()
+    plt.plot(robust_trace[:,0],robust_trace[:,1],label='paht')
+    for i, v in enumerate(pair_mat):
+        plt.plot([robust_trace[v[0],0],robust_trace[v[1],0]],
+                 [robust_trace[v[0],1],robust_trace[v[1],1]],
+                 '--g',label='pairs')
+    plt.legend()
+    plt.show()
+
+

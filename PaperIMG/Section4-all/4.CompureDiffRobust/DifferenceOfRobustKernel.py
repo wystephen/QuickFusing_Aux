@@ -40,6 +40,7 @@ if __name__ == '__main__':
     plt.grid()
     plt.plot(dcs_trace[:,0],dcs_trace[:,1],label='path')
     for i, v in enumerate(pair_mat):
+        v = pair_mat[i,:].astype(dtype=np.int)
         plt.plot([dcs_trace[v[0],0],dcs_trace[v[1],0]],
                  [dcs_trace[v[0],0],dcs_trace[v[1],1]],
                  '--g',label='pairs')
@@ -48,7 +49,8 @@ if __name__ == '__main__':
     plt.subplot(1,2,2)
     plt.grid()
     plt.plot(robust_trace[:,0],robust_trace[:,1],label='paht')
-    for i, v in enumerate(pair_mat):
+    for i in range(pair_mat.shape[0]):
+        v=pair_mat[i,:].astype(dtype=np.int)
         plt.plot([robust_trace[v[0],0],robust_trace[v[1],0]],
                  [robust_trace[v[0],1],robust_trace[v[1],1]],
                  '--g',label='pairs')

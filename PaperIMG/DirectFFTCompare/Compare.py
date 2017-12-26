@@ -42,7 +42,7 @@ if __name__ == '__main__':
     sns.set('paper','white')
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/34/'
+    dir_name = '/home/steve/Data/II/35/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35
@@ -66,4 +66,18 @@ if __name__ == '__main__':
                                           v_data[:, 12:],
                                           v_data[:, 11])
 
+
     mDetector.Step2Length(False)
+    mDetector.GetZValue(ifshow=False)
+
+
+    plt.figure()
+    x = np.linspace(mDetector.length_array[0],
+                    mDetector.length_array[-1],
+                    mDetector.length_array.shape[0]*10)
+    plt.plot(x,mDetector.f(x),'*-',label='norm')
+    plt.plot(x,mDetector.zf(x),'*-', label='z-norm')
+    plt.legend()
+    plt.grid()
+    plt.show()
+

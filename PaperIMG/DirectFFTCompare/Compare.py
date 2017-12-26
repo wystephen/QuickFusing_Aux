@@ -70,16 +70,32 @@ if __name__ == '__main__':
     mDetector.Step2Length(False)
     mDetector.GetZValue(ifshow=False)
     mDetector.MultiLayerANZFFt([10,5,2],ifshow=True)
-    mDetector.GetDirectDis(True)
+    # mDetector.GetDirectDis(True)
 
 
     plt.figure()
-    x = np.linspace(mDetector.length_array[0],
-                    mDetector.length_array[-1],
-                    mDetector.length_array.shape[0]*10)
+    x = np.linspace(mDetector.length_array[5],
+                    mDetector.length_array[-5],
+                    mDetector.length_array.shape[0])
     plt.plot(x,mDetector.f(x),'*-',label='norm')
     plt.plot(x,mDetector.zf(x),'*-', label='z-norm')
     plt.legend()
+    plt.grid()
+
+    plt.figure()
+    plt.plot(x,mDetector.f(x),'*-',label='before')
+    plt.plot(x,mDetector.f(x+0.5),'*-',label='after')
+    plt.plot(x,np.abs(mDetector.f(x+0.5)-mDetector.f(x)),'*--',label='diff')
+    plt.legend()
+
+
+    before = mDetector.f(x)
+    after = mDetector.f(x+0.5)
+
+    length_div_2 = 15
+
+
+
     plt.grid()
     plt.show()
 

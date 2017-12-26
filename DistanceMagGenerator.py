@@ -40,7 +40,7 @@ if __name__ == '__main__':
     sns.set('paper','white')
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/34/'
+    dir_name = '/home/steve/Data/II/31/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     mDetector.Step2Length(False)
     # mDetector.GetFFTDis(20.0)
     # mDetector.MultiLayerNormFFt([30.0, 25.0, 20.0, 15.0, 10.0, 5.0])
-    mDetector.GetDirectDis(30.0)
+    # mDetector.GetDirectDis(30.0)
     mDetector.GetZValue(False)
     mDetector.ConvertMagAttitude()
     # mDetector.GetZFFtDis(20.0)

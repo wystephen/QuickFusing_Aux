@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
     data_dir = '/home/steve/Data/II/'
-    data_num = 34
+    data_num = 30
     # 16,17,19,20,28,31,32,33,34
     result_dir = '/home/steve/Data/II/result/' + str(data_num)
     dir_name = '/home/steve/Data/II/' + str(data_num) + '/'
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*', label='trace 3d \\alpha ')
+    ax.plot(v_data[:, 12], v_data[:, 13], v_data[:, 14], '-*', label='$trace 3d \\alpha$ ')
     ax.legend()
 
     mDetector = MagPreprocess.MagDetector(v_data[:, 8:11],

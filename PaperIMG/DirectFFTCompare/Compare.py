@@ -69,6 +69,8 @@ if __name__ == '__main__':
 
     mDetector.Step2Length(False)
     mDetector.GetZValue(ifshow=False)
+    mDetector.MultiLayerANZFFt([10,5,2],ifshow=True)
+    mDetector.GetDirectDis()
 
 
     plt.figure()

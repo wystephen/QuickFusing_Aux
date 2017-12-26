@@ -39,7 +39,7 @@ import timeit
 import time
 
 if __name__ == '__main__':
-    sns.set('paper','white')
+    # sns.set('paper','white')
 
     start_time = time.time()
     dir_name = '/home/steve/Data/II/35/'
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     mDetector.Step2Length(False)
     mDetector.GetZValue(ifshow=False)
     mDetector.MultiLayerANZFFt([10,5,2],ifshow=True)
-    mDetector.GetDirectDis()
+    mDetector.GetDirectDis(True)
 
 
     plt.figure()

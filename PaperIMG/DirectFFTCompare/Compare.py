@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
     mDetector.Step2Length(False)
     mDetector.GetZValue(ifshow=False)
-    mDetector.MultiLayerANZFFt([10, 5, 2], ifshow=True)
+    mDetector.MultiLayerANZFFt([30], ifshow=True)
     mDetector.GetDirectDis(True)
 
     plt.figure()
@@ -131,8 +131,8 @@ if __name__ == '__main__':
     d_dis  = np.frombuffer(direct_distance_array,dtype=np.float)
     f_dis = np.frombuffer(fft_distance_array,dtype=np.float)
     plt.figure()
-    plt.plot(d_dis/np.mean(mDetector.tmp_src_mat),label='d')
-    plt.plot(f_dis/np.mean(mDetector.tmp_mnza_mat),label='f')
+    plt.plot(d_dis/np.std(mDetector.tmp_src_mat),label='d')
+    plt.plot(f_dis/np.std(mDetector.tmp_mnza_mat),label='f')
     plt.grid()
     plt.legend()
 

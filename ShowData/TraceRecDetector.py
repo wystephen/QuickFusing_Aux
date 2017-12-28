@@ -49,6 +49,16 @@ class TraceObject(object):
         '''
         all_angle = np.linspace(-np.pi, np.pi, 3000)
 
+        value_list = np.zeros([all_angle.shape[0], 2])
+        tmp_trace = np.zeros_like(self.trace_3d[:, :2])
+        for angle,index in all_angle:
+            tmp_trace[:, 0] = self.trace_3d[:, 0] * np.cos(angle) - \
+                              self.trace_3d[:, 1] * np.sin(angle)
+            tmp_trace[:, 1] = self.trace_3d[:, 1] * np.cos(angle) + \
+                              self.trace_3d[:, 0] * np.sin(angle)
+
+            value_list[]
+
 
 if __name__ == '__main__':
     trace = np.loadtxt('../PaperIMG/Section4-all/28/test.txt',

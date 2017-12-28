@@ -75,9 +75,9 @@ class TraceObject(object):
             value_list[index, 3] = tmp_trace[0, 1] - np.min(tmp_trace[:, 1])
 
         index = np.argsort(np.sum(value_list[:, :2], axis=1))
-        # plt.figure()
-        # plt.plot(index, '+')
-        # plt.grid()
+        plt.figure()
+        plt.plot(index, '+')
+        plt.grid()
         self.right_angle = 0.0
 
         for i in index:

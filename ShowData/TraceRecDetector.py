@@ -42,6 +42,23 @@ class TraceObject(object):
         '''
         self.trace_3d = trace_3d
 
+    def rotate_2d(self, trace, angle,):
+        '''
+        rotate serious of points according to given angle(in radio)
+        :param trace:
+        :param angle:
+        :return:
+        '''
+        tmp_trace = np.zeros_like(trace[:,:2])
+
+        tmp_trace[:, 0] = self.trace_3d[:, 0] * np.cos(angle) - \
+                          self.trace_3d[:, 1] * np.sin(angle)
+        tmp_trace[:, 1] = self.trace_3d[:, 1] * np.cos(angle) + \
+                          self.trace_3d[:, 0] * np.sin(angle)
+        return tmp_trace
+
+
+
     def find_rotation(self):
         '''
         find
@@ -52,23 +69,21 @@ class TraceObject(object):
         value_list = np.zeros([all_angle.shape[0], 2])
         tmp_trace = np.zeros_like(self.trace_3d[:, :2])
         for index, angle in enumerate(all_angle):
-            tmp_trace[:, 0] = self.trace_3d[:, 0] * np.cos(angle) - \
-                              self.trace_3d[:, 1] * np.sin(angle)
-            tmp_trace[:, 1] = self.trace_3d[:, 1] * np.cos(angle) + \
-                              self.trace_3d[:, 0] * np.sin(angle)
+            tmp_trace = self.rotate_2d(self.trace_3d,angle)
+
 
             value_list[index, 0] = np.max(tmp_trace[:, 0]) - np.min(tmp_trace[:, 0])
             value_list[index, 1] = np.max(tmp_trace[:, 1]) - np.min(tmp_trace[:, 1])
 
-        index = np.argsort(np.sum(value_list,axis=1))
+        index = np.argsort(np.sum(value_list, axis=1))
         plt.figure()
-        plt.plot(index,'+')
+        plt.plot(index, '+')
         plt.grid()
 
         plt.figure()
         plt.plot(value_list[:, 0], label='x')
         plt.plot(value_list[:, 1], label='y')
-        plt.plot(value_list[:,0]+value_list[:,1],label='sum')
+        plt.plot(value_list[:, 0] + value_list[:, 1], label='sum')
         plt.grid()
         plt.legend()
 

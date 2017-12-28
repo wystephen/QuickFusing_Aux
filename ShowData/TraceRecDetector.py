@@ -42,7 +42,7 @@ class TraceObject(object):
         '''
         self.trace_3d = trace_3d
 
-    def rotate_2d(self, trace, angle, ):
+    def rotate_2d(self, trace, angle):
         '''
         rotate serious of points according to given angle(in radio)
         :param trace:
@@ -74,28 +74,37 @@ class TraceObject(object):
             value_list[index, 2] = tmp_trace[0, 0] - np.min(tmp_trace[:, 0])
             value_list[index, 3] = tmp_trace[0, 1] - np.min(tmp_trace[:, 1])
 
-        index = np.argsort(np.sum(value_list[:, :2], axis=1))
+        index_list = np.argsort(np.sum(value_list[:, :2], axis=1))
         plt.figure()
-        plt.plot(index, '+')
+        plt.plot(index_list, '+')
         plt.grid()
         self.right_angle = 0.0
 
-        for i in index:
+        for i in index_list:
 
+            print(all_angle[i])
             if value_list[i, 0] > value_list[i, 1] and \
-                    np.linalg.norm(value_list[index, 2:]) < 13.0:
+                    value_list[i, 2] + value_list[i, 3] < 1300.0:
                 self.right_angle = all_angle[i]
                 break
 
         plt.figure()
-        t_trace = self.rotate_2d(self.trace_3d, self.right_angle)
-        plt.plot(t_trace[:, 0], t_trace[:, 1])
+        plt.title('rotated trajectory')
+        the_trace = self.rotate_2d(self.trace_3d, self.right_angle)
+        plt.plot(the_trace[:, 0], the_trace[:, 1])
         plt.grid()
 
         plt.figure()
-        plt.plot(value_list[:, 0], label='x')
-        plt.plot(value_list[:, 1], label='y')
-        plt.plot(value_list[:, 0] + value_list[:, 1], label='sum')
+        plt.plot(all_angle, value_list[:, 0], label='x')
+        plt.plot(all_angle, value_list[:, 1], label='y')
+        plt.plot(all_angle, value_list[:, 0] + value_list[:, 1], label='sum')
+        plt.grid()
+        plt.legend()
+
+        plt.figure()
+        plt.plot(value_list[:, 2], label='x offset')
+        plt.plot(value_list[:, 3], label='y offset')
+        # plt.plot(np.linalg.norm(value_list[:, 2:], axis=0), axis='norm')
         plt.grid()
         plt.legend()
 

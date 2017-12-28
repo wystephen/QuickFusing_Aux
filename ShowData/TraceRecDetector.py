@@ -42,14 +42,14 @@ class TraceObject(object):
         '''
         self.trace_3d = trace_3d
 
-    def rotate_2d(self, trace, angle,):
+    def rotate_2d(self, trace, angle, ):
         '''
         rotate serious of points according to given angle(in radio)
         :param trace:
         :param angle:
         :return:
         '''
-        tmp_trace = np.zeros_like(trace[:,:2])
+        tmp_trace = np.zeros_like(trace[:, :2])
 
         tmp_trace[:, 0] = self.trace_3d[:, 0] * np.cos(angle) - \
                           self.trace_3d[:, 1] * np.sin(angle)
@@ -57,27 +57,39 @@ class TraceObject(object):
                           self.trace_3d[:, 0] * np.sin(angle)
         return tmp_trace
 
-
-
     def find_rotation(self):
         '''
         find
         :return:
         '''
-        all_angle = np.linspace(-np.pi / 2.0, np.pi / 2.0, 3000)
+        all_angle = np.linspace(-np.pi, np.pi, 3000)
 
-        value_list = np.zeros([all_angle.shape[0], 2])
+        value_list = np.zeros([all_angle.shape[0], 4])
         tmp_trace = np.zeros_like(self.trace_3d[:, :2])
         for index, angle in enumerate(all_angle):
-            tmp_trace = self.rotate_2d(self.trace_3d,angle)
-
+            tmp_trace = self.rotate_2d(self.trace_3d, angle)
 
             value_list[index, 0] = np.max(tmp_trace[:, 0]) - np.min(tmp_trace[:, 0])
             value_list[index, 1] = np.max(tmp_trace[:, 1]) - np.min(tmp_trace[:, 1])
+            value_list[index, 2] = tmp_trace[0, 0] - np.min(tmp_trace[:, 0])
+            value_list[index, 3] = tmp_trace[0, 1] - np.min(tmp_trace[:, 1])
 
-        index = np.argsort(np.sum(value_list, axis=1))
+        index = np.argsort(np.sum(value_list[:, :2], axis=1))
+        # plt.figure()
+        # plt.plot(index, '+')
+        # plt.grid()
+        self.right_angle = 0.0
+
+        for i in index:
+
+            if value_list[i, 0] > value_list[i, 1] and \
+                    np.linalg.norm(value_list[index, 2:]) < 13.0:
+                self.right_angle = all_angle[i]
+                break
+
         plt.figure()
-        plt.plot(index, '+')
+        t_trace = self.rotate_2d(self.trace_3d, self.right_angle)
+        plt.plot(t_trace[:, 0], t_trace[:, 1])
         plt.grid()
 
         plt.figure()

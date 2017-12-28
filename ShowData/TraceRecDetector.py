@@ -62,6 +62,10 @@ class TraceObject(object):
 
         index = np.argmin(np.sum(value_list,axis=0))
         plt.figure()
+        plt.plot(index,'+')
+        plt.grid()
+
+        plt.figure()
         plt.plot(value_list[:, 0], label='x')
         plt.plot(value_list[:, 1], label='y')
         plt.plot(value_list[:,0]+value_list[:,1],label='sum')

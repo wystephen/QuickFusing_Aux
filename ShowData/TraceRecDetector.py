@@ -51,13 +51,20 @@ class TraceObject(object):
 
         value_list = np.zeros([all_angle.shape[0], 2])
         tmp_trace = np.zeros_like(self.trace_3d[:, :2])
-        for angle,index in all_angle:
+        for angle,index in enumerate(all_angle):
             tmp_trace[:, 0] = self.trace_3d[:, 0] * np.cos(angle) - \
                               self.trace_3d[:, 1] * np.sin(angle)
             tmp_trace[:, 1] = self.trace_3d[:, 1] * np.cos(angle) + \
                               self.trace_3d[:, 0] * np.sin(angle)
 
-            value_list[]
+            value_list[index,0] = np.max(tmp_trace[:,0])-np.min(tmp_trace[:,0])
+            value_list[index,1] = np.max(tmp_trace[:,1])-np.min(tmp_trace[:,1])
+        plt.figure()
+        plt.plot(value_list[:,0],label='x')
+        plt.plot(value_list[:,1],label='y')
+        plt.grid()
+        plt.legend()
+
 
 
 if __name__ == '__main__':

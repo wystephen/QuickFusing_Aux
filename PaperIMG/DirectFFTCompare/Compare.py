@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # sns.set('paper','white')
 
     start_time = time.time()
-    dir_name = '/home/steve/Data/II/35/'
+    dir_name = '/home/steve/Data/II/16/'
 
     ### key 16 17 20 ||| 28  30  (31)
     ##  33 34 35
@@ -70,6 +70,10 @@ if __name__ == '__main__':
     mDetector.MultiLayerANZFFt([30], ifshow=True)
     mDetector.GetDirectDis(True)
 
+    source_f = mDetector.f
+    after_f = lambda x: mDetector.f(x + 1.5)
+
+
     plt.figure()
     x = np.linspace(mDetector.length_array[5],
                     mDetector.length_array[-5],
@@ -80,15 +84,13 @@ if __name__ == '__main__':
     plt.grid()
 
     plt.figure()
-    plt.plot(x, mDetector.f(x), '*-', label='before')
-    plt.plot(x, mDetector.f(x + 0.5), '*-', label='after')
-    plt.plot(x, np.abs(mDetector.f(x + 0.5) - mDetector.f(x)), '*--', label='diff')
+    plt.plot(x, source_f(x), '*-', label='before')
+    plt.plot(x, after_f(x), '*-', label='after')
+    plt.plot(x, np.abs(source_f(x)-after_f(x)), '*--', label='diff')
     plt.legend()
 
     # before = mDetector.f(x)
     # after = mDetector.f(x+0.5)
-    source_f = mDetector.f
-    after_f = lambda x: mDetector.f(x + 0.5)
 
     length_div_2 = 15
     length_list = {15, 10, 5}
@@ -128,11 +130,12 @@ if __name__ == '__main__':
 
             fft_distance_array.append(np.linalg.norm(fft_distance))
 
+
     d_dis  = np.frombuffer(direct_distance_array,dtype=np.float)
     f_dis = np.frombuffer(fft_distance_array,dtype=np.float)
     plt.figure()
-    plt.plot(d_dis/np.std(mDetector.tmp_src_mat),label='d')
-    plt.plot(f_dis/np.std(mDetector.tmp_mnza_mat),label='f')
+    plt.plot(d_dis/np.max(mDetector.tmp_src_mat),label='d')
+    plt.plot(f_dis/np.max(mDetector.tmp_mnza_mat),label='f')
     plt.grid()
     plt.legend()
 

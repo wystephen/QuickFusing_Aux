@@ -33,7 +33,7 @@ import os
 import seaborn
 
 
-class TraceObject:
+class TraceObject(object):
     def __init__(self, trace_3d):
         '''
         Find out shape of trace(a rectangle).
@@ -47,23 +47,24 @@ class TraceObject:
         find
         :return:
         '''
-
-
+        all_angle = np.linspace(-np.pi, np.pi, 3000)
 
 
 if __name__ == '__main__':
     trace = np.loadtxt('../PaperIMG/Section4-all/28/test.txt',
                        delimiter=',')
 
+    to = TraceObject(trace)
+    to.find_rotation()
+
     # plt.figure()
     fig_trace = plt.figure()
-    ax = fig_trace.add_subplot(111,projection='3d')
+    ax = fig_trace.add_subplot(111, projection='3d')
 
     plt.figure()
     plt.plot(trace[:, 0], trace[:, 1])
     plt.grid()
 
-
-    ax.plot(trace[:,0],trace[:,1],trace[:,2],'*-')
+    ax.plot(trace[:, 0], trace[:, 1], trace[:, 2], '*-')
     ax.grid()
     plt.show()

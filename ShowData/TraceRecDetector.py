@@ -60,7 +60,7 @@ class TraceObject(object):
             value_list[index, 0] = np.max(tmp_trace[:, 0]) - np.min(tmp_trace[:, 0])
             value_list[index, 1] = np.max(tmp_trace[:, 1]) - np.min(tmp_trace[:, 1])
 
-        index = np.argmin(np.sum(value_list,axis=0))
+        index = np.argsort(np.sum(value_list,axis=1))
         plt.figure()
         plt.plot(index,'+')
         plt.grid()

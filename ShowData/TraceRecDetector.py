@@ -97,10 +97,6 @@ class TraceObject(object):
         plt.plot(all_angle, value_list[:, 0], label='x')
         plt.plot(all_angle, value_list[:, 1], label='y')
         plt.plot(all_angle, value_list[:, 0] + value_list[:, 1], label='sum')
-        plt.grid()
-        plt.legend()
-
-        # plt.figure()
         plt.plot(all_angle,value_list[:, 2], label='x offset')
         plt.plot(all_angle, value_list[:, 3], label='y offset')
         plt.plot(all_angle, value_list[:, 2] + value_list[:, 3], label='norm')

@@ -61,6 +61,8 @@ if __name__ == '__main__':
 
         plt.title('bi_mat')
         plt.imshow(bi_mat)
+        plt.xlabel('index')
+        plt.ylabel('index')
         plt.colorbar()
         plt.savefig('bi_mat.png', dpi=1000)
 
@@ -69,9 +71,12 @@ if __name__ == '__main__':
         # plt.title('bi_aux')
         plt.title('(a)')
         plt.imshow(bi_mat)
+        plt.xlabel('index')
+        plt.ylabel('index')
         plt.subplot(1, 2, 2)
         plt.title('(b)')
         plt.imshow(bi_mat)
+        plt.xlabel('index')
         plt.axis([400, 550, 170, 50])
         plt.savefig('bi_aux.png', dpi=3000)
 
@@ -79,6 +84,8 @@ if __name__ == '__main__':
         plt.figure()
         plt.title('feature_mat')
         plt.imshow(mnza_mat)
+        plt.xlabel('index')
+        plt.ylabel('index')
         plt.colorbar()
         plt.savefig('feature_mat.png', dpi=1000)
 
@@ -86,6 +93,8 @@ if __name__ == '__main__':
         plt.figure()
         plt.title('pairs_mat')
         plt.imshow(pairs_mat)
+        plt.xlabel('index')
+        plt.ylabel('index')
         plt.colorbar()
         plt.savefig('pairs_mat.png', dpi=1000)
 
@@ -95,11 +104,15 @@ if __name__ == '__main__':
         plt.subplot(1, 2, 1)
         plt.title('(a)')
         plt.imshow(pairs_mat)
+        plt.xlabel('index')
+        plt.ylabel('index')
         # plt.suptitle('suptitle')
         plt.subplot(1, 2, 2)
         plt.title('(b)')
         plt.imshow(pairs_mat)
         plt.axis([400, 550, 170, 50])
+        plt.xlabel('index')
+        # plt.ylabel('index')
         plt.savefig('pairs_aux.png', dpi=1000)
 
         # plt.savefig('three_mat.png',dpi=10000)

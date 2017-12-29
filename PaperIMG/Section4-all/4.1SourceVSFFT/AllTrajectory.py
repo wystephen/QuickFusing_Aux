@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     # begin plot
     for auc in auc_list:
-        fig = plt.figure(figsize=(7.5, 7.5))
+        fig = plt.figure(figsize=(8.5, 8.5))
         ax = fig.add_subplot(221, projection='3d')
         ax.set_title('(a)')
         trace_process = TraceProcess.TraceObject(auc.trace_path)
@@ -57,19 +57,22 @@ if __name__ == '__main__':
         index_list = np.linspace(0, ref_trace.shape[0], ref_trace.shape[0])
         ax.plot(ref_trace[:, 0], ref_trace[:, 1], index_list, '-*')
         ax.grid()
-        ax = fig.add_subplot(2, 2, 3)
         ax.set_xlabel('x/m')
         ax.set_ylabel('y/m')
-        ax.set_zlabel('z')
+        ax.set_zlabel('index')
+        ax.view_init(azim=60)
 
-
-
+        ax = fig.add_subplot(2, 2, 3)
         ax.set_title('(c)')
         ax.imshow(auc.src_mat[15:-15, 15:-15])
+        ax.set_xlabel('index')
+        ax.set_ylabel('index')
         # plt.grid()
         ax = fig.add_subplot(2, 2, 4)
         ax.set_title('(d)')
         ax.imshow(auc.mnza_mat[15:-15, 15:-15])
+        ax.set_xlabel('index')
+        ax.set_ylabel('index')
         # plt.grid()
         ax = fig.add_subplot(2, 2, 2)
         ax.set_title('(b)')

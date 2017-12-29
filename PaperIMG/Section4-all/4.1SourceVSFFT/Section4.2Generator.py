@@ -56,11 +56,24 @@ if __name__ == '__main__':
         plt.imshow(auc.bi_mat[15:-15, 15:-15])
         plt.xlabel('index')
         # plt.ylabel('index')
-        plt.subplot(1, 3, 3)
-        plt.title('(c)')
-        plt.xlabel('index')
+        ax = plt.subplot(1, 3, 3)
+        ax.set_title('(c)')
+        ax.set_xlabel('index')
         # plt.ylabel('index')
+        for i in range(auc.result_mat.shape[0]):
+            for j in range(auc.result_mat.shape[1]):
+                if i == j:
+                    auc.result_mat[i, j] = 200.0
         plt.imshow(auc.result_mat[15:-15, 15:-15])
+
+        # x_list, y_list = np.where(auc.result_mat[15:-15, 15:-15] > 0.5)
+        # ax.scatter(x_list, y_list)
+        # ax.axis('equal')
+        ax.set_xlim(0,auc.result_mat.shape[0]-30)
+        ax.set_ylim(auc.result_mat.shape[0]-30,0)
+        # plt.axis([0, auc.result_mat.shape[0] - 30,0, auc.result_mat.shape[0] - 30])
+        # plt.xlim(0,auc.result_mat.shape[0]-30)
+        # plt.ylim(0,auc.result_mat.shape[0]-30)
 
         plt.savefig(auc.dir_name[:-1] + '4-2.jpg', dpi=1000)
     plt.show()

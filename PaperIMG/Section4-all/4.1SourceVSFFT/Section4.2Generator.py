@@ -45,15 +45,21 @@ if __name__ == '__main__':
     print(time.time() - start_auc_time)
 
     for index, auc in enumerate(auc_list):
-        plt.figure(figsize=(8.0, 4.0))
+        plt.figure(figsize=(9.0, 4.0))
         plt.subplot(1, 3, 1)
         plt.title('(a)')
+        plt.xlabel('index')
+        plt.ylabel('index')
         plt.imshow(auc.ref_mat[15:-15, 15:-15])
         plt.subplot(1, 3, 2)
         plt.title('(b)')
         plt.imshow(auc.bi_mat[15:-15, 15:-15])
+        plt.xlabel('index')
+        # plt.ylabel('index')
         plt.subplot(1, 3, 3)
         plt.title('(c)')
+        plt.xlabel('index')
+        # plt.ylabel('index')
         plt.imshow(auc.result_mat[15:-15, 15:-15])
 
         plt.savefig(auc.dir_name[:-1] + '4-2.jpg', dpi=1000)

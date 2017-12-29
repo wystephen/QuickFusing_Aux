@@ -55,12 +55,14 @@ if __name__ == '__main__':
         trace_process = TraceProcess.TraceObject(auc.trace_path)
         ref_trace = trace_process.trace_normalized()
         index_list = np.linspace(0, ref_trace.shape[0], ref_trace.shape[0])
+        ax.plot(ref_trace[:, 0], ref_trace[:, 1], zdir='z')
         ax.plot(ref_trace[:, 0], ref_trace[:, 1], index_list, '-*')
+
         ax.grid()
         ax.set_xlabel('x/m')
         ax.set_ylabel('y/m')
         ax.set_zlabel('index')
-        ax.view_init(azim=60)
+        ax.view_init(azim=80)
 
         ax = fig.add_subplot(2, 2, 3)
         ax.set_title('(c)')

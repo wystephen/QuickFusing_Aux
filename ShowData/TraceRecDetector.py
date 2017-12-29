@@ -82,8 +82,8 @@ class TraceObject(object):
 
         for i in index_list:
             print(all_angle[i])
-            if value_list[i, 0] > value_list[i, 1] and \
-                    (value_list[i, 2] + value_list[i, 3] < 6.0):
+            if (value_list[i, 0] > value_list[i, 1]) and \
+                    ((value_list[i, 2] + value_list[i, 3]) < 16):
                 self.right_angle = all_angle[i]
                 break
 

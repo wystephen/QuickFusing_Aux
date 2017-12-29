@@ -81,10 +81,9 @@ class TraceObject(object):
         self.right_angle = 0.0
 
         for i in index_list:
-
             print(all_angle[i])
             if value_list[i, 0] > value_list[i, 1] and \
-                    value_list[i, 2] + value_list[i, 3] < 5000.0:
+                    (value_list[i, 2] + value_list[i, 3] < 6.0):
                 self.right_angle = all_angle[i]
                 break
 
@@ -104,7 +103,7 @@ class TraceObject(object):
         plt.figure()
         plt.plot(value_list[:, 2], label='x offset')
         plt.plot(value_list[:, 3], label='y offset')
-        plt.plot(value_list[:,2]+value_list[:,3], axis='norm')
+        plt.plot(value_list[:, 2] + value_list[:, 3], label='norm')
         plt.grid()
         plt.legend()
 

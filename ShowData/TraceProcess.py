@@ -51,13 +51,13 @@ class TraceObject(object):
         '''
         tmp_trace = np.zeros_like(trace[:, :2])
 
-        tmp_trace[:, 0] = self.trace_3d[:, 0] * np.cos(angle) - \
-                          self.trace_3d[:, 1] * np.sin(angle)
-        tmp_trace[:, 1] = self.trace_3d[:, 1] * np.cos(angle) + \
-                          self.trace_3d[:, 0] * np.sin(angle)
-        return tmp_trace
+        tmp_trace[:, 0] = trace[:, 0] * np.cos(angle) - \
+                          trace[:, 1] * np.sin(angle)
+        tmp_trace[:, 1] = trace[:, 1] * np.cos(angle) + \
+                          trace[:, 0] * np.sin(angle)
+        return tmp_trace.copy()
 
-    def find_rotation(self):
+    def find_rotation(self, if_show: bool = False):
         '''
         find
         :return:
@@ -75,9 +75,10 @@ class TraceObject(object):
             value_list[index, 3] = tmp_trace[0, 1] - np.min(tmp_trace[:, 1])
 
         index_list = np.argsort(np.sum(value_list[:, 2:], axis=1))
-        plt.figure()
-        plt.plot(index_list, '+')
-        plt.grid()
+        if if_show:
+            plt.figure()
+            plt.plot(index_list, '+')
+            plt.grid()
         self.right_angle = all_angle[index_list[0]]
 
         # for i in index_list:
@@ -87,21 +88,30 @@ class TraceObject(object):
         #         self.right_angle = all_angle[i]
         #         break
 
-        plt.figure()
-        plt.title('rotated trajectory')
-        the_trace = self.rotate_2d(self.trace_3d, self.right_angle)
-        plt.plot(the_trace[:, 0], the_trace[:, 1])
-        plt.grid()
+        if if_show:
+            plt.figure()
+            plt.title('rotated trajectory')
+            the_trace = self.rotate_2d(self.trace_3d, self.right_angle)
+            plt.plot(the_trace[:, 0], the_trace[:, 1])
+            plt.grid()
 
-        plt.figure()
-        plt.plot(all_angle, value_list[:, 0], label='x')
-        plt.plot(all_angle, value_list[:, 1], label='y')
-        plt.plot(all_angle, value_list[:, 0] + value_list[:, 1], label='sum')
-        plt.plot(all_angle,value_list[:, 2], label='x offset')
-        plt.plot(all_angle, value_list[:, 3], label='y offset')
-        plt.plot(all_angle, value_list[:, 2] + value_list[:, 3], label='norm')
-        plt.grid()
-        plt.legend()
+            plt.figure()
+            plt.plot(all_angle, value_list[:, 0], label='x')
+            plt.plot(all_angle, value_list[:, 1], label='y')
+            plt.plot(all_angle, value_list[:, 0] + value_list[:, 1], label='sum')
+            plt.plot(all_angle,value_list[:, 2], label='x offset')
+            plt.plot(all_angle, value_list[:, 3], label='y offset')
+            plt.plot(all_angle, value_list[:, 2] + value_list[:, 3], label='norm')
+            plt.grid()
+            plt.legend()
+
+    def trace_normalized(self):
+        if not 'right_angle' in dir(self):
+            self.find_rotation(if_show=False)
+        self.trace_3d[:,:2] = self.rotate_2d(self.trace_3d[:,:2],self.right_angle)
+
+
+        return self.trace_3d.copy()
 
 
 if __name__ == '__main__':

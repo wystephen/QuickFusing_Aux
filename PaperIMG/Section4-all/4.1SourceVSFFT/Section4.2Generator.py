@@ -45,7 +45,7 @@ if __name__ == '__main__':
     print(time.time() - start_auc_time)
 
     for index, auc in enumerate(auc_list):
-        plt.figure(figsize=(9.0, 4.0))
+        plt.figure(figsize=(8.0, 4.0))
         plt.subplot(1, 3, 1)
         plt.title('(a)')
         plt.xlabel('index')
@@ -64,6 +64,8 @@ if __name__ == '__main__':
             for j in range(auc.result_mat.shape[1]):
                 if i == j:
                     auc.result_mat[i, j] = 200.0
+                if i>j:
+                    auc.result_mat[i,j] = 0.0
         plt.imshow(auc.result_mat[15:-15, 15:-15])
 
         # x_list, y_list = np.where(auc.result_mat[15:-15, 15:-15] > 0.5)
@@ -75,5 +77,5 @@ if __name__ == '__main__':
         # plt.xlim(0,auc.result_mat.shape[0]-30)
         # plt.ylim(0,auc.result_mat.shape[0]-30)
 
-        plt.savefig(auc.dir_name[:-1] + '4-2.jpg', dpi=1000)
+        plt.savefig(auc.dir_name[:-1] + '4-2.svg', dpi=3000)
     plt.show()

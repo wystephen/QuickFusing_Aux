@@ -32,6 +32,8 @@ import seaborn
 
 from scipy.spatial.distance import pdist, squareform
 
+from ShowData import TraceProcess
+
 if __name__ == '__main__':
     bi_mat = np.loadtxt('19bi_mat.data')
     mnza_mat = np.loadtxt('19mnza_mat.data')
@@ -103,10 +105,15 @@ if __name__ == '__main__':
         # plt.savefig('three_mat.png',dpi=10000)
 
         plt.figure()
+        tp = TraceProcess.TraceObject(trace_graph)
+        trace_graph = tp.trace_normalized()
+        trace_imu[:,:2] = tp.trace_alig(trace_imu[:,:2])
         plt.plot(trace_imu[:, 0], trace_imu[:, 1], '+-', label='trace_imu')
         plt.plot(trace_graph[:, 0], trace_graph[:, 1], '+-', label='trace graph')
         plt.grid()
         plt.legend()
+        plt.xlabel('x/m')
+        plt.ylabel('y/m')
         plt.savefig('ref_trace.png', dpi=1000)
 
         plt.figure()
@@ -114,6 +121,8 @@ if __name__ == '__main__':
         plt.imshow(ref_dis_mat)
         plt.title('ref distance mat')
         plt.colorbar()
+        plt.xlabel('index')
+        plt.ylabel('index')
         plt.savefig('ref_dis.png', dpi=1000)
 
     threshold_list = np.asarray(range(0, 600, 1), dtype=np.float)
@@ -152,8 +161,8 @@ if __name__ == '__main__':
 
     plt.figure()
     # plt.plot(FPR,TPR,'*')
-    plt.plot(threshold_list, TPR, '-', label='TPR')
-    plt.plot(threshold_list, FPR, '-', label='FPR')
+    plt.plot(threshold_list, TPR, '-', label='True Positive Rate')
+    plt.plot(threshold_list, FPR, '-', label='False Positive Rate')
     plt.legend()
     plt.grid()
     plt.title('TPR & FPR')

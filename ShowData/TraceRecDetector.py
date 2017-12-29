@@ -74,18 +74,18 @@ class TraceObject(object):
             value_list[index, 2] = tmp_trace[0, 0] - np.min(tmp_trace[:, 0])
             value_list[index, 3] = tmp_trace[0, 1] - np.min(tmp_trace[:, 1])
 
-        index_list = np.argsort(np.sum(value_list[:, :2], axis=1))
+        index_list = np.argsort(np.sum(value_list[:, 2:], axis=1))
         plt.figure()
         plt.plot(index_list, '+')
         plt.grid()
-        self.right_angle = 0.0
+        self.right_angle = all_angle[index_list[0]]
 
-        for i in index_list:
-            print(all_angle[i])
-            if (value_list[i, 0] > value_list[i, 1]) and \
-                    ((value_list[i, 2] + value_list[i, 3]) < 16):
-                self.right_angle = all_angle[i]
-                break
+        # for i in index_list:
+        #     print(i,all_angle[i],value_list[i,2]+value_list[i,3])
+        #     if (value_list[i, 0] > value_list[i, 1]) and \
+        #             ((value_list[i, 2] + value_list[i, 3]) < 16):
+        #         self.right_angle = all_angle[i]
+        #         break
 
         plt.figure()
         plt.title('rotated trajectory')
@@ -100,10 +100,10 @@ class TraceObject(object):
         plt.grid()
         plt.legend()
 
-        plt.figure()
-        plt.plot(value_list[:, 2], label='x offset')
-        plt.plot(value_list[:, 3], label='y offset')
-        plt.plot(value_list[:, 2] + value_list[:, 3], label='norm')
+        # plt.figure()
+        plt.plot(all_angle,value_list[:, 2], label='x offset')
+        plt.plot(all_angle, value_list[:, 3], label='y offset')
+        plt.plot(all_angle, value_list[:, 2] + value_list[:, 3], label='norm')
         plt.grid()
         plt.legend()
 

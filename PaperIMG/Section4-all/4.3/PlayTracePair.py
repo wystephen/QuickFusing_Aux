@@ -38,18 +38,22 @@ if __name__ == '__main__':
         graph_trace = np.loadtxt('../' + str(dir_num) + '/test.txt', delimiter=',')
         imu_trace = np.loadtxt('../' + str(dir_num) + '/text_imu.txt', delimiter=',')
         pair = np.loadtxt('../' + str(dir_num) + '/pair.txt', delimiter=',')
-        rec_detector = TraceProcess.TraceObject(graph_trace)
-        # rec_detector.find_rotation()
-        # new_graph_trace = rec_detector.rotate_2d(graph_trace[:, :2],
-        #                                              rec_detector.right_angle)
-        new_graph_trace = rec_detector.trace_normalized()
+        if dir_num is dir_num_list[0]:
+            rec_detector = TraceProcess.TraceObject(graph_trace)
+            new_graph_trace = rec_detector.trace_normalized()
+        else:
+            new_graph_trace = rec_detector.trace_alig(graph_trace)
 
-        new_imu_trace = rec_detector.rotate_2d(imu_trace[:,:2], rec_detector.right_angle)
+        # new_imu_trace = rec_detector.rotate_2d(imu_trace[:,:2], rec_detector.right_angle)
+        new_imu_trace = rec_detector.trace_alig(imu_trace)
 
         plt.figure()
         plt.plot(new_graph_trace[:, 0], new_graph_trace[:, 1], label='graph-optimized')
         plt.plot(new_imu_trace[:, 0], new_imu_trace[:, 1], label='zupt')
         plt.grid()
         plt.legend()
+        plt.xlabel('x/m')
+        plt.ylabel('y/m')
+
         plt.savefig(str(dir_num) + 'trace.jpg', dpi=1000)
     plt.show()

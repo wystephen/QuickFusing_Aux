@@ -72,9 +72,9 @@ class TraceObject(object):
             value_list[index, 0] = np.max(tmp_trace[:, 0]) - np.min(tmp_trace[:, 0])
             value_list[index, 1] = np.max(tmp_trace[:, 1]) - np.min(tmp_trace[:, 1])
             value_list[index, 2] = tmp_trace[0, 0] - np.min(tmp_trace[:, 0])
-            value_list[index, 3] = tmp_trace[0, 1] - np.min(tmp_trace[:, 1])
+            value_list[index, 3] = tmp_trace[0, 1] - np.max(tmp_trace[:, 1])
 
-        index_list = np.argsort(np.sum(value_list[:, 2:], axis=1))
+        index_list = np.argsort(np.linalg.norm(value_list[:, 2:], axis=1))
         if if_show:
             plt.figure()
             plt.plot(index_list, '+')
@@ -126,6 +126,15 @@ class TraceObject(object):
         :return:
         '''
         trace = trace - trace[0, :]
+        angle_list = np.linspace(-np.pi, np.pi, 10000)
+        error_list = np.zeros_like(angle_list)
+        for index, angle in enumerate(angle_list):
+            error_list[index] = np.linalg.norm(self.rotate_2d(trace[:use_points_num, :2], angle) -
+                                               self.trace_3d[:use_points_num, :2])
+        index_list = np.argsort(error_list)
+        the_angle = angle_list[index_list[0]]
+        trace[:,:2] = self.rotate_2d(trace[:,:2],the_angle)
+        return trace.copy()
 
 
 if __name__ == '__main__':

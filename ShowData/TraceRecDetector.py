@@ -104,7 +104,7 @@ class TraceObject(object):
         plt.figure()
         plt.plot(value_list[:, 2], label='x offset')
         plt.plot(value_list[:, 3], label='y offset')
-        # plt.plot(np.linalg.norm(value_list[:, 2:], axis=0), axis='norm')
+        plt.plot(value_list[:,2]+value_list[:,3], axis='norm')
         plt.grid()
         plt.legend()
 

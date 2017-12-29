@@ -113,7 +113,7 @@ if __name__ == '__main__':
                     [v_data[i, 12], v_data[j, 12]],
                     [v_data[i, 13], v_data[j, 13]],
                     [v_data[i, 14], v_data[j, 14]],
-                    'r--',
+                    'r--'
                     linewidth=0.1  # p.log2(mDetector.tmp_fft_mat[i,j])[0,0]
                 )
     plt.figure()

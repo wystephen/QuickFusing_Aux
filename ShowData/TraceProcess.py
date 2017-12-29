@@ -99,19 +99,33 @@ class TraceObject(object):
             plt.plot(all_angle, value_list[:, 0], label='x')
             plt.plot(all_angle, value_list[:, 1], label='y')
             plt.plot(all_angle, value_list[:, 0] + value_list[:, 1], label='sum')
-            plt.plot(all_angle,value_list[:, 2], label='x offset')
+            plt.plot(all_angle, value_list[:, 2], label='x offset')
             plt.plot(all_angle, value_list[:, 3], label='y offset')
             plt.plot(all_angle, value_list[:, 2] + value_list[:, 3], label='norm')
             plt.grid()
             plt.legend()
 
     def trace_normalized(self):
-        if not 'right_angle' in dir(self):
+        '''
+        the trace set in the initial function.
+        normalized trace( first point in (0,0), aligned with axis).
+        :return:
+        '''
+        if 'right_angle' not in dir(self):
             self.find_rotation(if_show=False)
-        self.trace_3d[:,:2] = self.rotate_2d(self.trace_3d[:,:2],self.right_angle)
-
+        self.trace_3d[:, :2] = self.rotate_2d(self.trace_3d[:, :2], self.right_angle)
+        self.trace_3d = self.trace_3d - self.trace_3d[0, :]
 
         return self.trace_3d.copy()
+
+    def trace_alig(self, trace, use_points_num: int = 10):
+        '''
+
+        :param trace:
+        :param use_points_num:
+        :return:
+        '''
+        trace = trace - trace[0, :]
 
 
 if __name__ == '__main__':

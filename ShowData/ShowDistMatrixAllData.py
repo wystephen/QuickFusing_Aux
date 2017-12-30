@@ -124,7 +124,7 @@ if __name__ == '__main__':
         plt.imshow(t)
         # plt.savefig('./ttt.png')
         # t_figure = cv2.imread('./ttt.png')
-        cv2.imshow('the',t/t.max())
+        cv2.imshow('the', t / t.max())
         # plt.show()
         # cv2.imshow('the', t)
         cv2.waitKey(10)

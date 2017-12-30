@@ -102,16 +102,14 @@ if __name__ == '__main__':
         imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1)
     dcs_error = np.linalg.norm(dcs_trace[1:, :2] - dcs_trace[:-1, :2], axis=1) - np.linalg.norm(
         imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1)
-    for i in range(1,robust_trace.shape[0]-1):
-        robust_error[i] += robust_error[i-1]
-        dcs_error[i] += dcs_error[i-1]
+    for i in range(1, robust_trace.shape[0] - 1):
+        robust_error[i] += robust_error[i - 1]
+        dcs_error[i] += dcs_error[i - 1]
 
     plt.figure()
-    plt.plot(robust_error,label='robust')
-    plt.plot(dcs_error,label='dcs')
+    plt.plot(robust_error, label='robust')
+    plt.plot(dcs_error, label='dcs')
     plt.grid()
     plt.legend()
-
-
 
     plt.show()

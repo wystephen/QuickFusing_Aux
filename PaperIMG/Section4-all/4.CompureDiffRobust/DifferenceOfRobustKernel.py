@@ -48,7 +48,7 @@ if __name__ == '__main__':
     plt.subplot(1, 3, 1)
     plt.title('(a)')
     plt.grid()
-    plt.plot(dcs_trace[:, 0], dcs_trace[:, 1], '-+', label='path')
+    plt.plot(dcs_trace[:, 0], dcs_trace[:, 1], '-+')#, label='path')
     for i in range(pair_mat.shape[0]):
         v = pair_mat[i, :]
         plt.plot(np.asarray([dcs_trace[v[0], 0], dcs_trace[v[1], 0]]),
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     fig = plt.subplot(1, 3, 2)
     fig.set_title('(b)')
     fig.grid()
-    fig.plot(robust_trace[:, 0], robust_trace[:, 1], '-+', label='path')
+    fig.plot(robust_trace[:, 0], robust_trace[:, 1], '-+')#, label='path')
     for i in range(pair_mat.shape[0]):
         v = pair_mat[i, :]
         fig.plot(np.asarray([robust_trace[v[0], 0], robust_trace[v[1], 0]]),
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     plt.subplot(1, 3, 3)
     plt.title('(c)')
     plt.grid()
-    plt.plot(robust_trace[:, 0], robust_trace[:, 1], '-+', label='path')
+    plt.plot(robust_trace[:, 0], robust_trace[:, 1], '-+')#, label='path')
     for i in range(pair_mat.shape[0]):
         v = pair_mat[i, :]
         plt.plot(np.asarray([robust_trace[v[0], 0], robust_trace[v[1], 0]]),
@@ -89,11 +89,13 @@ if __name__ == '__main__':
 
     plt.savefig('compare_fig.jpg', dpi=1000)
 
-    plt.figure()
+    plt.figure(figsize=(8, 4))
+    plt.subplot(1,2,1)
+    plt.title('(a)')
     plt.plot(np.linalg.norm(robust_trace[1:, :2] - robust_trace[:-1, :2], axis=1) - np.linalg.norm(
-        imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='robust')
+        imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='$e_{lossloop}$')
     plt.plot(np.linalg.norm(dcs_trace[1:, :2] - dcs_trace[:-1, :2], axis=1) - np.linalg.norm(
-        imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='dcs')
+        imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='e_{loopKernel}')
     # plt.plot(np.linalg.norm(imu_trace[1:,:2]-imu_trace[:-1,:2],axis=1),'-+',label='imuli')
     plt.grid()
     plt.legend()
@@ -106,10 +108,14 @@ if __name__ == '__main__':
         robust_error[i] += robust_error[i - 1]
         dcs_error[i] += dcs_error[i - 1]
 
-    plt.figure()
-    plt.plot(robust_error, label='robust')
-    plt.plot(dcs_error, label='dcs')
+    # plt.figure()
+    plt.subplot(1,2,2)
+    plt.title('(b)')
+
+    plt.plot(robust_error, label='$e_{lossloop}$')
+    plt.plot(dcs_error, label='$e_{loopKernel}$')
     plt.grid()
     plt.legend()
+    plt.savefig('compare_length.jpg', dpi=1000)
 
     plt.show()

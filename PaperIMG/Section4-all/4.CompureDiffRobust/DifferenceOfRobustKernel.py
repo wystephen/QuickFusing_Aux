@@ -55,7 +55,8 @@ if __name__ == '__main__':
                  np.asarray([dcs_trace[v[0], 1], dcs_trace[v[1], 1]]),
                  '-r')
     plt.legend()
-
+    plt.xlabel('x/m')
+    plt.ylabel('y/m')
     fig = plt.subplot(1, 3, 2)
     fig.set_title('(b)')
     fig.grid()
@@ -76,6 +77,10 @@ if __name__ == '__main__':
     )
 
     plt.legend()
+    plt.xlabel('x/m')
+    # plt.ylabel('y/m')
+
+
     plt.subplot(1, 3, 3)
     plt.title('(c)')
     plt.grid()
@@ -86,6 +91,9 @@ if __name__ == '__main__':
                  np.asarray([robust_trace[v[0], 1], robust_trace[v[1], 1]]),
                  '-r')
     plt.axis([0.0, 15, -6, 2.0])
+    plt.xlabel('x/m')
+    # plt.ylabel('y/m')
+
 
     plt.savefig('compare_fig.jpg', dpi=1000)
 
@@ -95,7 +103,7 @@ if __name__ == '__main__':
     plt.plot(np.linalg.norm(robust_trace[1:, :2] - robust_trace[:-1, :2], axis=1) - np.linalg.norm(
         imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='$e_{lossloop}$')
     plt.plot(np.linalg.norm(dcs_trace[1:, :2] - dcs_trace[:-1, :2], axis=1) - np.linalg.norm(
-        imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='e_{loopKernel}')
+        imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='$e_{loopKernel}$')
     # plt.plot(np.linalg.norm(imu_trace[1:,:2]-imu_trace[:-1,:2],axis=1),'-+',label='imuli')
     plt.grid()
     plt.legend()
@@ -107,6 +115,8 @@ if __name__ == '__main__':
     for i in range(1, robust_trace.shape[0] - 1):
         robust_error[i] += robust_error[i - 1]
         dcs_error[i] += dcs_error[i - 1]
+    plt.xlabel('index')
+    plt.ylabel('length/m')
 
     # plt.figure()
     plt.subplot(1,2,2)
@@ -114,6 +124,8 @@ if __name__ == '__main__':
 
     plt.plot(robust_error, label='$e_{lossloop}$')
     plt.plot(dcs_error, label='$e_{loopKernel}$')
+    plt.xlabel('index')
+    # plt.ylabel('length/m')
     plt.grid()
     plt.legend()
     plt.savefig('compare_length.jpg', dpi=1000)

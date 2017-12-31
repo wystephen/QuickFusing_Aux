@@ -94,7 +94,7 @@ if __name__ == '__main__':
         imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='robust')
     plt.plot(np.linalg.norm(dcs_trace[1:, :2] - dcs_trace[:-1, :2], axis=1) - np.linalg.norm(
         imu_trace[1:, :2] - imu_trace[:-1, :2], axis=1), '-+', label='dcs')
-    # plt.plot(np.linalg.norm(imu_trace[1:,:2]-imu_trace[:-1,:2],axis=1),'-+',label='imu')
+    # plt.plot(np.linalg.norm(imu_trace[1:,:2]-imu_trace[:-1,:2],axis=1),'-+',label='imuli')
     plt.grid()
     plt.legend()
 

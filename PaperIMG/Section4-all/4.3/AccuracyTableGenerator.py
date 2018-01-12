@@ -39,8 +39,8 @@ if __name__ == '__main__':
         imu_trace = np.loadtxt('../' + str(dir_num) + '/text_imu.txt', delimiter=',')
         pair = np.loadtxt('../' + str(dir_num) + '/pair.txt', delimiter=',')
         ref_trace = np.loadtxt('../4.1SourceVSFFT/' + str(dir_num) + '/test.txt', delimiter=',')
-        if dir_num is 20:
-            ref_trace[:, 0] *= -1.0
+        # if dir_num is 20:
+        #     ref_trace[:, 0] *= -1.0
         # plt.figure()
         # plt.plot(graph_trace[:, 0], graph_trace[:, 1], label='graph')
         # plt.plot(ref_trace[:, 0], ref_trace[:, 1], label='ref')

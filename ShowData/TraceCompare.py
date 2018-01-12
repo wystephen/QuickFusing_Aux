@@ -23,52 +23,42 @@
          佛祖保佑       永无BUG 
 '''
 
-
-
-import  numpy as np
+import numpy as np
 import scipy as sp
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
+
 class TraceCompare(object):
 
-
-
-    def __init__(self,src_trace,target_trace):
+    def __init__(self, src_trace, target_trace):
         self.src_trace = src_trace
         self.target_trace = target_trace
 
-        res = minimize(self.tError,x0=np.zeros([3]),
+        res = minimize(self.tError, x0=np.zeros([3]),
                        method='Powell')
         # print(res)
-        t  = res.x
+        t = res.x
         plt.figure()
-        plt.plot(self.src_trace[:,0],self.src_trace[:,1],label='src')
-        plt.plot(self.target_trace[:,0],self.target_trace[:,1],label='target')
-        t_target = self.rotate_2d(self.target_trace[:,:2]+t[:2],t[2])
-        plt.plot(t_target[:,0],t_target[:,1],label='modified target')
+        plt.plot(self.src_trace[:, 0], self.src_trace[:, 1], label='src')
+        plt.plot(self.target_trace[:, 0], self.target_trace[:, 1], label='target')
+        t_target = self.rotate_2d(self.target_trace[:, :2] + t[:2], t[2])
+        plt.plot(t_target[:, 0], t_target[:, 1], label='modified target')
         plt.grid()
         plt.legend()
-        self.error= self.tError(t)
+        self.error = self.tError(t)
 
-
-
-
-
-    def tError(self,t):
-
+    def tError(self, t):
         '''
 
         :param t:
         :return:
         '''
-        target_trace = self.rotate_2d(self.target_trace[:,:2]+t[:2],t[2])
+        target_trace = self.rotate_2d(self.target_trace[:, :2] + t[:2], t[2])
 
-        src_trace = self.src_trace[:,:2]
+        src_trace = self.src_trace[:, :2]
 
-        return np.mean(np.linalg.norm(src_trace-target_trace,axis=1))
-
-
+        return np.mean(np.linalg.norm(src_trace - target_trace, axis=1))
 
     def rotate_2d(self, trace, angle):
         '''
@@ -84,4 +74,3 @@ class TraceCompare(object):
         tmp_trace[:, 1] = trace[:, 1] * np.cos(angle) + \
                           trace[:, 0] * np.sin(angle)
         return tmp_trace.copy()
-

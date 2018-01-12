@@ -48,9 +48,8 @@ if __name__ == '__main__':
         # plt.grid()
         # plt.title(str(dir_num))
         # print("size of ref:", ref_trace.shape[0], ' size of graph:', graph_trace.shape[0])
+        print(np.min(pair), np.max(pair))
         tc = TraceCompare.TraceCompare(graph_trace, ref_trace)
-        print('data:',dir_num,'error:',tc.error)
-
-
+        print('data:', dir_num, 'error:', tc.error)
 
     plt.show()

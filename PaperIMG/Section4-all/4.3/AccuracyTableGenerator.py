@@ -44,13 +44,13 @@ if __name__ == '__main__':
         if dir_num is 20:
             ref_trace[:, 0] *= -1.0
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.plot(graph_trace[:, 0], graph_trace[:, 1], graph_trace[:, 2], label='graph')
-        ax.plot(ref_trace[:, 0], ref_trace[:, 1], ref_trace[:, 2], label='ref')
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111, projection='3d')
+        # ax.plot(graph_trace[:, 0], graph_trace[:, 1], graph_trace[:, 2], label='graph')
+        # ax.plot(ref_trace[:, 0], ref_trace[:, 1], ref_trace[:, 2], label='ref')
         # ax.legend()
         # ax.grid()
-        ax.grid()
+        # ax.grid()
         # plt.figure()
         # plt.plot(graph_trace[:, 0], graph_trace[:, 1], label='graph')
         # plt.plot(ref_trace[:, 0], ref_trace[:, 1], label='ref')

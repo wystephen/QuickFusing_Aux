@@ -41,15 +41,16 @@ if __name__ == '__main__':
         ref_trace = np.loadtxt('../4.1SourceVSFFT/' + str(dir_num) + '/test.txt', delimiter=',')
         if dir_num is 20:
             ref_trace[:, 0] *= -1.0
-        plt.figure()
-        plt.plot(graph_trace[:, 0], graph_trace[:, 1], label='graph')
-        plt.plot(ref_trace[:, 0], ref_trace[:, 1], label='ref')
-        plt.legend()
-        plt.grid()
-        plt.title(str(dir_num))
-        print("size of ref:", ref_trace.shape[0], ' size of graph:', graph_trace.shape[0])
+        # plt.figure()
+        # plt.plot(graph_trace[:, 0], graph_trace[:, 1], label='graph')
+        # plt.plot(ref_trace[:, 0], ref_trace[:, 1], label='ref')
+        # plt.legend()
+        # plt.grid()
+        # plt.title(str(dir_num))
+        # print("size of ref:", ref_trace.shape[0], ' size of graph:', graph_trace.shape[0])
         tc = TraceCompare.TraceCompare(graph_trace, ref_trace)
+        print('data:',dir_num,'error:',tc.error)
 
 
 
-    # plt.show()
+    plt.show()

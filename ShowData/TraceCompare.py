@@ -45,13 +45,13 @@ class TraceCompare(object):
                        method='Powell')
         # print(res)
         t = res.x
-        plt.figure()
-        plt.plot(self.src_trace[:, 0], self.src_trace[:, 1], label='src')
-        plt.plot(self.target_trace[:, 0], self.target_trace[:, 1], label='target')
-        t_target = self.rotate_2d(self.target_trace[:, :2] + t[:2], t[2])
-        plt.plot(t_target[:, 0], t_target[:, 1], label='modified target')
-        plt.grid()
-        plt.legend()
+        # plt.figure()
+        # plt.plot(self.src_trace[:, 0], self.src_trace[:, 1], label='src')
+        # plt.plot(self.target_trace[:, 0], self.target_trace[:, 1], label='target')
+        # t_target = self.rotate_2d(self.target_trace[:, :2] + t[:2], t[2])
+        # plt.plot(t_target[:, 0], t_target[:, 1], label='modified target')
+        # plt.grid()
+        # plt.legend()
         self.error = self.tError(t)
 
         res=minimize(self.tError3d,x0=np.zeros([6]),method='Powell')
@@ -64,6 +64,7 @@ class TraceCompare(object):
         ax.plot(t_target[:,0],t_target[:,1],t_target[:,2],label='modified target')
         ax.legend()
         ax.grid()
+        self.error = self.tError3d(t)
 
     def tError(self, t):
         '''
